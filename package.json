@@ -2,6 +2,6 @@
   "name": "sreality-scraper",
   "version": "1.0.0",
   "dependencies": {
-    "playwright": "^1.44.0"
+    "playwright": "^1.55.0"
   }
 }
