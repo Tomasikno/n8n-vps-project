@@ -1,9 +1,6 @@
 name: Deploy Folder to Server
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
