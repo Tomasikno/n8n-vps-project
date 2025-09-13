@@ -25,7 +25,7 @@ jobs:
 
       - name: Copy n8n-docker-caddy folder to server
         run: |
-          scp -o StrictHostKeyChecking=no -r n8n-docker-caddy ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/../../var/www/n8n/
+          scp -o StrictHostKeyChecking=no -r n8n-docker-caddy ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:../../var/www/n8n/
 
       - name: Deploy to Hetzner
         run: |
