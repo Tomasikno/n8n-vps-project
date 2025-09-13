@@ -22,14 +22,10 @@ services:
       - NODE_ENV=production
       - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - NODE_FUNCTION_ALLOW_BUILTIN=*
+      - NODE_FUNCTION_ALLOW_EXTERNAL=axios
     volumes:
       - n8n_data:/home/node/.n8n
-      - ${DATA_FOLDER}/local_files:/files
-
-  scraper:
-    image: mcr.microsoft.com/playwright:focal
-    user: root
-    volumes:
       - ${DATA_FOLDER}/local_files:/files
 volumes:
   caddy_data:

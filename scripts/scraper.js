@@ -1,9 +1,28 @@
 const { chromium } = require('playwright');
 const fs = require('fs').promises;
+const path = require('path');
+const https = require('https');
+const archiver = require('archiver');
+
+async function downloadImage(url, filepath) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (resp) => {
+      if (resp.statusCode !== 200) {
+        reject(new Error(`Failed to get '${url}' (${resp.statusCode})`));
+        return;
+      }
+      const file = fs.createWriteStream(filepath);
+      resp.pipe(file);
+      file.on('finish', () => {
+        file.close(resolve);
+      });
+    }).on('error', reject);
+  });
+}
 
 async function scrapeSreality() {
   console.log('Starting scraper...');
-  const browser = await chromium.launch({ headless: false }); // Set to true for CI
+  const browser = await chromium.launch({ headless: true }); // Headless true for CI
   const page = await browser.newPage();
   
   // Get URL from environment variable or use default
@@ -41,9 +60,10 @@ async function scrapeSreality() {
   const listings = await page.$$('a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi');
   
   const results = [];
+  const filesToZip = [];
   
   let idx = 0;
-  for (const listing of listings.slice(0, 3)) {
+  for (const listing of listings) { // Removed slice(0,3) to process all; limit if needed via env var
     idx++;
     console.log(`Processing listing #${idx}`);
     const href = await listing.getAttribute('href');
@@ -76,9 +96,14 @@ async function scrapeSreality() {
     }
 
     // Wait for detail page to load
-  await detailPage.waitForLoadState('networkidle');
-  await detailPage.waitForTimeout(500); // Wait extra 0.5s for page to fully load
-  console.log('Detail page loaded. Extracting data...');
+    await detailPage.waitForLoadState('networkidle');
+    await detailPage.waitForTimeout(500); // Wait extra 0.5s for page to fully load
+    console.log('Detail page loaded. Extracting data...');
+
+    // Take screenshot of the full detail page
+    const screenshotPath = `listing_${idx}.png`;
+    await detailPage.screenshot({ path: screenshotPath, fullPage: true });
+    filesToZip.push(screenshotPath);
 
     // Extract title from alt attribute of first gallery image (using data-e2e)
     const titleElement = await detailPage.$('[data-e2e="detail-gallery-desktop"] img');
@@ -91,13 +116,23 @@ async function scrapeSreality() {
     // Extract image URLs using data-e2e for gallery, focusing on main lazy-loaded images
     const images = [];
     const imageElements = await detailPage.$$('[data-e2e="detail-gallery-desktop"] img[loading="lazy"]');
+    let imgIdx = 0;
     for (const img of imageElements) {
+      imgIdx++;
       const src = await img.getAttribute('src');
       if (src) {
         // Adjust for detail page params: remove shrink and webp, set to high res jpg
         let fullSrc = 'https:' + src.replace('|shr,,20|webp,80', '|jpg,100');
-        // If there's watermark, optionally remove |wrm,/watermark/sreality.png,10 but keep for now
         images.push(fullSrc);
+
+        // Download the image
+        const imagePath = `listing_${idx}_image_${imgIdx}.jpg`;
+        try {
+          await downloadImage(fullSrc, imagePath);
+          filesToZip.push(imagePath);
+        } catch (err) {
+          console.error(`Failed to download image ${fullSrc}:`, err);
+        }
       }
       // Optionally parse srcset for additional high-res variants
       const srcset = await img.getAttribute('srcset');
@@ -107,6 +142,15 @@ async function scrapeSreality() {
         if (highRes && !images.includes(highRes)) {
           let fullHighRes = 'https:' + highRes.replace('|shr,,20|webp,80', '|jpg,100');
           images.push(fullHighRes);
+
+          // Download the high-res image
+          const highResPath = `listing_${idx}_image_${imgIdx}_highres.jpg`;
+          try {
+            await downloadImage(fullHighRes, highResPath);
+            filesToZip.push(highResPath);
+          } catch (err) {
+            console.error(`Failed to download high-res image ${fullHighRes}:`, err);
+          }
         }
       }
     }
@@ -125,10 +169,24 @@ async function scrapeSreality() {
   console.log('All listings processed. Closing browser...');
   await browser.close();
   
-  // Save results to a file
+  // Save results to a file (includes titles, descriptions, image URLs)
   console.log('Saving results to results.json...');
   await fs.writeFile('results.json', JSON.stringify(results, null, 2));
+  filesToZip.push('results.json'); // Include JSON in zip
   
+  // Compress all files into a zip
+  console.log('Compressing files into results.zip...');
+  const output = fs.createWriteStream('results.zip');
+  const archive = archiver('zip', { zlib: { level: 9 } });
+  archive.pipe(output);
+
+  for (const file of filesToZip) {
+    archive.file(file, { name: path.basename(file) });
+  }
+
+  await archive.finalize();
+  await new Promise((resolve) => output.on('close', resolve));
+
   // Log results for debugging
   results.forEach(result => {
     console.log(`Title: ${result.title}`);
