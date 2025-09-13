@@ -16,6 +16,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Ensure package-lock.json exists
+        run: |
+          if [ ! -f package-lock.json ]; then
+            npm install --package-lock-only
+          fi
+
       - name: Cache Node.js dependencies
         uses: actions/cache@v4
         with:
