@@ -23,6 +23,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
+        - name: Copy n8n-docker-caddy folder to server
+          run: |
+            scp -o StrictHostKeyChecking=no -r n8n-docker-caddy ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/n8n/n8n-docker-caddy
+
       - name: Deploy to Hetzner
         run: |
           BRANCH="${{ github.event.inputs.branch || github.ref_name }}"
@@ -31,7 +35,7 @@ jobs:
             git fetch origin $BRANCH
             git checkout $BRANCH
             git pull origin $BRANCH
-            cd /n8n-vps-project/n8n-docker-caddy/
-            docker compose down
-            docker compose up -d --build
+              cd n8n-docker-caddy/
+              docker compose down
+              docker compose up -d --build
           EOF
