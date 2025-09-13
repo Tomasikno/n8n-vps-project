@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy folder via rsync
         run: |
-          rsync -avz --delete ./n8n-docker-caddy/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/n8n/
+         rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" ./n8n-docker-caddy/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/n8n/
       - name: Restart services on server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
