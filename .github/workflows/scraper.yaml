@@ -16,13 +16,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-        - name: Cache Node.js dependencies
-          uses: actions/cache@v4
-          with:
-            path: node_modules
-            key: node-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              node-${{ runner.os }}-
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            node-${{ runner.os }}-
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
