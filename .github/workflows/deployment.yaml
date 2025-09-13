@@ -1,37 +1,31 @@
-name: Deploy to Hetzner
+name: Deploy Folder to Server
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch to deploy"
-        required: true
-        default: "main"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
+        uses: webfactory/ssh-agent@v0.8.1
         with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Copy n8n-docker-caddy folder to server
+      - name: Deploy folder via rsync
         run: |
-          scp -o StrictHostKeyChecking=no -r n8n-docker-caddy ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:../../var/www/n8n/
-
-      - name: Deploy to Hetzner
+          rsync -avz --delete ./n8n-docker-caddy/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/n8n/
+      - name: Restart services on server
         run: |
-          BRANCH="${{ github.event.inputs.branch || github.ref_name }}"
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash -s << 'EOF'
-            cd ../../var/www/n8n/n8n-docker-caddy/
-            docker compose down
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd /n8n/ &&
+            docker compose down &&
             docker compose up -d --build
-          EOF
+          "
