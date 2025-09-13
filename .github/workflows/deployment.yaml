@@ -25,7 +25,7 @@ jobs:
       - name: Restart services on server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd /n8n/ &&
+            cd /home/${{ secrets.SSH_USER }}/n8n/ &&
             docker compose down &&
             docker compose up -d --build
           "

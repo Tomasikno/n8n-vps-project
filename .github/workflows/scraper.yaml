@@ -1,0 +1,40 @@
+name: Playwright Scraper
+
+on:
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Updated to latest version
+        with:
+          node-version: '22'
+          cache: 'npm' # Cache npm dependencies for faster runs
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npx playwright install chromium # Install only Chromium to save time
+
+      - name: Run scraper
+        run: node scripts/scraper.js
+        env:
+          SCRAPER_URL: 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk' # Optional: define URL as env variable
+
+      - name: Upload scraped data
+        if: always() # Run even if scraper fails for debugging
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraped-data
+          path: output.json # Adjust to where your scraper saves data
+          retention-days: 7
+
+      - name: Handle errors
+        if: failure()
+        run: echo "Scraper failed, check logs for details"
