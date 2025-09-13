@@ -1,40 +1,41 @@
 name: Playwright Scraper
 
 on:
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
+    inputs:
+      SCRAPER_URL:
+        description: 'URL to scrape'
+        required: false
+        default: 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk'
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Updated to latest version
+        uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm' # Cache npm dependencies for faster runs
+          node-version: '20'
+          cache: 'npm' # Cache npm dependencies if package-lock.json exists
 
       - name: Install dependencies
         run: |
-          npm install
-          npx playwright install chromium # Install only Chromium to save time
+          npm init -y # Create package.json if it doesn't exist
+          npm install playwright # Install Playwright
+          npx playwright install --with-deps # Install Playwright browsers with dependencies
 
       - name: Run scraper
         run: node scripts/scraper.js
         env:
-          SCRAPER_URL: 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk' # Optional: define URL as env variable
+          CI: true # Ensure Playwright runs in CI mode
+          SCRAPER_URL: ${{ github.event.inputs.SCRAPER_URL }}
 
-      - name: Upload scraped data
-        if: always() # Run even if scraper fails for debugging
+      - name: Upload scraped results
         uses: actions/upload-artifact@v4
         with:
-          name: scraped-data
-          path: output.json # Adjust to where your scraper saves data
-          retention-days: 7
-
-      - name: Handle errors
-        if: failure()
-        run: echo "Scraper failed, check logs for details"
+          name: scraped-results
+          path: results.json # Adjust to the output file of your scraper

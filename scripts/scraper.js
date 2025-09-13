@@ -5,7 +5,7 @@ async function scrapeSreality() {
   const browser = await chromium.launch({ headless: true }); // Headless for CI
   const page = await browser.newPage();
   
-  // Use environment variable or fallback URL
+  // Get URL from environment variable or use default
   const url = process.env.SCRAPER_URL || 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk';
   await page.goto(url);
   
@@ -32,13 +32,13 @@ async function scrapeSreality() {
     const titleElement = await detailPage.$('h1');
     const title = titleElement ? await titleElement.innerText() : 'N/A';
     
-    // Extract description
-    const descriptionElement = await detailPage.$('div.description');
+    // Extract description (adjust selector as needed)
+    const descriptionElement = await detailPage.$('div.description, div[class*="description"], p[class*="description"]');
     const description = descriptionElement ? await descriptionElement.innerText() : 'N/A';
     
     // Extract image URLs
     const images = [];
-    const imageElements = await detailPage.$$('img[data-testid="gallery-image"]');
+    const imageElements = await detailPage.$$('img[class*="css-f5kes"], img[data-testid="gallery-image"]');
     for (const img of imageElements) {
       const src = await img.getAttribute('src');
       if (src) {
@@ -59,8 +59,8 @@ async function scrapeSreality() {
   
   await browser.close();
   
-  // Save results to output.json
-  await fs.writeFile('output.json', JSON.stringify(results, null, 2));
+  // Save results to a file
+  await fs.writeFile('results.json', JSON.stringify(results, null, 2));
   
   // Log results for debugging
   results.forEach(result => {
@@ -71,7 +71,4 @@ async function scrapeSreality() {
   });
 }
 
-scrapeSreality().catch(async error => {
-  console.error('Scraper failed:', error);
-  process.exit(1); // Exit with error code for CI
-});
+scrapeSreality().catch(console.error);
