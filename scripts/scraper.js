@@ -1,5 +1,6 @@
 const { chromium } = require('playwright');
-const fs = require('fs').promises;
+const fs = require('fs');
+const fsp = require('fs').promises;
 const path = require('path');
 const https = require('https');
 const archiver = require('archiver');
@@ -63,7 +64,7 @@ async function scrapeSreality() {
   const filesToZip = [];
   
   let idx = 0;
-  for (const listing of listings) { // Removed slice(0,3) to process all; limit if needed via env var
+  for (const listing of listings.slice(0, 5)) {
     idx++;
     console.log(`Processing listing #${idx}`);
     const href = await listing.getAttribute('href');
@@ -116,41 +117,19 @@ async function scrapeSreality() {
     // Extract image URLs using data-e2e for gallery, focusing on main lazy-loaded images
     const images = [];
     const imageElements = await detailPage.$$('[data-e2e="detail-gallery-desktop"] img[loading="lazy"]');
-    let imgIdx = 0;
     for (const img of imageElements) {
-      imgIdx++;
       const src = await img.getAttribute('src');
       if (src) {
-        // Adjust for detail page params: remove shrink and webp, set to high res jpg
-        let fullSrc = 'https:' + src.replace('|shr,,20|webp,80', '|jpg,100');
+        let fullSrc = src.startsWith('http') ? src : `https:${src}`;
         images.push(fullSrc);
-
-        // Download the image
-        const imagePath = `listing_${idx}_image_${imgIdx}.jpg`;
-        try {
-          await downloadImage(fullSrc, imagePath);
-          filesToZip.push(imagePath);
-        } catch (err) {
-          console.error(`Failed to download image ${fullSrc}:`, err);
-        }
       }
-      // Optionally parse srcset for additional high-res variants
       const srcset = await img.getAttribute('srcset');
       if (srcset) {
         const sources = srcset.split(', ').map(s => s.split(' ')[0]);
-        const highRes = sources[sources.length - 1]; // Last one is highest res
+        const highRes = sources[sources.length - 1];
         if (highRes && !images.includes(highRes)) {
-          let fullHighRes = 'https:' + highRes.replace('|shr,,20|webp,80', '|jpg,100');
+          let fullHighRes = highRes.startsWith('http') ? highRes : `https:${highRes}`;
           images.push(fullHighRes);
-
-          // Download the high-res image
-          const highResPath = `listing_${idx}_image_${imgIdx}_highres.jpg`;
-          try {
-            await downloadImage(fullHighRes, highResPath);
-            filesToZip.push(highResPath);
-          } catch (err) {
-            console.error(`Failed to download high-res image ${fullHighRes}:`, err);
-          }
         }
       }
     }
@@ -171,7 +150,7 @@ async function scrapeSreality() {
   
   // Save results to a file (includes titles, descriptions, image URLs)
   console.log('Saving results to results.json...');
-  await fs.writeFile('results.json', JSON.stringify(results, null, 2));
+  await fsp.writeFile('results.json', JSON.stringify(results, null, 2));
   filesToZip.push('results.json'); // Include JSON in zip
   
   // Compress all files into a zip
