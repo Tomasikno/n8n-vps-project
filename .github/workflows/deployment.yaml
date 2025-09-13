@@ -25,17 +25,13 @@ jobs:
 
       - name: Copy n8n-docker-caddy folder to server
         run: |
-          scp -o StrictHostKeyChecking=no -r n8n-docker-caddy ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/n8n/n8n-docker-caddy
+          scp -o StrictHostKeyChecking=no -r n8n-docker-caddy ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/../../var/www/n8n/
 
       - name: Deploy to Hetzner
         run: |
           BRANCH="${{ github.event.inputs.branch || github.ref_name }}"
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash -s << 'EOF'
-            cd /var/www/n8n
-            git fetch origin $BRANCH
-            git checkout $BRANCH
-            git pull origin $BRANCH
-              cd n8n-docker-caddy/
-              docker compose down
-              docker compose up -d --build
+            cd ../../var/www/n8n/n8n-docker-caddy/
+            docker compose down
+            docker compose up -d --build
           EOF
