@@ -24,13 +24,14 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
       - name: Deploy to Hetzner
-          run: |
-            BRANCH="${{ github.event.inputs.branch || github.ref_name }}"
-            ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-              cd /var/www/myapp &&
-              git fetch origin $BRANCH &&
-              git checkout $BRANCH &&
-              git pull origin $BRANCH &&
-              npm install --production &&
-              pm2 restart myapp
-            "
+        run: |
+          BRANCH="${{ github.event.inputs.branch || github.ref_name }}"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash -s << 'EOF'
+            cd /var/www/n8n
+            git fetch origin $BRANCH
+            git checkout $BRANCH
+            git pull origin $BRANCH
+            cd /n8n-vps-project/n8n-docker-caddy/
+            docker compose down
+            docker compose up -d --build
+          EOF
