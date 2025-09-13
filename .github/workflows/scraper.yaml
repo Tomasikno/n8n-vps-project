@@ -45,4 +45,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: scraped-results
-          path: results.zip # Upload the compressed zip file
+          path: results.zip
+
+      - name: Upload listing images
+        uses: actions/upload-artifact@v4
+        with:
+          name: listing-images
+          path: images.zip
