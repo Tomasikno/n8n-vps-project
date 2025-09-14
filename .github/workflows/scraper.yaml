@@ -33,43 +33,45 @@ jobs:
       - name: Install Node.js dependencies
         run: |
           npm ci
-          npm install playwright archiver # Ensure playwright & archiver are installed
+          # ensure playwright & archiver are installed (if not listed in package.json)
+          npm install --no-audit --no-fund playwright archiver
 
       # -------- Playwright browsers cache --------
-      - name: Get Playwright version
-        id: pw-version
-        run: |
-          PLAYWRIGHT_VERSION=$(npm ls @playwright/test --json | jq -r '.dependencies["@playwright/test"].version' || echo "unknown")
-          echo "version=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
-
       - name: Cache Playwright browsers
         id: cache-playwright
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ steps.pw-version.outputs.version }}
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-playwright-${{ steps.pw-version.outputs.version }}
             ${{ runner.os }}-playwright-
 
-      - name: Install Playwright browsers
+      - name: Install Playwright browsers (cache miss)
         if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
+        run: |
+          echo "Playwright cache miss — installing browsers + system deps"
+          npx playwright install --with-deps
         env:
           CI: true
 
-      - name: Install Playwright deps (Linux only)
-        if: steps.cache-playwright.outputs.cache-hit == 'true' && runner.os == 'Linux'
-        run: npx playwright install-deps
+      - name: Ensure Playwright OS deps installed (cache hit)
+        if: steps.cache-playwright.outputs.cache-hit == 'true'
+        run: |
+          echo "Playwright cache hit — ensuring OS dependencies are present"
+          npx playwright install-deps || true
         env:
           CI: true
 
-      - name: Save Playwright cache
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ steps.pw-version.outputs.version }}
+      # Optional debug steps (odkomentuj pro ladění)
+      # - name: Debug: print cache hit
+      #   run: echo "cache-hit=${{ steps.cache-playwright.outputs.cache-hit }}"
+      #
+      # - name: Debug: ls playwright cache dir
+      #   if: always()
+      #   run: |
+      #     echo "Listing ~/.cache and ~/.cache/ms-playwright"
+      #     ls -la ~/.cache || true
+      #     ls -la ~/.cache/ms-playwright || true
 
       # -------- Run scraper --------
       - name: Run scraper
