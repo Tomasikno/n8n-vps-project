@@ -32,7 +32,7 @@ async function scrapeSreality() {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();
   const results = [];
-  const imageFiles = [];
+  // Screenshots removed
 
   try {
     // Navigate to the main listings page
@@ -78,34 +78,36 @@ async function scrapeSreality() {
         const descriptionElement = await detailPage.$('[data-e2e*="description"], div[class*="description"], p[class*="description"]');
         const description = descriptionElement ? (await descriptionElement.innerText())?.trim() || 'N/A' : 'N/A';
 
-        // Take screenshot
-        const screenshotPath = path.join(__dirname, `listing_${idx}.png`);
-        await detailPage.screenshot({ path: screenshotPath, fullPage: true });
-        imageFiles.push(screenshotPath);
+  // Screenshot logic removed
 
         // Extract image URLs
         const images = [];
         const imageElements = await detailPage.$$('[data-e2e="detail-gallery-desktop"] img[loading="lazy"]');
-        for (const img of imageElements) {
-          const src = await img.getAttribute('src');
-          const srcset = await img.getAttribute('srcset');
-          if (src) {
-            const fullSrc = src.startsWith('http') ? src : `https:${src}`;
-            if (!images.includes(fullSrc)) images.push(fullSrc);
+          for (const img of imageElements) {
+            const src = await img.getAttribute('src');
+            const srcset = await img.getAttribute('srcset');
+            if (src) {
+              let fullSrc = src.startsWith('http') ? src : `https:${src}`;
+              if (fullSrc.startsWith('https://')) {
+                if (!images.includes(fullSrc)) images.push(fullSrc);
+              }
+            }
+            if (srcset) {
+              const sources = srcset.split(', ').map(s => s.split(' ')[0]);
+              const highResRaw = sources[sources.length - 1];
+              let highRes = highResRaw.startsWith('http') ? highResRaw : `https:${highResRaw}`;
+              if (highRes.startsWith('https://')) {
+                if (highRes && !images.includes(highRes)) images.push(highRes);
+              }
+            }
           }
-          if (srcset) {
-            const sources = srcset.split(', ').map(s => s.split(' ')[0]);
-            const highRes = sources[sources.length - 1];
-            if (highRes && !images.includes(highRes)) images.push(highRes);
-          }
-        }
 
         // Store results
         results.push({
+          url: fullUrl,
           title,
           description,
           images,
-          screenshotPath,
         });
 
         console.log(`Finished listing #${idx}: ${title}`);
@@ -121,15 +123,12 @@ async function scrapeSreality() {
     console.log('Saving results to results.json...');
     await fs.writeFile(path.join(__dirname, 'results.json'), JSON.stringify(results, null, 2));
 
-    // Compress results.json and screenshots into results.zip
-    console.log('Compressing results.json and screenshots into results.zip...');
+    // Compress results.json into results.zip
+    console.log('Compressing results.json into results.zip...');
     const resultsOutput = require('fs').createWriteStream(path.join(__dirname, 'results.zip'));
     const resultsArchive = archiver('zip', { zlib: { level: 9 } });
     resultsArchive.pipe(resultsOutput);
     resultsArchive.file(path.join(__dirname, 'results.json'), { name: 'results.json' });
-    for (const file of imageFiles) {
-      resultsArchive.file(file, { name: path.basename(file) });
-    }
     await resultsArchive.finalize();
     await new Promise(resolve => resultsOutput.on('close', resolve));
 
