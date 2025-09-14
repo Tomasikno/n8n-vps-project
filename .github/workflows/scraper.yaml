@@ -36,18 +36,40 @@ jobs:
           npm install playwright archiver # Ensure playwright & archiver are installed
 
       # -------- Playwright browsers cache --------
+      - name: Get Playwright version
+        id: pw-version
+        run: |
+          PLAYWRIGHT_VERSION=$(npm ls @playwright/test --json | jq -r '.dependencies["@playwright/test"].version' || echo "unknown")
+          echo "version=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
+
       - name: Cache Playwright browsers
+        id: cache-playwright
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ runner.os }}-1.55.0
+          key: ${{ runner.os }}-playwright-${{ steps.pw-version.outputs.version }}
           restore-keys: |
-            playwright-browsers-${{ runner.os }}-
+            ${{ runner.os }}-playwright-${{ steps.pw-version.outputs.version }}
+            ${{ runner.os }}-playwright-
 
       - name: Install Playwright browsers
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
         env:
           CI: true
+
+      - name: Install Playwright deps (Linux only)
+        if: steps.cache-playwright.outputs.cache-hit == 'true' && runner.os == 'Linux'
+        run: npx playwright install-deps
+        env:
+          CI: true
+
+      - name: Save Playwright cache
+        if: steps.cache-playwright.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.pw-version.outputs.version }}
 
       # -------- Run scraper --------
       - name: Run scraper
