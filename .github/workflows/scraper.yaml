@@ -16,45 +16,49 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Ensure package-lock.json exists
-        run: |
-          if [ ! -f package-lock.json ]; then
-            npm install --package-lock-only
-          fi
-
+      # -------- Node.js dependencies cache --------
       - name: Cache Node.js dependencies
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: node-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            node-${{ runner.os }}-
+            node-modules-${{ runner.os }}-
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
 
-      - name: Install dependencies
+      - name: Install Node.js dependencies
         run: |
-          npm init -y # Create package.json if it doesn't exist
-          npm install playwright archiver # Install Playwright and archiver for zipping
-          npx playwright install --with-deps # Install Playwright browsers with dependencies
+          npm ci
+          npm install playwright archiver # Ensure playwright & archiver are installed
 
+      # -------- Playwright browsers cache --------
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            playwright-browsers-${{ runner.os }}-
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+        env:
+          CI: true
+
+      # -------- Run scraper --------
       - name: Run scraper
         run: node scripts/scraper.js
         env:
-          CI: true # Ensure Playwright runs in CI mode
+          CI: true
           SCRAPER_URL: ${{ github.event.inputs.SCRAPER_URL }}
 
+      # -------- Upload results --------
       - name: Upload scraped results
         uses: actions/upload-artifact@v4
         with:
           name: scraped-results
           path: scripts/results.zip
-
-      - name: Upload listing images
-        uses: actions/upload-artifact@v4
-        with:
-          name: listing-images
-          path: scripts/images.zip

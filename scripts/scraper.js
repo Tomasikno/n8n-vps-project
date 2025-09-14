@@ -105,6 +105,7 @@ async function scrapeSreality() {
           title,
           description,
           images,
+          screenshotPath,
         });
 
         console.log(`Finished listing #${idx}: ${title}`);
@@ -120,25 +121,17 @@ async function scrapeSreality() {
     console.log('Saving results to results.json...');
     await fs.writeFile(path.join(__dirname, 'results.json'), JSON.stringify(results, null, 2));
 
-    // Compress results.json into results.zip
-    console.log('Compressing results.json into results.zip...');
+    // Compress results.json and screenshots into results.zip
+    console.log('Compressing results.json and screenshots into results.zip...');
     const resultsOutput = require('fs').createWriteStream(path.join(__dirname, 'results.zip'));
     const resultsArchive = archiver('zip', { zlib: { level: 9 } });
     resultsArchive.pipe(resultsOutput);
     resultsArchive.file(path.join(__dirname, 'results.json'), { name: 'results.json' });
+    for (const file of imageFiles) {
+      resultsArchive.file(file, { name: path.basename(file) });
+    }
     await resultsArchive.finalize();
     await new Promise(resolve => resultsOutput.on('close', resolve));
-
-    // Compress screenshots into images.zip
-    console.log('Compressing screenshots into images.zip...');
-    const imagesOutput = require('fs').createWriteStream(path.join(__dirname, 'images.zip'));
-    const imagesArchive = archiver('zip', { zlib: { level: 9 } });
-    imagesArchive.pipe(imagesOutput);
-    for (const file of imageFiles) {
-      imagesArchive.file(file, { name: path.basename(file) });
-    }
-    await imagesArchive.finalize();
-    await new Promise(resolve => imagesOutput.on('close', resolve));
 
     // Log results for debugging
     results.forEach((result, i) => {
