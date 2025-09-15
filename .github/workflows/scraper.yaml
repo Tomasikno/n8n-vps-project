@@ -82,7 +82,7 @@ jobs:
         with:
           workflow: scraper.yaml   # name of your workflow file
           name: scraped-results
-          path: scripts
+          path: scripts/prev/
         continue-on-error: true  # first run will have nothing;
 
       - name: Run scraper

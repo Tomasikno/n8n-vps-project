@@ -259,7 +259,7 @@ async function loadPreviousUrls(prevFile) {
   const browser = await chromium.launch({ headless: CONFIG.headless });
   const context = await browser.newContext();
 
-  const prevFile = path.join(CONFIG.outputDir, "results.json");
+  const prevFile = path.join(CONFIG.outputDir, "prev/results.json");
   const oldUrls = await loadPreviousUrls(prevFile);
 
   const results = [];
