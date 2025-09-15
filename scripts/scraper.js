@@ -32,57 +32,73 @@ async function scrapeSreality() {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();
   const results = [];
-  // Screenshots removed
 
   try {
-    // Navigate to the main listings page
-    const url = process.env.SCRAPER_URL || 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk';
-    console.log('Navigating to:', url);
-    const page = await context.newPage();
-    await page.goto(url, { waitUntil: 'networkidle' });
+    // Base URL for listings
+    const baseUrl = process.env.SCRAPER_URL || 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk';
+    let pageNum = 1;
+    let hasMoreListings = true;
 
-    // Handle cookie consent
-    await handleCookieConsent(page);
+    while (hasMoreListings) {
+      // Construct URL with pagination
+      const url = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}strana=${pageNum}`;
+      console.log(`Navigating to page ${pageNum}: ${url}`);
+      const page = await context.newPage();
+      await page.goto(url, { waitUntil: 'networkidle' });
 
-    // Wait for listings to load
-    await page.waitForSelector('ul.MuiGrid2-root', { timeout: 10000 });
+      // Handle cookie consent
+      await handleCookieConsent(page);
 
-    // Get listing links
-    const listings = await page.$$('a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi');
-    console.log(`Found ${listings.length} listings.`);
-
-    // Process up to 5 listings
-    let idx = 0;
-    for (const listing of listings.slice(0, 5)) {
-      idx++;
-      console.log(`Processing listing #${idx}`);
-      const href = await listing.getAttribute('href');
-      const fullUrl = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
-
-      // Open detail page
-      const detailPage = await context.newPage();
+      // Wait for listings to load
       try {
-        console.log('Opening detail page:', fullUrl);
+        await page.waitForSelector('ul.MuiGrid2-root', { timeout: 10000 });
+      } catch (e) {
+        console.log(`No listings found on page ${pageNum}. Stopping pagination.`);
+        hasMoreListings = false;
+        await page.close();
+        break;
+      }
 
-        await detailPage.goto(fullUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-        await detailPage.waitForTimeout(1000); // Wait 1s for dynamic content
+      // Get listing links
+      const listings = await page.$$('a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi');
+      console.log(`Found ${listings.length} listings on page ${pageNum}.`);
 
-        // Handle cookie consent on detail page
-        //await handleCookieConsent(detailPage);
+      if (listings.length === 0) {
+        console.log(`No more listings found on page ${pageNum}. Stopping pagination.`);
+        hasMoreListings = false;
+        await page.close();
+        break;
+      }
 
-        // Extract title from the first gallery image's alt attribute
-        const titleElement = await detailPage.$('[data-e2e="detail-gallery-desktop"] img');
-        const title = titleElement ? (await titleElement.getAttribute('alt'))?.trim() || 'N/A' : 'N/A';
+      // Process all listings on the current page
+      let idx = results.length + 1;
+      for (const listing of listings) {
+        console.log(`Processing listing #${idx}`);
+        const href = await listing.getAttribute('href');
+        const fullUrl = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
 
-        // Extract description
-        const descriptionElement = await detailPage.$('[data-e2e*="description"], div[class*="description"], p[class*="description"]');
-        const description = descriptionElement ? (await descriptionElement.innerText())?.trim() || 'N/A' : 'N/A';
+        // Open detail page
+        const detailPage = await context.newPage();
+        try {
+          console.log('Opening detail page:', fullUrl);
 
-  // Screenshot logic removed
+          await detailPage.goto(fullUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+          await detailPage.waitForTimeout(1000); // Wait 1s for dynamic content
 
-        // Extract image URLs
-        const images = [];
-        const imageElements = await detailPage.$$('[data-e2e="detail-gallery-desktop"] img[loading="lazy"]');
+          // Handle cookie consent on detail page
+          //await handleCookieConsent(detailPage);
+
+          // Extract title from the first gallery image's alt attribute
+          const titleElement = await detailPage.$('[data-e2e="detail-gallery-desktop"] img');
+          const title = titleElement ? (await titleElement.getAttribute('alt'))?.trim() || 'N/A' : 'N/A';
+
+          // Extract description
+          const descriptionElement = await detailPage.$('[data-e2e*="description"], div[class*="description"], p[class*="description"]');
+          const description = descriptionElement ? (await descriptionElement.innerText())?.trim() || 'N/A' : 'N/A';
+
+          // Extract image URLs
+          const images = [];
+          const imageElements = await detailPage.$$('[data-e2e="detail-gallery-desktop"] img[loading="lazy"]');
           for (const img of imageElements) {
             const src = await img.getAttribute('src');
             const srcset = await img.getAttribute('srcset');
@@ -102,21 +118,26 @@ async function scrapeSreality() {
             }
           }
 
-        // Store results
-        results.push({
-          url: fullUrl,
-          title,
-          description,
-          images,
-        });
+          // Store results
+          results.push({
+            url: fullUrl,
+            title,
+            description,
+            images,
+          });
 
-        console.log(`Finished listing #${idx}: ${title}`);
-      } catch (err) {
-        console.error(`Error processing listing #${idx}:`, err.message);
-      } finally {
-        await detailPage.close();
-        await new Promise(resolve => setTimeout(resolve, 1500));
+          console.log(`Finished listing #${idx}: ${title}`);
+          idx++;
+        } catch (err) {
+          console.error(`Error processing listing #${idx}:`, err.message);
+        } finally {
+          await detailPage.close();
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        }
       }
+
+      await page.close();
+      pageNum++;
     }
 
     // Save results to JSON
