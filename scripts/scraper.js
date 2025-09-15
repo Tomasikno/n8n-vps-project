@@ -80,6 +80,11 @@ async function handleCookieConsent(page) {
   return false;
 }
 
+async function saveScreenshot(page, outDir, fileName) {
+  const filePath = path.join(outDir, fileName);
+  await page.screenshot({ path: filePath, fullPage: true });
+  return filePath;
+}
 
 /* =========================
    Page scraping utilities
@@ -218,7 +223,28 @@ async function zipFile(filePath, outDir, zipName) {
         }
 
         const links = await getListingLinks(page);
-        if (links.length === 0) break;
+
+        if (links.length === 0) {
+          log(`⚠️ No listings found on page ${pageNum}.`);
+
+          if (pageNum === 1) {
+            // ✅ Take screenshot of first page if empty
+            const screenshotPath = await saveScreenshot(page, CONFIG.outputDir, 'no-listings.png');
+
+            // ✅ Archive the screenshot as ZIP (so GHA artifact exists)
+            const zipPath = path.join(CONFIG.outputDir, CONFIG.outputZip);
+            const output = fss.createWriteStream(zipPath);
+            const archive = archiver('zip', { zlib: { level: 9 } });
+            archive.pipe(output);
+            archive.file(screenshotPath, { name: 'no-listings.png' });
+            await archive.finalize();
+            await new Promise((resolve) => output.on('close', resolve));
+
+            log(`Archived screenshot for empty page: ${zipPath}`);
+          }
+
+          break; // stop processing further pages
+        }
 
         // Limit links to remaining quota
         const remaining = CONFIG.maxListings - results.length;
@@ -246,11 +272,14 @@ async function zipFile(filePath, outDir, zipName) {
       pageNum += 1;
     }
 
-    const jsonPath = await saveResults(results, CONFIG.outputDir, CONFIG.outputJson);
-    const zipPath = await zipFile(jsonPath, CONFIG.outputDir, CONFIG.outputZip);
-    log(`Wrote ${results.length} listings.`);
-    log(`JSON: ${jsonPath}`);
-    log(`ZIP:  ${zipPath}`);
+    // Only save results if we actually have them
+    if (results.length > 0) {
+      const jsonPath = await saveResults(results, CONFIG.outputDir, CONFIG.outputJson);
+      const zipPath = await zipFile(jsonPath, CONFIG.outputDir, CONFIG.outputZip);
+      log(`Wrote ${results.length} listings.`);
+      log(`JSON: ${jsonPath}`);
+      log(`ZIP:  ${zipPath}`);
+    }
   } catch (err) {
     console.error('Scraper failed:', err?.message || err);
   } finally {
