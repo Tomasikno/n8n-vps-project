@@ -317,7 +317,7 @@ async function loadPreviousUrls(prevFile) {
         }
 
         // Limit links to remaining quota
-        const skips = 0;
+        let skips = 0;
         const remaining = CONFIG.maxListings - results.length - skips;
         const toProcess = links.slice(0, remaining);
 
