@@ -40,26 +40,46 @@ const log = (...args) => console.log(`[${now()}]`, ...args);
 // Utility to handle cookie consent
 async function handleCookieConsent(page) {
   console.log('Checking for consent button...');
+
   try {
-    await page.waitForSelector('button[data-testid="cw-button-agree-with-ads"]', { timeout: 5000 });
-    const consentButton = await page.$('button[data-testid="cw-button-agree-with-ads"]');
+    // First try on the main page
+    const consentButton = await page.waitForSelector(
+      'button[data-testid="cw-button-agree-with-ads"]',
+      { timeout: 5000 }
+    );
     if (consentButton) {
+      console.log('Clicking consent button on main page.');
       await consentButton.click();
       await page.waitForTimeout(500);
-      return;
+      return true;
     }
   } catch (e) {
     console.log('Consent button not found on main page, checking iframes...');
-    for (const frame of page.frames()) {
-      const consentButton = await frame.$('button[data-testid="cw-button-agree-with-ads"]');
+  }
+
+  // Fallback: scan iframes
+  for (const frame of page.frames()) {
+    try {
+      if (frame.isDetached()) continue; // ✅ skip if iframe is already gone
+
+      const consentButton = await frame.$(
+        'button[data-testid="cw-button-agree-with-ads"]'
+      );
       if (consentButton) {
+        console.log('Clicking consent button inside iframe.');
         await consentButton.click();
         await page.waitForTimeout(500);
-        break;
+        return true;
       }
+    } catch (err) {
+      console.log('Iframe check failed (probably detached).');
     }
   }
+
+  console.log('No consent button found.');
+  return false;
 }
+
 
 /* =========================
    Page scraping utilities
