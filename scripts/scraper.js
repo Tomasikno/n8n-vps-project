@@ -44,7 +44,7 @@ async function scrapeSreality() {
       const url = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}strana=${pageNum}`;
       console.log(`Navigating to page ${pageNum}: ${url}`);
       const page = await context.newPage();
-      await page.goto(url, { waitUntil: 'networkidle' });
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 240000 });
 
       // Handle cookie consent
       await handleCookieConsent(page);
@@ -73,6 +73,10 @@ async function scrapeSreality() {
       // Process all listings on the current page
       let idx = results.length + 1;
       for (const listing of listings) {
+        if (results.length >= 2) {
+          hasMoreListings = false;
+          break;
+        }
         console.log(`Processing listing #${idx}`);
         const href = await listing.getAttribute('href');
         const fullUrl = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
@@ -143,7 +147,7 @@ async function scrapeSreality() {
     // Save results to JSON
     console.log('Saving results to results.json...');
     await fs.writeFile(path.join(__dirname, 'results.json'), JSON.stringify(results, null, 2));
-
+ 
     // Compress results.json into results.zip
     console.log('Compressing results.json into results.zip...');
     const resultsOutput = require('fs').createWriteStream(path.join(__dirname, 'results.zip'));
