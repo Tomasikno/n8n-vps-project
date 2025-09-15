@@ -4,6 +4,11 @@
   "dependencies": {
     "@notionhq/client": "^5.1.0",
     "archiver": "^7.0.1",
-    "playwright": "^1.55.0"
+    "playwright": "^1.55.0",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/archiver": "^6.0.3",
+    "@types/node": "^24.5.0"
   }
 }

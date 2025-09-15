@@ -59,7 +59,7 @@ jobs:
         run: npm ci
 
       - name: Fetch previous URLs from Notion
-        run: node scripts/fetchNotionData.js
+        run: node dist/fetchNotionData.js
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
@@ -83,16 +83,8 @@ jobs:
         run: npx playwright install chromium
 
       # ---------- Run scraper ----------
-      - name: Download artifact from last successful run
-        uses: dawidd6/action-download-artifact@v6
-        with:
-          workflow: scraper.yaml   # name of your workflow file
-          name: scraped-results
-          path: scripts/prev/
-        continue-on-error: true  # first run will have nothing;
-
       - name: Run scraper
-        run: node scripts/scraper.js
+        run: node dist/scraper.js
         env:
           CI: true
           SCRAPER_URL: ${{ github.event.inputs.SCRAPER_URL }}
@@ -107,5 +99,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: scraped-results
-          path: scripts/results.json
+          path: dist/scraper/results.json
           retention-days: 7
