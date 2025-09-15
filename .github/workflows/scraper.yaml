@@ -58,6 +58,12 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
+      - name: Fetch previous URLs from Notion
+        run: node scripts/fetchNotionUrls.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+
       # ---------- Resolve Playwright version for a stable cache key ----------
       - name: Get Playwright version
         id: pwv

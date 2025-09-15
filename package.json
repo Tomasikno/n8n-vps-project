@@ -2,6 +2,7 @@
   "name": "sreality-scraper",
   "version": "1.0.0",
   "dependencies": {
+    "@notionhq/client": "^5.1.0",
     "archiver": "^7.0.1",
     "playwright": "^1.55.0"
   }

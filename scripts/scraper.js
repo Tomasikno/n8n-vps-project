@@ -241,8 +241,13 @@ async function zipFile(filePath, outDir, zipName) {
 async function loadPreviousUrls(prevFile) {
   try {
     const raw = await fs.readFile(prevFile, "utf8");
-    const oldResults = JSON.parse(raw);
-    const urls = new Set(oldResults.map(r => r.url));
+    const data = JSON.parse(raw);
+
+    // If it's an array of strings (from Notion), use directly
+    const urls = Array.isArray(data)
+      ? new Set(data)
+      : new Set(data.map(r => r.url));
+
     log(`Loaded ${urls.size} previous URLs to skip.`);
     return urls;
   } catch {
@@ -259,7 +264,7 @@ async function loadPreviousUrls(prevFile) {
   const browser = await chromium.launch({ headless: CONFIG.headless });
   const context = await browser.newContext();
 
-  const prevFile = path.join(CONFIG.outputDir, "prev/results.json");
+  const prevFile = path.join(CONFIG.outputDir, "prev/results-notion.json");
   const oldUrls = await loadPreviousUrls(prevFile);
 
   const results = [];
