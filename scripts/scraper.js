@@ -325,7 +325,7 @@ async function loadPreviousUrls(prevFile) {
           async (link, idx) => {
             if (oldUrls.has(link)) {
               log(`🔄 Skipping duplicate: ${link}`);
-              return null;
+              return { link, title: "", description: "", images: [] };
             }
             log(`(${idx + 1}/${toProcess.length}) Fetching ${link}`);
             return await scrapeListing(context, link, {
@@ -337,9 +337,7 @@ async function loadPreviousUrls(prevFile) {
           CONFIG.itemDelayMs
         );
 
-        // Only push valid, non-null results
-        const newItems = pageResults.filter(Boolean);
-        results.push(...newItems);
+        results.push(pageResults);
         log(`Collected ${results.length} so far (added ${newItems.length}, skipped ${toProcess.length - newItems.length}).`);
 
       } finally {
