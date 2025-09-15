@@ -40,14 +40,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # ---------- Cache npm (faster installs) ----------
-      - name: Cache npm cache
+      # ---------- Cache npm (node_modules + npm cache) ----------
+      - name: Cache node_modules
         uses: actions/cache@v4
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            node_modules
+            ~/.npm
+          key: node-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            node-${{ runner.os }}-
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -58,19 +60,32 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
+      # ---------- Build TypeScript ----------
+      - name: Build TypeScript
+        run: npm run build
+
+      # ---------- Cache build output (dist) ----------
+      - name: Cache dist folder
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: dist-${{ github.sha }}
+          restore-keys: |
+            dist-
+
       - name: Fetch previous URLs from Notion
         run: node dist/notion/fetchNotionData.js
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
 
-      # ---------- Resolve Playwright version for a stable cache key ----------
+      # ---------- Resolve Playwright version ----------
       - name: Get Playwright version
         id: pwv
         run: |
           echo "version=$(node -p "require('./package.json').dependencies?.playwright || require('./package.json').devDependencies?.playwright || 'unknown'")" >> $GITHUB_OUTPUT
 
-      # ---------- Cache Playwright browser binaries ----------
+      # ---------- Cache Playwright browsers ----------
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
@@ -95,7 +110,7 @@ jobs:
 
       # ---------- Upload results ----------
       - name: Upload scraped results
-        if: success()   # only if scraper didn’t fail
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: scraped-results
