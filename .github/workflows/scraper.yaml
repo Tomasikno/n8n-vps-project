@@ -82,7 +82,7 @@ jobs:
         with:
           workflow: scraper.yaml   # name of your workflow file
           name: scraped-results
-          path: scripts/previous
+          path: scripts
         continue-on-error: true  # first run will have nothing;
 
       - name: Run scraper
@@ -101,5 +101,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: scraped-results
-          path: scripts/results.zip
+          path: scripts/results.json
           retention-days: 7
