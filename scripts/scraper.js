@@ -317,13 +317,15 @@ async function loadPreviousUrls(prevFile) {
         }
 
         // Limit links to remaining quota
-        const remaining = CONFIG.maxListings - results.length;
+        const skips = 0;
+        const remaining = CONFIG.maxListings - results.length - skips;
         const toProcess = links.slice(0, remaining);
 
         const pageResults = await processWithConcurrency(
           toProcess,
           async (link, idx) => {
             if (oldUrls.has(link)) {
+              skips++;
               log(`🔄 Skipping duplicate: ${link}`);
               return null;
             }
