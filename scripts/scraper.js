@@ -276,12 +276,20 @@ async function loadPreviousUrls(prevFile) {
         await handleCookieConsent(page);
         log(`Cookie consent handled, on page ${pageNum}.`);
         try {
-          log(`Waiting for listings on page ${pageNum}...`);
-          await page.waitForSelector('[data-e2e="estates-list"]', { timeout: 10000 });
-        } catch {
-          log(`⚠️ Did not find listings on page ${pageNum}, stopping. Selection timeout. data-e2e="estates-list"`);
-          const screenshotPath = await saveScreenshot(page, CONFIG.outputDir, 'estate-timeout.png');
-          archive.file(screenshotPath, { name: 'estate-timeout.png' });
+            log(`Waiting for listings on page ${pageNum}...`);
+            await page.waitForSelector('[data-e2e="estates-list"]', { timeout: 10000 });
+          } catch {
+            // Take screenshot if listings not found (timeout)
+            const screenshotPath = await saveScreenshot(page, CONFIG.outputDir, `no-listings-page${pageNum}.png`);
+            const zipPath = path.join(CONFIG.outputDir, CONFIG.outputZip);
+            const output = fss.createWriteStream(zipPath);
+            const archive = archiver('zip', { zlib: { level: 9 } });
+            archive.pipe(output);
+            archive.file(screenshotPath, { name: `no-listings-page${pageNum}.png` });
+            await archive.finalize();
+            await new Promise((resolve) => output.on('close', resolve));
+            log(`Archived screenshot for missing listings on page ${pageNum}: ${zipPath}`);
+            log(`⚠️ Did not find listings on page ${pageNum}, stopping. Selection timeout. data-e2e="estates-list"`);
           break;
         }
 
