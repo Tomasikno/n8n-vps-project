@@ -8,20 +8,40 @@ async function main() {
   if (!dbId) throw new Error("Missing NOTION_DB_ID");
 
   const urls = [];
-  let cursor;
-  do {
+
     const response = await notion.databases.retrieve({
-      database_id: dbId,
+        database_id: dbId,
     });
-    for (const row of response.results) {
-      // Assuming your DB has a "URL" property of type "url" or "rich_text"
-      const url =
-        row.properties.url?.url ||
-        row.properties.url?.rich_text?.[0]?.plain_text;
-      if (url) urls.push(url);
+
+    const dataSourceId = response.data_sources[0].id;
+    const respons_db = await notion.dataSources.retrieve({ data_source_id: dataSourceId });
+
+    let cursor = undefined;
+    let hasMore = true;
+    while (hasMore) {
+      const response_data = await notion.dataSources.query({
+        data_source_id: dataSourceId,
+        filter: {
+          or: [
+            {
+              property: 'url',
+              rich_text: {
+                is_not_empty: true
+              }
+            }
+          ],
+        },
+        start_cursor: cursor,
+      });
+
+      for (const row of response_data.results) {
+        const url = row.properties.url.rich_text[0]?.plain_text;
+        if (url) urls.push(url);
+      }
+
+      hasMore = response_data.has_more;
+      cursor = response_data.next_cursor;
     }
-    cursor = response.has_more ? response.next_cursor : null;
-  } while (cursor);
 
   console.log(`📥 Retrieved ${urls.length} URLs from Notion DB`);
 
@@ -36,3 +56,5 @@ main().catch(err => {
   console.error("Failed to fetch Notion URLs:", err.message || err);
   process.exit(1);
 });
+
+
