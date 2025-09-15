@@ -103,12 +103,3 @@ jobs:
           name: scraped-results
           path: scripts/results.json
           retention-days: 7
-
-      # ---------- Upload results ----------
-      - name: Upload scraped results
-        if: success()   # only if scraper didn’t fail
-        uses: actions/upload-artifact@v4
-        with:
-          name: scraped-results
-          path: scripts/results.zip
-          retention-days: 7
