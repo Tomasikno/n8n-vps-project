@@ -94,59 +94,99 @@ async function goto(page, url, timeout) {
 }
 
 async function getListingLinks(page) {
-  const anchorSel = 'a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi';
+  const anchorSel =
+    'a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi';
   const anchors = await page.$$(anchorSel);
   const hrefs = [];
+
   for (const a of anchors) {
     const href = await a.getAttribute('href');
-
     if (!href) continue;
 
-    const full = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
-    if (!hrefs.includes(full)) hrefs.push(full);
+    const full = href.startsWith('/')
+      ? `https://www.sreality.cz${href}`
+      : href;
 
+    // ✅ Only keep detail pages
     if (full.includes('/detail/') && !hrefs.includes(full)) {
       hrefs.push(full);
     }
   }
+
   return hrefs;
 }
 
+
 async function scrapeListing(context, url, { navTimeoutMs, pageWaitMs }) {
   const page = await context.newPage();
+  log(`🔎 Opening detail page: ${url}`);
+
   try {
     await goto(page, url, navTimeoutMs);
     await page.waitForTimeout(pageWaitMs);
 
+    // --- Title ---
     const imgEl = await page.$('[data-e2e="detail-gallery-desktop"] img');
-    const title =
-      imgEl ? ((await imgEl.getAttribute('alt'))?.trim() || 'N/A') : 'N/A';
+    const title = imgEl
+      ? ((await imgEl.getAttribute('alt'))?.trim() || 'N/A')
+      : 'N/A';
+    log(`📌 Title: ${title}`);
 
+    // --- Description ---
     const descEl = await page.$(
       '[data-e2e*="description"], div[class*="description"], p[class*="description"]'
     );
-    const description =
-      descEl ? ((await descEl.innerText())?.trim() || 'N/A') : 'N/A';
+    const description = descEl
+      ? ((await descEl.innerText())?.trim() || 'N/A')
+      : 'N/A';
+    log(
+      `📝 Description: ${
+        description.length > 80 ? description.slice(0, 80) + '...' : description
+      }`
+    );
 
+    // --- Images ---
     const images = [];
     const imageEls = await page.$$(
       '[data-e2e="detail-gallery-desktop"] img[loading="lazy"]'
     );
 
+    log(`🖼 Found ${imageEls.length} image elements.`);
+
     for (const img of imageEls) {
       const src = await img.getAttribute('src');
       const srcset = await img.getAttribute('srcset');
-      if (src) images.push(src.startsWith('http') ? src : `https:${src}`);
+
+      if (src) {
+        const fullSrc = src.startsWith('http') ? src : `https:${src}`;
+        if (!images.includes(fullSrc)) {
+          images.push(fullSrc);
+          log(`   ➕ Added src: ${fullSrc}`);
+        }
+      }
+
       if (srcset) {
         const sources = srcset.split(',').map((s) => s.trim().split(' ')[0]);
         const high = sources[sources.length - 1];
-        if (high) images.push(high.startsWith('http') ? high : `https:${high}`);
+        if (high) {
+          const fullHigh = high.startsWith('http') ? high : `https:${high}`;
+          if (!images.includes(fullHigh)) {
+            images.push(fullHigh);
+            log(`   ➕ Added srcset high-res: ${fullHigh}`);
+          }
+        }
       }
     }
 
+    log(`✅ Collected ${images.length} image URLs for listing.`);
+
     return { url, title, description, images };
+  } catch (err) {
+    log(`❌ Error scraping listing ${url}: ${err.message || err}`);
+    return { url, title: 'ERROR', description: '', images: [] };
   } finally {
     await page.close();
+    log(`🔒 Closed page for: ${url}`);
   }
 }
 
@@ -215,10 +255,12 @@ async function zipFile(filePath, outDir, zipName) {
       try {
         await goto(page, url, CONFIG.navTimeoutMs);
         await handleCookieConsent(page);
-
+        log(`Cookie consent handled, on page ${pageNum}.`);
         try {
+          log(`Waiting for listings on page ${pageNum}...`);
           await page.waitForSelector('ul.MuiGrid2-root', { timeout: 10000 });
         } catch {
+          log(`⚠️ Did not find listings on page ${pageNum}, stopping. Selection timeout. 'ul.MuiGrid2-root'`);
           break;
         }
 
@@ -228,10 +270,9 @@ async function zipFile(filePath, outDir, zipName) {
           log(`⚠️ No listings found on page ${pageNum}.`);
 
           if (pageNum === 1) {
-            // ✅ Take screenshot of first page if empty
+            // Take screenshot of first page if empty
             const screenshotPath = await saveScreenshot(page, CONFIG.outputDir, 'no-listings.png');
 
-            // ✅ Archive the screenshot as ZIP (so GHA artifact exists)
             const zipPath = path.join(CONFIG.outputDir, CONFIG.outputZip);
             const output = fss.createWriteStream(zipPath);
             const archive = archiver('zip', { zlib: { level: 9 } });
