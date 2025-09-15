@@ -83,6 +83,7 @@ jobs:
           workflow: scraper.yaml   # name of your workflow file
           name: scraped-results
           path: scripts/previous
+        continue-on-error: true  # first run will have nothing;
 
       - name: Run scraper
         run: node scripts/scraper.js
@@ -96,7 +97,9 @@ jobs:
 
       # ---------- Upload results ----------
       - name: Upload scraped results
+        if: success()   # only if scraper didn’t fail
         uses: actions/upload-artifact@v4
         with:
           name: scraped-results
           path: scripts/results.zip
+          retention-days: 7
