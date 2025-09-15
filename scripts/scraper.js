@@ -1,8 +1,42 @@
+// scripts/scraper.js
 const { chromium } = require('playwright');
 const fs = require('fs').promises;
+const fss = require('fs');
 const path = require('path');
 const archiver = require('archiver');
 
+/* =========================
+   Config & helpers
+   ========================= */
+const envInt = (v, fallback) => {
+  if (v === undefined || v === null || v === '') return fallback;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : fallback;
+};
+
+const CONFIG = {
+  baseUrl:
+    process.env.SCRAPER_URL ||
+    'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk',
+  maxListings: envInt(process.env.SCRAPER_LIMIT, Infinity),
+  maxPages: envInt(process.env.SCRAPER_PAGE_LIMIT, Infinity),
+  navTimeoutMs: envInt(process.env.NAV_TIMEOUT_MS, 30000),
+  itemDelayMs: envInt(process.env.ITEM_DELAY_MS, 500),
+  pageWaitMs: envInt(process.env.PAGE_WAIT_MS, 1000),
+  concurrency: envInt(process.env.SCRAPER_CONCURRENCY, 3), // NEW
+  headless: process.env.HEADLESS === 'false' ? false : true,
+  outputDir: __dirname,
+  outputJson: 'results.json',
+  outputZip: 'results.zip',
+};
+
+const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+const now = () => new Date().toISOString();
+const log = (...args) => console.log(`[${now()}]`, ...args);
+
+/* =========================
+   Cookie consent handler
+   ========================= */
 // Utility to handle cookie consent
 async function handleCookieConsent(page) {
   console.log('Checking for consent button...');
@@ -27,151 +61,174 @@ async function handleCookieConsent(page) {
   }
 }
 
-async function scrapeSreality() {
-  console.log('Starting scraper...');
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  const results = [];
+/* =========================
+   Page scraping utilities
+   ========================= */
+async function goto(page, url, timeout) {
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout });
+}
 
+async function getListingLinks(page) {
+  const anchorSel = 'a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi';
+  const anchors = await page.$$(anchorSel);
+  const hrefs = [];
+  for (const a of anchors) {
+    const href = await a.getAttribute('href');
+    if (!href) continue;
+    const full = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
+    if (!hrefs.includes(full)) hrefs.push(full);
+  }
+  return hrefs;
+}
+
+async function scrapeListing(context, url, { navTimeoutMs, pageWaitMs }) {
+  const page = await context.newPage();
   try {
-    // Base URL for listings
-    const baseUrl = process.env.SCRAPER_URL || 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk';
-    let pageNum = 1;
-    let hasMoreListings = true;
+    await goto(page, url, navTimeoutMs);
+    await page.waitForTimeout(pageWaitMs);
 
-    while (hasMoreListings) {
-      // Construct URL with pagination
-      const url = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}strana=${pageNum}`;
-      console.log(`Navigating to page ${pageNum}: ${url}`);
-      const page = await context.newPage();
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 240000 });
+    const imgEl = await page.$('[data-e2e="detail-gallery-desktop"] img');
+    const title =
+      imgEl ? ((await imgEl.getAttribute('alt'))?.trim() || 'N/A') : 'N/A';
 
-      // Handle cookie consent
-      await handleCookieConsent(page);
+    const descEl = await page.$(
+      '[data-e2e*="description"], div[class*="description"], p[class*="description"]'
+    );
+    const description =
+      descEl ? ((await descEl.innerText())?.trim() || 'N/A') : 'N/A';
 
-      // Wait for listings to load
-      try {
-        await page.waitForSelector('ul.MuiGrid2-root', { timeout: 10000 });
-      } catch (e) {
-        console.log(`No listings found on page ${pageNum}. Stopping pagination.`);
-        hasMoreListings = false;
-        await page.close();
-        break;
+    const images = [];
+    const imageEls = await page.$$(
+      '[data-e2e="detail-gallery-desktop"] img[loading="lazy"]'
+    );
+
+    for (const img of imageEls) {
+      const src = await img.getAttribute('src');
+      const srcset = await img.getAttribute('srcset');
+      if (src) images.push(src.startsWith('http') ? src : `https:${src}`);
+      if (srcset) {
+        const sources = srcset.split(',').map((s) => s.trim().split(' ')[0]);
+        const high = sources[sources.length - 1];
+        if (high) images.push(high.startsWith('http') ? high : `https:${high}`);
       }
-
-      // Get listing links
-      const listings = await page.$$('a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi');
-      console.log(`Found ${listings.length} listings on page ${pageNum}.`);
-
-      if (listings.length === 0) {
-        console.log(`No more listings found on page ${pageNum}. Stopping pagination.`);
-        hasMoreListings = false;
-        await page.close();
-        break;
-      }
-
-      // Process all listings on the current page
-      let idx = results.length + 1;
-      for (const listing of listings) {
-        if (results.length >= 2) {
-          hasMoreListings = false;
-          break;
-        }
-        console.log(`Processing listing #${idx}`);
-        const href = await listing.getAttribute('href');
-        const fullUrl = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
-
-        // Open detail page
-        const detailPage = await context.newPage();
-        try {
-          console.log('Opening detail page:', fullUrl);
-
-          await detailPage.goto(fullUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-          await detailPage.waitForTimeout(1000); // Wait 1s for dynamic content
-
-          // Handle cookie consent on detail page
-          //await handleCookieConsent(detailPage);
-
-          // Extract title from the first gallery image's alt attribute
-          const titleElement = await detailPage.$('[data-e2e="detail-gallery-desktop"] img');
-          const title = titleElement ? (await titleElement.getAttribute('alt'))?.trim() || 'N/A' : 'N/A';
-
-          // Extract description
-          const descriptionElement = await detailPage.$('[data-e2e*="description"], div[class*="description"], p[class*="description"]');
-          const description = descriptionElement ? (await descriptionElement.innerText())?.trim() || 'N/A' : 'N/A';
-
-          // Extract image URLs
-          const images = [];
-          const imageElements = await detailPage.$$('[data-e2e="detail-gallery-desktop"] img[loading="lazy"]');
-          for (const img of imageElements) {
-            const src = await img.getAttribute('src');
-            const srcset = await img.getAttribute('srcset');
-            if (src) {
-              let fullSrc = src.startsWith('http') ? src : `https:${src}`;
-              if (fullSrc.startsWith('https://')) {
-                if (!images.includes(fullSrc)) images.push(fullSrc);
-              }
-            }
-            if (srcset) {
-              const sources = srcset.split(', ').map(s => s.split(' ')[0]);
-              const highResRaw = sources[sources.length - 1];
-              let highRes = highResRaw.startsWith('http') ? highResRaw : `https:${highResRaw}`;
-              if (highRes.startsWith('https://')) {
-                if (highRes && !images.includes(highRes)) images.push(highRes);
-              }
-            }
-          }
-
-          // Store results
-          results.push({
-            url: fullUrl,
-            title,
-            description,
-            images,
-          });
-
-          console.log(`Finished listing #${idx}: ${title}`);
-          idx++;
-        } catch (err) {
-          console.error(`Error processing listing #${idx}:`, err.message);
-        } finally {
-          await detailPage.close();
-          await new Promise(resolve => setTimeout(resolve, 1500));
-        }
-      }
-
-      await page.close();
-      pageNum++;
     }
 
-    // Save results to JSON
-    console.log('Saving results to results.json...');
-    await fs.writeFile(path.join(__dirname, 'results.json'), JSON.stringify(results, null, 2));
- 
-    // Compress results.json into results.zip
-    console.log('Compressing results.json into results.zip...');
-    const resultsOutput = require('fs').createWriteStream(path.join(__dirname, 'results.zip'));
-    const resultsArchive = archiver('zip', { zlib: { level: 9 } });
-    resultsArchive.pipe(resultsOutput);
-    resultsArchive.file(path.join(__dirname, 'results.json'), { name: 'results.json' });
-    await resultsArchive.finalize();
-    await new Promise(resolve => resultsOutput.on('close', resolve));
-
-    // Log results for debugging
-    results.forEach((result, i) => {
-      console.log(`Listing ${i + 1}:`);
-      console.log(`Title: ${result.title}`);
-      console.log(`Description: ${result.description}`);
-      console.log(`Images: ${result.images.join(', ')}`);
-      console.log('\n---\n');
-    });
-
-  } catch (err) {
-    console.error('Scraper failed:', err.message);
+    return { url, title, description, images };
   } finally {
-    await browser.close();
-    console.log('Browser closed.');
+    await page.close();
   }
 }
 
-scrapeSreality().catch(console.error);
+/* =========================
+   Concurrency helper
+   ========================= */
+async function processWithConcurrency(items, worker, concurrency, delay = 0) {
+  const results = [];
+  let index = 0;
+
+  async function next() {
+    if (index >= items.length) return;
+    const i = index++;
+    try {
+      const res = await worker(items[i], i);
+      if (res) results.push(res);
+    } catch (err) {
+      console.error(`Error on item ${i}:`, err?.message || err);
+    } finally {
+      if (delay) await sleep(delay);
+      await next();
+    }
+  }
+
+  await Promise.all(Array.from({ length: concurrency }, next));
+  return results;
+}
+
+/* =========================
+   Output helpers
+   ========================= */
+async function saveResults(results, outDir, jsonName) {
+  const file = path.join(outDir, jsonName);
+  await fs.writeFile(file, JSON.stringify(results, null, 2), 'utf8');
+  return file;
+}
+
+async function zipFile(filePath, outDir, zipName) {
+  const zipPath = path.join(outDir, zipName);
+  const output = fss.createWriteStream(zipPath);
+  const archive = archiver('zip', { zlib: { level: 9 } });
+  archive.pipe(output);
+  archive.file(filePath, { name: path.basename(filePath) });
+  await archive.finalize();
+  await new Promise((resolve) => output.on('close', resolve));
+  return zipPath;
+}
+
+/* =========================
+   Runner
+   ========================= */
+(async function main() {
+  log('Starting scraper with config:', CONFIG);
+  const browser = await chromium.launch({ headless: CONFIG.headless });
+  const context = await browser.newContext();
+
+  const results = [];
+  let pageNum = 1;
+
+  try {
+    while (pageNum <= CONFIG.maxPages && results.length < CONFIG.maxListings) {
+      const url =
+        `${CONFIG.baseUrl}${CONFIG.baseUrl.includes('?') ? '&' : '?'}strana=${pageNum}`;
+      const page = await context.newPage();
+
+      try {
+        await goto(page, url, CONFIG.navTimeoutMs);
+        await handleCookieConsent(page);
+
+        try {
+          await page.waitForSelector('ul.MuiGrid2-root', { timeout: 10000 });
+        } catch {
+          break;
+        }
+
+        const links = await getListingLinks(page);
+        if (links.length === 0) break;
+
+        // Limit links to remaining quota
+        const remaining = CONFIG.maxListings - results.length;
+        const toProcess = links.slice(0, remaining);
+
+        const pageResults = await processWithConcurrency(
+          toProcess,
+          async (link, idx) => {
+            log(`(${idx + 1}/${toProcess.length}) Fetching ${link}`);
+            return await scrapeListing(context, link, {
+              navTimeoutMs: CONFIG.navTimeoutMs,
+              pageWaitMs: CONFIG.pageWaitMs,
+            });
+          },
+          CONFIG.concurrency,
+          CONFIG.itemDelayMs
+        );
+
+        results.push(...pageResults);
+        log(`Collected ${results.length} so far.`);
+      } finally {
+        await page.close();
+      }
+
+      pageNum += 1;
+    }
+
+    const jsonPath = await saveResults(results, CONFIG.outputDir, CONFIG.outputJson);
+    const zipPath = await zipFile(jsonPath, CONFIG.outputDir, CONFIG.outputZip);
+    log(`Wrote ${results.length} listings.`);
+    log(`JSON: ${jsonPath}`);
+    log(`ZIP:  ${zipPath}`);
+  } catch (err) {
+    console.error('Scraper failed:', err?.message || err);
+  } finally {
+    await browser.close();
+    log('Browser closed.');
+  }
+})();

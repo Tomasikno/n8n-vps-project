@@ -7,6 +7,26 @@ on:
         description: 'URL to scrape'
         required: false
         default: 'https://www.sreality.cz/hledani/pronajem/byty/praha?velikost=3%2Bkk'
+      SCRAPER_LIMIT:
+        description: 'Max number of listings to scrape (total across pages)'
+        required: false
+        default: '50'
+      SCRAPER_PAGE_LIMIT:
+        description: 'Optional hard cap on pages (blank = unlimited)'
+        required: false
+        default: ''
+      NAV_TIMEOUT_MS:
+        description: 'Navigation timeout per page'
+        required: false
+        default: '30000'
+      ITEM_DELAY_MS:
+        description: 'Delay between listing detail fetches (ms)'
+        required: false
+        default: '1500'
+      SCRAPER_CONCURRENCY:
+        description: 'How many listings to fetch in parallel'
+        required: false
+        default: '3'
 
 jobs:
   scrape:
@@ -16,71 +36,62 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # -------- Node.js dependencies cache --------
-      - name: Cache Node.js dependencies
+      # ---------- Cache npm (faster installs) ----------
+      - name: Cache npm cache
         uses: actions/cache@v4
         with:
-          path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            node-modules-${{ runner.os }}-
+            ${{ runner.os }}-npm-
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+          cache: 'npm'
 
       - name: Install Node.js dependencies
-        run: |
-          npm ci
-          # ensure playwright & archiver are installed (if not listed in package.json)
-          npm install --no-audit --no-fund playwright archiver
+        run: npm ci
 
-      # -------- Playwright browsers cache --------
+      # ---------- Resolve Playwright version for a stable cache key ----------
+      - name: Get Playwright version
+        id: pwv
+        run: |
+          node -e "const fs=require('fs');
+          const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+          const lock=fs.existsSync('package-lock.json')?JSON.parse(fs.readFileSync('package-lock.json','utf8')):null;
+          const fromPkg=pkg.dependencies?.playwright||pkg.devDependencies?.playwright;
+          let v=fromPkg||'';
+          if(!v && lock?.packages?.['node_modules/playwright']?.version) v=lock.packages['node_modules/playwright'].version;
+          if(!v) v='unknown';
+          console.log('version='+v)"
+          | tee /dev/stderr | sed -n 's/^version=\(.*\)$/version=\1/p' >> "$GITHUB_OUTPUT"
+
+      # ---------- Cache Playwright browser binaries ----------
       - name: Cache Playwright browsers
-        id: cache-playwright
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-ms-playwright-${{ steps.pwv.outputs.version }}
           restore-keys: |
-            ${{ runner.os }}-playwright-
+            ${{ runner.os }}-ms-playwright-
 
-      - name: Install Playwright browsers (cache miss)
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: |
-          echo "Playwright cache miss — installing browsers + system deps"
-          npx playwright install --with-deps
-        env:
-          CI: true
+      - name: Install Playwright browsers (chromium)
+        run: npx playwright install chromium
 
-      - name: Ensure Playwright OS deps installed (cache hit)
-        if: steps.cache-playwright.outputs.cache-hit == 'true'
-        run: |
-          echo "Playwright cache hit — ensuring OS dependencies are present"
-          npx playwright install-deps || true
-        env:
-          CI: true
-
-      # Optional debug steps (odkomentuj pro ladění)
-      # - name: Debug: print cache hit
-      #   run: echo "cache-hit=${{ steps.cache-playwright.outputs.cache-hit }}"
-      #
-      # - name: Debug: ls playwright cache dir
-      #   if: always()
-      #   run: |
-      #     echo "Listing ~/.cache and ~/.cache/ms-playwright"
-      #     ls -la ~/.cache || true
-      #     ls -la ~/.cache/ms-playwright || true
-
-      # -------- Run scraper --------
+      # ---------- Run scraper ----------
       - name: Run scraper
         run: node scripts/scraper.js
         env:
           CI: true
           SCRAPER_URL: ${{ github.event.inputs.SCRAPER_URL }}
+          SCRAPER_LIMIT: ${{ github.event.inputs.SCRAPER_LIMIT }}
+          SCRAPER_PAGE_LIMIT: ${{ github.event.inputs.SCRAPER_PAGE_LIMIT }}
+          NAV_TIMEOUT_MS: ${{ github.event.inputs.NAV_TIMEOUT_MS }}
+          ITEM_DELAY_MS: ${{ github.event.inputs.ITEM_DELAY_MS }}
 
-      # -------- Upload results --------
+      # ---------- Upload results ----------
       - name: Upload scraped results
         uses: actions/upload-artifact@v4
         with:
