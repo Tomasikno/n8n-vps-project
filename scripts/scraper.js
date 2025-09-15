@@ -45,12 +45,12 @@ async function handleCookieConsent(page) {
     // First try on the main page
     const consentButton = await page.waitForSelector(
       'button[data-testid="cw-button-agree-with-ads"]',
-      { timeout: 5000 }
+      { timeout: 7000 }
     );
     if (consentButton) {
       console.log('Clicking consent button on main page.');
       await consentButton.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000);
       return true;
     }
   } catch (e) {
