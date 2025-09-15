@@ -10,15 +10,14 @@ async function main() {
   const urls = [];
   let cursor;
   do {
-    const response = await notion.databases.query({
+    const response = await notion.databases.retrieve({
       database_id: dbId,
-      start_cursor: cursor,
     });
     for (const row of response.results) {
       // Assuming your DB has a "URL" property of type "url" or "rich_text"
       const url =
-        row.properties.URL?.url ||
-        row.properties.URL?.rich_text?.[0]?.plain_text;
+        row.properties.url?.url ||
+        row.properties.url?.rich_text?.[0]?.plain_text;
       if (url) urls.push(url);
     }
     cursor = response.has_more ? response.next_cursor : null;
