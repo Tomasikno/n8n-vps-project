@@ -246,7 +246,7 @@ async function loadPreviousUrls(prevFile) {
     log(`Loaded ${urls.size} previous URLs to skip.`);
     return urls;
   } catch {
-    log("No previous results found (first run?).");
+    log("No previous results found (first run?). prevFile:", prevFile);
     return new Set();
   }
 }
