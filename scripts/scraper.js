@@ -337,7 +337,9 @@ async function loadPreviousUrls(prevFile) {
           CONFIG.itemDelayMs
         );
 
-        results.push(pageResults);
+        // Only push valid, non-null results
+        const newItems = pageResults.filter(Boolean);
+        results.push(...pageResults);
         log(`Collected ${results.length} so far (added ${newItems.length}, skipped ${toProcess.length - newItems.length}).`);
 
       } finally {
