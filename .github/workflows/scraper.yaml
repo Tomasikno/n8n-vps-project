@@ -58,15 +58,7 @@ jobs:
       - name: Get Playwright version
         id: pwv
         run: |
-          node -e "const fs=require('fs');
-          const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
-          const lock=fs.existsSync('package-lock.json')?JSON.parse(fs.readFileSync('package-lock.json','utf8')):null;
-          const fromPkg=pkg.dependencies?.playwright||pkg.devDependencies?.playwright;
-          let v=fromPkg||'';
-          if(!v && lock?.packages?.['node_modules/playwright']?.version) v=lock.packages['node_modules/playwright'].version;
-          if(!v) v='unknown';
-          console.log('version='+v)"
-          | tee /dev/stderr | sed -n 's/^version=\(.*\)$/version=\1/p' >> "$GITHUB_OUTPUT"
+          echo "version=$(node -p "require('./package.json').dependencies?.playwright || require('./package.json').devDependencies?.playwright || 'unknown'")" >> $GITHUB_OUTPUT
 
       # ---------- Cache Playwright browser binaries ----------
       - name: Cache Playwright browsers
