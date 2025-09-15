@@ -74,9 +74,15 @@ async function getListingLinks(page) {
   const hrefs = [];
   for (const a of anchors) {
     const href = await a.getAttribute('href');
+
     if (!href) continue;
+
     const full = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
     if (!hrefs.includes(full)) hrefs.push(full);
+
+    if (full.includes('/detail/') && !hrefs.includes(full)) {
+      hrefs.push(full);
+    }
   }
   return hrefs;
 }
