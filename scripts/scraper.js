@@ -258,9 +258,9 @@ async function zipFile(filePath, outDir, zipName) {
         log(`Cookie consent handled, on page ${pageNum}.`);
         try {
           log(`Waiting for listings on page ${pageNum}...`);
-          await page.waitForSelector('ul.MuiGrid2-root', { timeout: 10000 });
+          await page.waitForSelector('[data-e2e="estates-list"]', { timeout: 10000 });
         } catch {
-          log(`⚠️ Did not find listings on page ${pageNum}, stopping. Selection timeout. 'ul.MuiGrid2-root'`);
+          log(`⚠️ Did not find listings on page ${pageNum}, stopping. Selection timeout. data-e2e="estates-list"`);
           break;
         }
 
