@@ -259,7 +259,7 @@ async function loadPreviousUrls(prevFile) {
   const browser = await chromium.launch({ headless: CONFIG.headless });
   const context = await browser.newContext();
 
-  const prevFile = path.join(CONFIG.outputDir, "previous", "scripts/results.json");
+  const prevFile = path.join(CONFIG.outputDir, "previous", "results.json");
   const oldUrls = await loadPreviousUrls(prevFile);
 
   const results = [];
@@ -280,6 +280,8 @@ async function loadPreviousUrls(prevFile) {
           await page.waitForSelector('[data-e2e="estates-list"]', { timeout: 10000 });
         } catch {
           log(`⚠️ Did not find listings on page ${pageNum}, stopping. Selection timeout. data-e2e="estates-list"`);
+          const screenshotPath = await saveScreenshot(page, CONFIG.outputDir, 'estate-timeout.png');
+          archive.file(screenshotPath, { name: 'estate-timeout.png' });
           break;
         }
 
