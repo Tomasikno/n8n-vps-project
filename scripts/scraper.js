@@ -316,16 +316,14 @@ async function loadPreviousUrls(prevFile) {
           break; // stop processing further pages
         }
 
-        // Limit links to remaining quota
-        let skips = 0;
-        const remaining = CONFIG.maxListings - results.length - skips;
+          // Limit links to remaining quota
+        const remaining = CONFIG.maxListings - results.length;
         const toProcess = links.slice(0, remaining);
 
         const pageResults = await processWithConcurrency(
           toProcess,
           async (link, idx) => {
             if (oldUrls.has(link)) {
-              skips++;
               log(`🔄 Skipping duplicate: ${link}`);
               return null;
             }
@@ -338,8 +336,12 @@ async function loadPreviousUrls(prevFile) {
           CONFIG.concurrency,
           CONFIG.itemDelayMs
         );
-      results.push(...pageResults.filter(Boolean));
-        log(`Collected ${results.length} so far.`);
+
+        // Only push valid, non-null results
+        const newItems = pageResults.filter(Boolean);
+        results.push(...newItems);
+        log(`Collected ${results.length} so far (added ${newItems.length}, skipped ${toProcess.length - newItems.length}).`);
+
       } finally {
         await page.close();
       }
