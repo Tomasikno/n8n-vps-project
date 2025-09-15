@@ -59,7 +59,7 @@ jobs:
         run: npm ci
 
       - name: Fetch previous URLs from Notion
-        run: node dist/fetchNotionData.js
+        run: node dist/notion/fetchNotionData.js
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
@@ -84,7 +84,7 @@ jobs:
 
       # ---------- Run scraper ----------
       - name: Run scraper
-        run: node dist/scraper.js
+        run: node dist/scraper/index.js
         env:
           CI: true
           SCRAPER_URL: ${{ github.event.inputs.SCRAPER_URL }}
