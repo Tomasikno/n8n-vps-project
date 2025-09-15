@@ -76,6 +76,13 @@ jobs:
       - name: Install Playwright browsers (chromium)
         run: npx playwright install chromium
 
+      - name: Download previous results artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: scraped-results
+          path: scripts/previous
+        continue-on-error: true  # first run will have nothing
+
       # ---------- Run scraper ----------
       - name: Run scraper
         run: node scripts/scraper.js
