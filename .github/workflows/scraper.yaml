@@ -27,6 +27,10 @@ on:
         description: 'How many listings to fetch in parallel'
         required: false
         default: '3'
+      HEADLESS:
+        description: 'Run in HEADLESS mode (true/false)'
+        required: false
+        default: true
 
 jobs:
   scrape:
