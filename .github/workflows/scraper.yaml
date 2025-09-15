@@ -59,7 +59,7 @@ jobs:
         run: npm ci
 
       - name: Fetch previous URLs from Notion
-        run: node scripts/fetchNotionUrls.js
+        run: node scripts/fetchNotionData.js
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
