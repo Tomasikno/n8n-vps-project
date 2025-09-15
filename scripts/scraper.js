@@ -236,12 +236,31 @@ async function zipFile(filePath, outDir, zipName) {
 }
 
 /* =========================
+   Previous run helpers
+   ========================= */
+async function loadPreviousUrls(prevFile) {
+  try {
+    const raw = await fs.readFile(prevFile, "utf8");
+    const oldResults = JSON.parse(raw);
+    const urls = new Set(oldResults.map(r => r.url));
+    log(`Loaded ${urls.size} previous URLs to skip.`);
+    return urls;
+  } catch {
+    log("No previous results found (first run?).");
+    return new Set();
+  }
+}
+
+/* =========================
    Runner
    ========================= */
 (async function main() {
   log('Starting scraper with config:', CONFIG);
   const browser = await chromium.launch({ headless: CONFIG.headless });
   const context = await browser.newContext();
+
+  const prevFile = path.join(CONFIG.outputDir, "previous", "scripts/results.json");
+  const oldUrls = await loadPreviousUrls(prevFile);
 
   const results = [];
   let pageNum = 1;
@@ -294,6 +313,10 @@ async function zipFile(filePath, outDir, zipName) {
         const pageResults = await processWithConcurrency(
           toProcess,
           async (link, idx) => {
+            if (oldUrls.has(link)) {
+              log(`🔄 Skipping duplicate: ${link}`);
+              return null;
+            }
             log(`(${idx + 1}/${toProcess.length}) Fetching ${link}`);
             return await scrapeListing(context, link, {
               navTimeoutMs: CONFIG.navTimeoutMs,
@@ -303,8 +326,7 @@ async function zipFile(filePath, outDir, zipName) {
           CONFIG.concurrency,
           CONFIG.itemDelayMs
         );
-
-        results.push(...pageResults);
+      results.push(...pageResults.filter(Boolean));
         log(`Collected ${results.length} so far.`);
       } finally {
         await page.close();
