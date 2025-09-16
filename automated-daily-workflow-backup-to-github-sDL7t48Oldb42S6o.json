@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-16T11:19:25.590Z",
-  "updatedAt": "2025-09-16T12:06:08.000Z",
+  "updatedAt": "2025-09-16T12:14:06.000Z",
   "id": "sDL7t48Oldb42S6o",
   "name": "Automated daily workflow backup to GitHub",
   "active": true,
@@ -114,7 +114,7 @@
           "cachedResultName": "n8n-vps-project",
           "cachedResultUrl": "https://github.com/Tomasikno/n8n-vps-project"
         },
-        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.tags[0].name }}.json",
+        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.id }}.json",
         "fileContent": "={{ $('To base64').item.json.data }}",
         "commitMessage": "=backup-{{ $('Commit date & file name').item.json.commitDate }}"
       },
@@ -315,14 +315,14 @@
           "cachedResultName": "n8n",
           "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
         },
-        "content": "=🚀 **Workflow Update Deployed!**  \n\n📂 **Files Changed**: Updated workflow files have been committed.  \n⚡ Everything is now up to date and ready to run.  \n\n🛠️ _Stay tuned for new automations in action!_ ",
+        "content": "=🚀 **Workflow Update Deployed!**  \n\n📂 **Files Changed**: Updated workflow files have been committed.  \n⚡ Everything is now up to date and ready to run. \n{{ $('List files from repo').item.json.url }}\n\n🛠️ _Stay tuned for new automations in action!_ ",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1888,
-        160
+        2032,
+        144
       ],
       "id": "2c4c435b-0800-4a59-98d0-706b46806833",
       "name": "Send a message",
@@ -351,14 +351,14 @@
           "cachedResultName": "n8n",
           "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
         },
-        "content": "=🆕 **New Workflow File Added!**  \n  \n⚡ Automatically deployed and active.  \n\n🚀 Time to level up the automation!",
+        "content": "=🆕 **New Workflow File Added!**  \n  \n⚡ Automatically deployed and active. \n{{ $('Upload file').item.json.commit.html_url }}\n\n🚀 Time to level up the automation!",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1888,
-        304
+        2064,
+        320
       ],
       "id": "dbc67aac-9889-4e8a-9e9f-4c1c657b78fd",
       "name": "Send a message1",
@@ -369,6 +369,42 @@
           "name": "Discord Bot account"
         }
       }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        160
+      ],
+      "id": "e8b6bd56-13b4-4c43-a143-e9716b3290cf",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        320
+      ],
+      "id": "3c73ce20-f46a-4059-a3c3-abe5d1181c8b",
+      "name": "Aggregate2"
     }
   ],
   "connections": {
@@ -471,7 +507,7 @@
       "main": [
         [
           {
-            "node": "Send a message",
+            "node": "Aggregate1",
             "type": "main",
             "index": 0
           }
@@ -479,6 +515,28 @@
       ]
     },
     "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
       "main": [
         [
           {
@@ -501,7 +559,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6e52ce6c-71e2-4107-99a1-a26a77144ce0",
+  "versionId": "8ce958f4-5fd8-4a23-a583-9c3ad7cedc61",
   "triggerCount": 1,
   "shared": [
     {
