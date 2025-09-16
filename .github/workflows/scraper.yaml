@@ -64,15 +64,6 @@ jobs:
       - name: Build TypeScript
         run: npm run build
 
-      # ---------- Cache build output (dist) ----------
-      - name: Cache dist folder
-        uses: actions/cache@v4
-        with:
-          path: dist
-          key: dist-${{ github.sha }}
-          restore-keys: |
-            dist-
-
       - name: Fetch previous URLs from Notion
         run: node dist/notion/fetchNotionData.js
         env:
