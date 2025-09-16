@@ -11,7 +11,7 @@ import { saveResults, zipFile, loadPreviousUrls } from './storage';
   log('Starting scraper with config:', CONFIG);
   const browser = await chromium.launch({ headless: CONFIG.headless });
   const context = await browser.newContext();
-  const prevFile = `${CONFIG.outputDir}/prev/results-notion.json`;
+  const prevFile = `${CONFIG.outputDir}/../prev/results-notion.json`;
   const oldUrls = await loadPreviousUrls(prevFile);
   const results: any[] = [];
   let pageNum = 1;
