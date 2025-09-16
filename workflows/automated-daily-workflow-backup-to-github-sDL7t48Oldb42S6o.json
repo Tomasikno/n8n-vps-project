@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-09-16T11:19:25.590Z",
-  "updatedAt": "2025-09-16T11:25:18.000Z",
+  "updatedAt": "2025-09-16T12:15:34.000Z",
   "id": "sDL7t48Oldb42S6o",
   "name": "Automated daily workflow backup to GitHub",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -114,7 +114,7 @@
           "cachedResultName": "n8n-vps-project",
           "cachedResultUrl": "https://github.com/Tomasikno/n8n-vps-project"
         },
-        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.tags[0].name }}.json",
+        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.id }}.json",
         "fileContent": "={{ $('To base64').item.json.data }}",
         "commitMessage": "=backup-{{ $('Commit date & file name').item.json.commitDate }}"
       },
@@ -297,6 +297,114 @@
         112
       ],
       "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "846456961419444304",
+          "mode": "list",
+          "cachedResultName": "Tomasiknos diary",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1417480802672836709",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
+        },
+        "content": "=🚀 **Workflow Update Deployed!**  \n\n📂 **Files Changed**: Updated workflow files have been committed.  \n⚡ Everything is now up to date and ready to run. \n\n🛠️ _Stay tuned for new automations in action!_ ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        160
+      ],
+      "id": "2c4c435b-0800-4a59-98d0-706b46806833",
+      "name": "Send a message",
+      "webhookId": "6fcc64a7-484d-48b8-af9e-65273f4d7c01",
+      "credentials": {
+        "discordBotApi": {
+          "id": "kODEUwvmo26ApL4g",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "846456961419444304",
+          "mode": "list",
+          "cachedResultName": "Tomasiknos diary",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1417480802672836709",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
+        },
+        "content": "=🆕 **New Workflow File Added!**  \n  \n⚡ Automatically deployed and active. \n\n🚀 Time to level up the automation!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        320
+      ],
+      "id": "dbc67aac-9889-4e8a-9e9f-4c1c657b78fd",
+      "name": "Send a message1",
+      "webhookId": "6fcc64a7-484d-48b8-af9e-65273f4d7c01",
+      "credentials": {
+        "discordBotApi": {
+          "id": "kODEUwvmo26ApL4g",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        160
+      ],
+      "id": "e8b6bd56-13b4-4c43-a143-e9716b3290cf",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        320
+      ],
+      "id": "3c73ce20-f46a-4059-a3c3-abe5d1181c8b",
+      "name": "Aggregate2"
     }
   ],
   "connections": {
@@ -394,17 +502,65 @@
           }
         ]
       ]
+    },
+    "Update file": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {},
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": {
     "templateId": "4064",
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "f94be8be-fd71-4103-92ba-610680dc024b",
-  "triggerCount": 0,
+  "versionId": "cf0e77c0-3e20-400d-8d36-c8f3dc808fbf",
+  "triggerCount": 1,
   "shared": [
     {
       "createdAt": "2025-09-16T11:19:25.602Z",
