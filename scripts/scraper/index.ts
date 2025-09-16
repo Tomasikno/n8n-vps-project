@@ -25,26 +25,26 @@ import { saveResults, zipFile, loadPreviousUrls } from './storage';
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: CONFIG.navTimeoutMs });
         await handleCookieConsent(page);
         log(`Cookie consent handled, on page ${pageNum}.`);
-        try {
-          log(`Waiting for listings on page ${pageNum}...`);
-          await page.waitForSelector('[data-e2e="estates-list"]', { timeout: 10000 });
-        } catch {
-          log(`⚠️ Did not find listings on page ${pageNum}, stopping.`);
-          break;
-        }
-        const links = await getListingLinks(page);
-        if (links.length === 0) {
-          log(`⚠️ No listings found on page ${pageNum}.`);
-          break;
-        }
-        const remaining = CONFIG.maxListings - results.length;
-        const toProcess = links.slice(0, remaining);
-        const pageResults = await processWithConcurrency(
+          try {
+            log(`Waiting for listings on page ${pageNum}...`);
+            await page.waitForSelector('[data-e2e="estates-list"]', { timeout: 10000 });
+          } catch {
+            log(`⚠️ Did not find listings on page ${pageNum}, stopping.`);
+            break;
+          }
+          const links = await getListingLinks(page);
+          if (links.length === 0) {
+            log(`⚠️ No listings found on page ${pageNum}.`);
+            break;
+          }
+          const remaining = CONFIG.maxListings - results.length;
+          const toProcess = links.slice(0, remaining);
+          const pageResults = await processWithConcurrency(
           toProcess,
           async (link: string, idx: number) => {
             if (oldUrls.has(link)) {
               log(`🔄 Skipping duplicate: ${link}`);
-              return { link, title: '', description: '', images: [] };
+              return null; // instead of returning an "empty" object
             }
             log(`(${idx + 1}/${toProcess.length}) Fetching ${link}`);
             return await scrapeListing(context, link, {
@@ -55,8 +55,9 @@ import { saveResults, zipFile, loadPreviousUrls } from './storage';
           CONFIG.concurrency,
           CONFIG.itemDelayMs
         );
-        const newItems = pageResults.filter(Boolean);
-        results.push(...pageResults);
+
+        const newItems = pageResults.filter(Boolean); // removes nulls
+        results.push(...newItems); // push only real items
         log(`Collected ${results.length} so far (added ${newItems.length}, skipped ${toProcess.length - newItems.length}).`);
       } finally {
         await page.close();
