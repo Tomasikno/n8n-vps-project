@@ -1,0 +1,48 @@
+{
+  "createdAt": "2025-09-16T11:54:03.297Z",
+  "updatedAt": "2025-09-16T11:54:03.297Z",
+  "id": "0ojzXCM1qIQjMHta",
+  "name": "My workflow 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e36be1e1-d43b-45c6-936e-0ce362755a61",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8b34cd07-a3b2-4433-9c1d-7307dd59539e",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-16T11:54:03.306Z",
+      "updatedAt": "2025-09-16T11:54:03.306Z",
+      "role": "workflow:owner",
+      "workflowId": "0ojzXCM1qIQjMHta",
+      "projectId": "kqMrkEZYsdGVbgzw"
+    }
+  ],
+  "tags": []
+}
