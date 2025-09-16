@@ -1,8 +1,8 @@
 {
   "createdAt": "2025-09-13T20:19:14.908Z",
-  "updatedAt": "2025-09-16T11:46:01.000Z",
+  "updatedAt": "2025-09-16T12:15:47.000Z",
   "id": "uhr6F42n1TCqMsxM",
-  "name": "reality evaluator",
+  "name": "Reality evaluator",
   "active": true,
   "isArchived": false,
   "nodes": [
@@ -1077,7 +1077,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b037780a-8aff-4803-a3b9-325ce619ea06",
+  "versionId": "2f645c29-1990-4488-a5eb-510de23306a8",
   "triggerCount": 1,
   "shared": [
     {
