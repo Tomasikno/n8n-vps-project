@@ -65,7 +65,7 @@ jobs:
         run: npm run build
 
       - name: Fetch previous URLs from Notion
-        run: node dist/notion/fetchNotionData.js
+        run: node dist/scraper/fetchNotionData.js
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
