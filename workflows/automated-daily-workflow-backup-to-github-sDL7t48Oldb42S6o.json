@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-16T11:19:25.590Z",
-  "updatedAt": "2025-09-16T12:15:34.000Z",
+  "updatedAt": "2025-09-16T12:23:01.000Z",
   "id": "sDL7t48Oldb42S6o",
   "name": "Automated daily workflow backup to GitHub",
   "active": true,
@@ -79,7 +79,7 @@
           "cachedResultName": "n8n-vps-project",
           "cachedResultUrl": "https://github.com/Tomasikno/n8n-vps-project"
         },
-        "filePath": "="
+        "filePath": "=workflows"
       },
       "id": "854f6e82-babb-474e-a138-2a6c398fd60e",
       "name": "List files from repo",
@@ -114,7 +114,7 @@
           "cachedResultName": "n8n-vps-project",
           "cachedResultUrl": "https://github.com/Tomasikno/n8n-vps-project"
         },
-        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.id }}.json",
+        "filePath": "=workflows/{{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.id }}.json",
         "fileContent": "={{ $('To base64').item.json.data }}",
         "commitMessage": "=backup-{{ $('Commit date & file name').item.json.commitDate }}"
       },
@@ -149,7 +149,7 @@
           "cachedResultName": "n8n-vps-project",
           "cachedResultUrl": "https://github.com/Tomasikno/n8n-vps-project"
         },
-        "filePath": "={{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.id }}.json",
+        "filePath": "=workflows/{{ $('Retrieve workflows').item.json.name.replace(/\\s+/g, '-').toLowerCase() }}-{{ $('Retrieve workflows').item.json.id }}.json",
         "fileContent": "={{ $('To base64').item.json.data }}",
         "commitMessage": "=backup-{{ $node['Commit date & file name'].json.commitDate }}"
       },
@@ -315,7 +315,7 @@
           "cachedResultName": "n8n",
           "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
         },
-        "content": "=🚀 **Workflow Update Deployed!**  \n\n📂 **Files Changed**: Updated workflow files have been committed.  \n⚡ Everything is now up to date and ready to run. \n\n🛠️ _Stay tuned for new automations in action!_ ",
+        "content": "=🚀 **Workflow Update Deployed!**  \n\n📂 **Files Changed**: Updated workflow files have been committed.  \n⚡ Everything is now up to date and ready to run. \n\n🛠️ _Stay tuned for new automations in action!_ \n\n──────────────────────────────────────────",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -351,7 +351,7 @@
           "cachedResultName": "n8n",
           "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
         },
-        "content": "=🆕 **New Workflow File Added!**  \n  \n⚡ Automatically deployed and active. \n\n🚀 Time to level up the automation!",
+        "content": "=🆕 **New Workflow File Added!**  \n  \n⚡ Automatically deployed and active. \n\n🚀 Time to level up the automation!\n\n──────────────────────────────────────────",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
@@ -559,7 +559,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cf0e77c0-3e20-400d-8d36-c8f3dc808fbf",
+  "versionId": "ff341ea4-8cf4-4532-9f70-dc48b92454d3",
   "triggerCount": 1,
   "shared": [
     {
