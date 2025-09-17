@@ -7,14 +7,15 @@ export const getListingLinks = async (page: Page): Promise<string[]> => {
 	'a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineAlways.css-1s6ohwi';
   const anchors = await page.$$(anchorSel);
   const hrefs: string[] = [];
-  for (const a of anchors) {
-	const href = await a.getAttribute('href');
-	if (!href) continue;
-	const full = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
-	if (full.includes('/detail/') && !hrefs.includes(full)) {
-	  hrefs.push(full);
+	for (const a of anchors) {
+		const href = await a.getAttribute('href');
+		if (!href) continue;
+		const full = href.startsWith('/') ? `https://www.sreality.cz${href}` : href;
+		if (full.startsWith('https://a.seznam.cz/')) continue;
+		if (full.includes('/detail/') && !hrefs.includes(full)) {
+			hrefs.push(full);
+		}
 	}
-  }
   return hrefs;
 };
 
