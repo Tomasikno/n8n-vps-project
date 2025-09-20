@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-09-16T11:19:25.590Z",
-  "updatedAt": "2025-09-16T12:23:54.000Z",
+  "updatedAt": "2025-09-20T11:53:42.000Z",
   "id": "sDL7t48Oldb42S6o",
   "name": "Automated daily workflow backup to GitHub",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
