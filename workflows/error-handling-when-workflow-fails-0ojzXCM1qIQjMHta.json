@@ -1,0 +1,132 @@
+{
+  "createdAt": "2025-09-16T11:54:03.297Z",
+  "updatedAt": "2025-09-16T12:39:48.000Z",
+  "id": "0ojzXCM1qIQjMHta",
+  "name": "Error handling when workflow fails",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "846456961419444304",
+          "mode": "list",
+          "cachedResultName": "Tomasiknos diary",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1417480802672836709",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
+        },
+        "content": "=❌ **Workflow Failed**\n\n📛 Workflow: {{ $json.workflow.name }}\n🕒 Time: {{ Date($json.execution.error.timestamp) }}\n\n> ⚠️ Error: {{ $json.execution.error.node.parameters.errorMessage }}\n\n🔗 Details: {{ $json.execution.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -192
+      ],
+      "id": "a9d2c135-9c24-4ffe-b8cc-d16dc45605b6",
+      "name": "Send a message",
+      "webhookId": "f349371c-33bb-4367-8216-c9b4313e3b6f",
+      "credentials": {
+        "discordBotApi": {
+          "id": "kODEUwvmo26ApL4g",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        -192
+      ],
+      "id": "db9a1fcc-b1ec-47e2-a8cc-941ab9fcf666",
+      "name": "Error Trigger"
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Error Trigger": [
+      {
+        "json": {
+          "execution": {
+            "id": "415",
+            "url": "https://n8n.eevees.cz/workflow/LYrBXBUytVSEiUc0/executions/415",
+            "error": {
+              "level": "warning",
+              "tags": {},
+              "timestamp": 1758026070047,
+              "context": {},
+              "functionality": "regular",
+              "name": "NodeOperationError",
+              "node": {
+                "parameters": {
+                  "errorType": "errorMessage",
+                  "errorMessage": "Error is gere"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  272,
+                  -16
+                ],
+                "id": "0d9e45e8-4128-49a4-9b41-cc29d997d60d",
+                "name": "Stop and Error"
+              },
+              "messages": [],
+              "message": "Error is gere",
+              "stack": "NodeOperationError: Error is gere\n    at ExecuteContext.execute (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-nodes-base@file+packages+nodes-base_@aws-sdk+credential-providers@3.808.0_asn1.js@5_1af219c3f47f2a1223ec4ccec249a974/node_modules/n8n-nodes-base/nodes/StopAndError/StopAndError.node.ts:92:9)\n    at WorkflowExecute.executeNode (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_5aee33ef851c7de341eb325c6a25e0ff/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1254:31)\n    at WorkflowExecute.runNode (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_5aee33ef851c7de341eb325c6a25e0ff/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1428:22)\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_5aee33ef851c7de341eb325c6a25e0ff/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1760:38\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_5aee33ef851c7de341eb325c6a25e0ff/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:2337:11"
+            },
+            "lastNodeExecuted": "Stop and Error",
+            "mode": "trigger"
+          },
+          "workflow": {
+            "id": "LYrBXBUytVSEiUc0",
+            "name": "My workflow 2"
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "f7d6c0bd-5543-4102-ac00-c9c868d559c1",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-16T11:54:03.306Z",
+      "updatedAt": "2025-09-16T11:54:03.306Z",
+      "role": "workflow:owner",
+      "workflowId": "0ojzXCM1qIQjMHta",
+      "projectId": "kqMrkEZYsdGVbgzw"
+    }
+  ],
+  "tags": []
+}
