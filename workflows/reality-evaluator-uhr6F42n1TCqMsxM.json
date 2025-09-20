@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-13T20:19:14.908Z",
-  "updatedAt": "2025-09-16T12:15:47.000Z",
+  "updatedAt": "2025-09-20T19:21:25.000Z",
   "id": "uhr6F42n1TCqMsxM",
   "name": "Reality evaluator",
   "active": true,
@@ -157,19 +157,12 @@
     {
       "parameters": {
         "url": "={{ $json.artifacts[0].archive_download_url }}",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpBearerAuth",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {
-              "name": "Accept",
-              "value": "application/vnd.github+json"
-            },
-            {
-              "name": "X-GitHub-Api-Version",
-              "value": "2022-11-28"
-            }
+            {}
           ]
         },
         "options": {
@@ -178,6 +171,7 @@
           },
           "response": {
             "response": {
+              "fullResponse": true,
               "responseFormat": "file"
             }
           }
@@ -208,7 +202,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        3744,
+        3952,
         944
       ],
       "id": "caa5bce0-0abf-4923-ab00-83f571d37d34",
@@ -229,7 +223,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        3760,
+        3904,
         1168
       ],
       "id": "2787cd14-c1fd-4db1-8fe1-7275b3595bad",
@@ -306,7 +300,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        4304,
+        4512,
         944
       ],
       "id": "9965615c-5e49-4070-87ae-c9ce450775a8",
@@ -326,8 +320,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        3888,
-        1168
+        4128,
+        1152
       ],
       "id": "3f7cda22-fca0-4801-8f6a-f1e7ff1afb88",
       "name": "Structured Output Parser"
@@ -359,7 +353,7 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        3520,
+        3728,
         944
       ],
       "id": "ff482b77-5eb5-473c-a230-cae5a581fbc6",
@@ -399,7 +393,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        3296,
+        3504,
         944
       ],
       "id": "bdc789c5-1d10-4cc6-9d61-d43362f18fdf",
@@ -431,7 +425,7 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        3072,
+        3280,
         864
       ],
       "id": "d7ac609e-8285-47a1-89f2-0998db437fab",
@@ -461,7 +455,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4640,
+        4848,
         944
       ],
       "id": "71e8fc68-c508-419f-acec-e15aef454c19",
@@ -490,7 +484,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        5168,
+        5376,
         1120
       ],
       "id": "b3d1161a-9660-451b-86f9-44259ae5c1fb",
@@ -505,7 +499,7 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "={ \n\"SCRAPER_LIMIT\":\"1000\",\n\"SCRAPER_PAGE_LIMIT\":\"\",\n\"NAV_TIMEOUT_MS\":\"30000\",\n\"ITEM_DELAY_MS\":\"1500\",\n\"PAGE_WAIT_MS\": \"1200\",\n\"HEADLESS\":\"true\",\n\"SCRAPER_CONCURRENCY\":\"3\",\n\"PRAGUE_LOCATION\": \"praha-7,praha-8,praha-3\",\n\"URL\":\"https://www.sreality.cz/hledani/pronajem/byty/\",\n\"URL_PARAMS\":\"?velikost=3%2B1%2C3%2Bkk%2C4%2Bkk&cena-od=22000&cena-do=40000\"\n}",
+        "jsonOutput": "={ \n\"SCRAPER_LIMIT\":\"1000\",\n\"SCRAPER_PAGE_LIMIT\":\"\",\n\"NAV_TIMEOUT_MS\":\"30000\",\n\"ITEM_DELAY_MS\":\"2500\",\n\"HEADLESS\":\"true\",\n\"SCRAPER_CONCURRENCY\":\"3\",\n\"PRAGUE_LOCATION\": \"praha-7,praha-8,praha-3,praha-10\",\n\"URL\":\"https://www.sreality.cz/hledani/pronajem/byty/\",\n\"URL_PARAMS\":\"?velikost=3%2B1%2C3%2Bkk%2C4%2Bkk&cena-od=22000&cena-do=40000\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -652,7 +646,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        4096,
+        4304,
         944
       ],
       "id": "0c8c2e90-f9f5-447c-8260-1bbf57af5634",
@@ -664,7 +658,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        4912,
+        5120,
         1040
       ],
       "id": "5f4dd01a-9d52-4861-a6d0-c311b73943ce",
@@ -686,6 +680,10 @@
             {
               "triggerAtHour": 22,
               "triggerAtMinute": 25
+            },
+            {
+              "triggerAtHour": 14,
+              "triggerAtMinute": 5
             }
           ]
         }
@@ -741,6 +739,60 @@
       ],
       "id": "85f96266-029e-40a7-9797-85a098372bdf",
       "name": "if job failed"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1296893266968444991",
+          "mode": "list",
+          "cachedResultName": "Čtverec",
+          "cachedResultUrl": "https://discord.com/channels/1296893266968444991"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1416817899582001356",
+          "mode": "list",
+          "cachedResultName": "bot-space",
+          "cachedResultUrl": "https://discord.com/channels/1296893266968444991/1416817899582001356"
+        },
+        "content": "🏡✨ All Listings Posted!\n📋 Check them out and let us know what you think ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        3280,
+        704
+      ],
+      "id": "852e3d6a-79d9-46ac-b49a-b8bc1201dcfa",
+      "name": "Send done msg",
+      "webhookId": "32c026cc-da76-4dd8-831c-69fd7cda07df",
+      "credentials": {
+        "discordBotApi": {
+          "id": "kODEUwvmo26ApL4g",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        704
+      ],
+      "id": "64336755-720a-4c94-8c92-97d09cdf4810",
+      "name": "Aggregate"
     }
   ],
   "connections": {
@@ -863,7 +915,13 @@
     },
     "Loop Over Items": {
       "main": [
-        [],
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Get many database pages",
@@ -1063,10 +1121,23 @@
           }
         ]
       ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Send done msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "0ojzXCM1qIQjMHta"
   },
   "staticData": {
     "node:Schedule Trigger": {
@@ -1077,7 +1148,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2f645c29-1990-4488-a5eb-510de23306a8",
+  "versionId": "f01bc3cc-7f07-4d7c-b7b2-d02cbd35fb01",
   "triggerCount": 1,
   "shared": [
     {
