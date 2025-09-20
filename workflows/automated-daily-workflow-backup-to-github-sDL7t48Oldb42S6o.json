@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-09-16T11:19:25.590Z",
-  "updatedAt": "2025-09-20T11:53:42.000Z",
+  "updatedAt": "2025-09-20T11:54:37.000Z",
   "id": "sDL7t48Oldb42S6o",
   "name": "Automated daily workflow backup to GitHub",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -134,7 +134,8 @@
           "id": "QpiSErtcyFHm8E7R",
           "name": "GitHub account"
         }
-      }
+      },
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -384,7 +385,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1824,
+        1872,
         160
       ],
       "id": "e8b6bd56-13b4-4c43-a143-e9716b3290cf",
@@ -564,7 +565,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "737f6ef5-254d-4767-9ed1-99fd56aafad5",
+  "versionId": "2ac4f7d4-e5d6-4b3d-919b-d25c8e0ba57c",
   "triggerCount": 1,
   "shared": [
     {
