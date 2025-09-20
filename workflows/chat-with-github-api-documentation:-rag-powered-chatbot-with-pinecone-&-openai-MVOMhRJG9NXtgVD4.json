@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-09-20T12:10:15.726Z",
-  "updatedAt": "2025-09-20T12:10:15.726Z",
+  "updatedAt": "2025-09-20T19:17:06.000Z",
   "id": "MVOMhRJG9NXtgVD4",
   "name": "Chat with GitHub API Documentation: RAG-Powered Chatbot with Pinecone & OpenAI",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "id": "362cb773-7540-4753-a401-e585cdf4af8a",
@@ -423,7 +423,7 @@
     "templateId": "2705"
   },
   "pinData": null,
-  "versionId": "a0fdb3eb-15da-4718-946f-ce1f72a718c3",
+  "versionId": "15f814a9-763b-420e-9cb8-6ffb1de62408",
   "triggerCount": 0,
   "shared": [
     {
