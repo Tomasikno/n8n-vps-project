@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-19T15:02:50.557Z",
-  "updatedAt": "2025-09-19T15:34:50.000Z",
+  "updatedAt": "2025-09-20T15:31:38.000Z",
   "id": "N2lUaDaIwZ1eIiKw",
   "name": "Generate AI viral videos with NanoBanana & VEO3, shared on socials via Blotato",
   "active": false,
@@ -655,7 +655,7 @@
     {
       "parameters": {
         "content": "# 📑 STEP 3 — Generate Video Ad Script",
-        "height": 460,
+        "height": 428,
         "width": 1180
       },
       "id": "61ce4a03-4104-4beb-bb16-0b2d2dde142d",
@@ -663,7 +663,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         1088,
-        880
+        912
       ],
       "typeVersion": 1
     },
@@ -1754,7 +1754,7 @@
     "templateId": "8270"
   },
   "pinData": {},
-  "versionId": "c9f622cf-441f-46c3-8223-8ca23babc71a",
+  "versionId": "4b8a5ec0-94ff-41be-8015-debe6249e196",
   "triggerCount": 0,
   "shared": [
     {
