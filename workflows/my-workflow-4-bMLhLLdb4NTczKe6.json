@@ -1,0 +1,102 @@
+{
+  "createdAt": "2025-09-19T15:19:29.354Z",
+  "updatedAt": "2025-09-19T21:48:17.000Z",
+  "id": "bMLhLLdb4NTczKe6",
+  "name": "My workflow 4",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fba72f33-0f33-4903-afb8-e294b735a836",
+      "name": "Telegram Trigger",
+      "webhookId": "cf9cbb0f-edcc-4f6c-b435-bf32c25dc6d8",
+      "credentials": {
+        "telegramApi": {
+          "id": "6703EHp9zXVJWoKX",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "846456961419444304",
+          "mode": "list",
+          "cachedResultName": "Tomasiknos diary",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1417480802672836709",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
+        },
+        "content": "={{ $json?.message?.text || \"\" }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e426432f-26c0-40ed-aa7c-b07c9522e375",
+      "name": "Send a message",
+      "webhookId": "95ab849e-9ccf-4bbb-9bf8-7bd8eb20cf6c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "kODEUwvmo26ApL4g",
+          "name": "Discord Bot account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "7d6dde06-b830-4a94-a4ce-b1ac8aa63177",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-09-19T15:19:29.372Z",
+      "updatedAt": "2025-09-19T15:19:29.372Z",
+      "role": "workflow:owner",
+      "workflowId": "bMLhLLdb4NTczKe6",
+      "projectId": "kqMrkEZYsdGVbgzw"
+    }
+  ],
+  "tags": []
+}
