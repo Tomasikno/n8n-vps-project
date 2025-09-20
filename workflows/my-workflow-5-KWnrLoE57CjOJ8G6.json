@@ -1,0 +1,217 @@
+{
+  "createdAt": "2025-09-19T16:34:11.436Z",
+  "updatedAt": "2025-09-19T16:49:16.000Z",
+  "id": "KWnrLoE57CjOJ8G6",
+  "name": "My workflow 5",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "88b31ab8-b3df-4dd5-831b-b60a7ce03fd5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        64,
+        176
+      ],
+      "id": "2ef3e4e6-215d-4701-bb2d-0f996ea04239",
+      "name": "When chat message received",
+      "webhookId": "b1d1689b-fefc-41e1-9a69-45daf7f9765c"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a Twitter content creator specialized in AI tools, AWS, and programming.\nYour task is to generate a Twitter thread that is:\n\nEngaging: Captures attention in the first tweet with a strong hook.\n\nEducational: Provides actionable insights, tips, or resources.\n\nReadable: Written in simple, concise language, optimized for fast scrolling.\n\nStructured: Uses numbered tweets, bullet points, and clear formatting.\n\nViral-ready: Includes curiosity gaps, analogies, and calls to action.\n\nTone: Friendly, authoritative, and approachable.\n\nThread Structure\n\nHook Tweet: Bold statement, surprising fact, or problem worth solving.\n\nContext: Why the topic matters (pain points, industry trends).\n\nMain Content:\n\n5–10 concise tweets breaking down tips, tools, AWS services, or code snippets.\n\nEach tweet should stand alone and be shareable.\n\nExamples/Analogies: Use practical examples or analogies to make complex topics simple.\n\nFinal Tweet: Strong takeaway + call to action (e.g., follow for more, ask a question).\n\nExample Instructions\n\nFocus on AI tools: productivity hacks, underrated tools, tutorials.\n\nFocus on AWS: cost optimization tips, useful services, architecture insights.\n\nFocus on Programming: best practices, coding mindsets, small snippets of wisdom.\n\nAdd emojis for readability but don’t overuse them.\n\nAvoid jargon unless explained simply."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        400,
+        336
+      ],
+      "id": "1288b01b-a70f-46b6-a405-585e7d20256a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        560
+      ],
+      "id": "81c9e7a5-ac2a-48e7-9d57-a821e2d1c9af",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "x4WuZYjSfm0LFGHN",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        544,
+        592
+      ],
+      "id": "31eff25f-da7c-468f-8c45-83b0b83e49fc",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a Twitter storyteller writing in first person, as if sharing a true personal experience.\nYour thread should read like a confession — raw, emotional, and real.\nThe story arc must include cheating, jealousy, and redemption.\n\nStructure\n\nHook Tweet\n\nStart with a shocking, vulnerable, or intriguing sentence.\n\nMake it sound like you’re opening up to your followers.\n\nExamples:\n\n“I never thought I’d be the kind of person to admit this publicly…”\n\n“Jealousy almost destroyed me — and the person I loved the most.”\n\nSetup\n\nBriefly describe the relationship (happy at first, full of love/hope).\n\nMake it relatable: everyday details, small moments.\n\nConflict\n\nShare the cheating and jealousy as if it’s a raw memory.\n\nHighlight the emotions: anger, pain, betrayal, insecurity.\n\nEnd some tweets with cliffhangers: “And that’s when I did something I’ll never forget…”\n\nClimax\n\nThe most painful or explosive moment (discovery, confrontation, breakdown).\n\nWrite it like you’re reliving it — short sentences, emotional punches.\n\nResolution / Redemption\n\nDescribe the turning point: reflection, growth, forgiveness (self or partner).\n\nShow how the experience changed you.\n\nAdd a note of hope, healing, or wisdom.\n\nFinal Tweet\n\nClose with a strong, universal takeaway.\n\nExample: “Jealousy can destroy, but it can also teach us how to love better. I’ll never forget that.”\n\nOptionally, invite engagement: “Would you forgive someone who betrayed you?”\n\nStyle\n\nAlways first person: “I”, “me”, “my”.\n\nConversational, raw, like talking to a friend late at night.\n\nTweets: 1–3 sentences each, easy to read.\n\nOccasional dialogue snippets to add realism.\n\nUse emotional pacing — slow reflection, fast tension."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        128
+      ],
+      "id": "7359758a-b95f-4f4a-8bfa-a22859765592",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        320
+      ],
+      "id": "a88c0d0b-3c73-428b-9ace-7bb1162e1f85",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "x4WuZYjSfm0LFGHN",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        976,
+        384
+      ],
+      "id": "85cd0bc2-875f-4ebc-9acd-1aaacc2a6087",
+      "name": "Simple Memory1"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "630ee67c-63a3-430b-8179-4233731ee291",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-19T16:34:11.441Z",
+      "updatedAt": "2025-09-19T16:34:11.441Z",
+      "role": "workflow:owner",
+      "workflowId": "KWnrLoE57CjOJ8G6",
+      "projectId": "kqMrkEZYsdGVbgzw"
+    }
+  ],
+  "tags": []
+}
