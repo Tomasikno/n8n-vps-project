@@ -1,49 +1,11 @@
 {
   "createdAt": "2025-09-16T15:52:04.984Z",
-  "updatedAt": "2025-09-19T11:42:16.000Z",
+  "updatedAt": "2025-09-21T17:38:19.000Z",
   "id": "NYWE2eTlJYQ0WPTb",
   "name": "Automate Video Content Posting to Multiple Social Platforms with Postiz",
   "active": false,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "pollTimes": {
-          "item": [
-            {
-              "mode": "everyMinute"
-            }
-          ]
-        },
-        "triggerOn": "specificFolder",
-        "folderToWatch": {
-          "__rl": true,
-          "mode": "list",
-          "value": "1t3A6BXYskPkAl_VxS5-NjSyzjLiNxv-B",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1t3A6BXYskPkAl_VxS5-NjSyzjLiNxv-B",
-          "cachedResultName": "Video scheduler"
-        },
-        "event": "fileCreated",
-        "options": {
-          "fileType": "application/vnd.google-apps.video"
-        }
-      },
-      "id": "4c7c53ff-85f9-46a1-b90c-4a0b5d6ce7fb",
-      "name": "Google Drive Trigger",
-      "type": "n8n-nodes-base.googleDriveTrigger",
-      "position": [
-        880,
-        464
-      ],
-      "typeVersion": 1,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "ih6pau2KBlXO6pNC",
-          "name": "Google Drive account"
-        }
-      },
-      "disabled": true
-    },
     {
       "parameters": {
         "content": "# TikTok post settings\n\n- **title**  \n  - Text string for the caption of your post (max ~2200 characters).\n\n- **privacy_level**  \n  - Who can see your video.  \n  - Allowed: `PUBLIC_TO_EVERYONE`, `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR`, `SELF_ONLY`\n\n- **duet**  \n  - Allow others to create Duet videos with your post.  \n  - Allowed: `true` or `false`\n\n- **stitch**  \n  - Allow others to use your video in their Stitch.  \n  - Allowed: `true` or `false`\n\n- **comment**  \n  - Enable or disable comments on your post.  \n  - Allowed: `true` or `false`\n\n- **autoAddMusic**  \n  - Add music automatically to your video.  \n  - Allowed: `\"yes\"` or `\"no\"`\n\n- **brand_content_toggle**  \n  - Marks the post as branded/promotional content.  \n  - Allowed: `true` or `false`\n\n- **brand_organic_toggle**  \n  - Marks branded content as organic (natural, unpaid).  \n  - Allowed: `true` or `false`\n\n- **content_posting_method**  \n  - Method of posting.  \n  - Allowed: `\"DIRECT_POST\"` or `\"UPLOAD\"`\n",
@@ -54,8 +16,8 @@
       "name": "Sticky Note1",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        960,
-        688
+        1152,
+        976
       ],
       "typeVersion": 1
     },
@@ -129,8 +91,8 @@
       "name": "Schedule on TikTok",
       "type": "n8n-nodes-postiz.postiz",
       "position": [
-        4208,
-        80
+        3104,
+        1616
       ],
       "typeVersion": 1,
       "credentials": {
@@ -138,60 +100,8 @@
           "id": "nXwxEKg7wJsPHgfY",
           "name": "Postiz account"
         }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://postiz.eevees.cz/api/upload",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendBody": true,
-        "contentType": "multipart-form-data",
-        "bodyParameters": {
-          "parameters": [
-            {
-              "parameterType": "formBinaryData",
-              "name": "file",
-              "inputDataFieldName": "data"
-            }
-          ]
-        },
-        "options": {}
       },
-      "id": "8c078b6a-234c-4c73-a0ba-73172384f108",
-      "name": "Upload to Postiz",
-      "type": "n8n-nodes-base.httpRequest",
-      "position": [
-        1184,
-        48
-      ],
-      "typeVersion": 4.2,
-      "credentials": {
-        "httpHeaderAuth": {
-          "id": "C5MHMmlBA0RSs7Fw",
-          "name": "postiz eevees"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "date": "={{ $json.output.datetime }}"
-      },
-      "id": "fad0d8d9-5f34-49d5-a6e6-33c959aad6c7",
-      "name": "Get integrations",
-      "type": "n8n-nodes-postiz.postiz",
-      "position": [
-        3056,
-        272
-      ],
-      "typeVersion": 1,
-      "credentials": {
-        "postizApi": {
-          "id": "nXwxEKg7wJsPHgfY",
-          "name": "Postiz account"
-        }
-      }
+      "disabled": true
     },
     {
       "parameters": {},
@@ -199,10 +109,11 @@
       "name": "Schedule on Facebook",
       "type": "n8n-nodes-postiz.postiz",
       "position": [
-        4208,
-        464
+        3552,
+        1808
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "disabled": true
     },
     {
       "parameters": {},
@@ -210,8 +121,8 @@
       "name": "Schedule on Instagram",
       "type": "n8n-nodes-postiz.postiz",
       "position": [
-        4208,
-        656
+        3504,
+        2160
       ],
       "typeVersion": 1,
       "credentials": {
@@ -219,18 +130,8 @@
           "id": "nXwxEKg7wJsPHgfY",
           "name": "Postiz account"
         }
-      }
-    },
-    {
-      "parameters": {},
-      "id": "cd382111-d04f-412d-9481-79a45226f86e",
-      "name": "Schedule on Threads",
-      "type": "n8n-nodes-postiz.postiz",
-      "position": [
-        4208,
-        848
-      ],
-      "typeVersion": 1
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -288,7 +189,7 @@
               "id": "f6392389-f97b-401c-85d6-056f31487f74",
               "name": "youtubeType",
               "type": "string",
-              "value": "private"
+              "value": "public"
             },
             {
               "id": "0c83ad0e-63cd-461b-838e-9c4ec960e7e7",
@@ -305,8 +206,8 @@
       "name": "Set fields",
       "type": "n8n-nodes-base.set",
       "position": [
-        1808,
-        464
+        1552,
+        2000
       ],
       "typeVersion": 3.4
     },
@@ -319,8 +220,8 @@
       "name": "Split Out",
       "type": "n8n-nodes-base.splitOut",
       "position": [
-        3760,
-        464
+        2656,
+        2000
       ],
       "typeVersion": 1
     },
@@ -353,8 +254,8 @@
       "name": "Filter",
       "type": "n8n-nodes-base.filter",
       "position": [
-        3984,
-        80
+        2880,
+        1616
       ],
       "typeVersion": 2.2
     },
@@ -387,8 +288,8 @@
       "name": "Filter1",
       "type": "n8n-nodes-base.filter",
       "position": [
-        3984,
-        272
+        2880,
+        1808
       ],
       "typeVersion": 2.2
     },
@@ -421,8 +322,8 @@
       "name": "Filter2",
       "type": "n8n-nodes-base.filter",
       "position": [
-        3984,
-        464
+        2880,
+        2000
       ],
       "typeVersion": 2.2
     },
@@ -455,8 +356,8 @@
       "name": "Filter3",
       "type": "n8n-nodes-base.filter",
       "position": [
-        3984,
-        656
+        2880,
+        2192
       ],
       "typeVersion": 2.2
     },
@@ -469,7 +370,6 @@
             "caseSensitive": true,
             "typeValidation": "strict"
           },
-          "combinator": "and",
           "conditions": [
             {
               "id": "6e46ca24-81cc-4fa7-a3e2-cc7c5286e5bd",
@@ -479,9 +379,10 @@
                 "operation": "equals"
               },
               "leftValue": "={{ $json.identifier }}",
-              "rightValue": "threads"
+              "rightValue": "x"
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
@@ -489,25 +390,10 @@
       "name": "Filter4",
       "type": "n8n-nodes-base.filter",
       "position": [
-        3984,
-        848
+        2880,
+        2384
       ],
       "typeVersion": 2.2
-    },
-    {
-      "parameters": {
-        "content": "## Set fields \nAdjust your social media settings according to your needs",
-        "height": 304,
-        "color": 3
-      },
-      "id": "76b438c4-1c95-4fcb-a87d-3ca0b0e2387d",
-      "name": "Sticky Note2",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1520,
-        320
-      ],
-      "typeVersion": 1
     },
     {
       "parameters": {
@@ -519,8 +405,8 @@
       "name": "Sticky Note3",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1776,
-        816
+        1936,
+        1376
       ],
       "typeVersion": 1
     },
@@ -534,67 +420,26 @@
       "name": "Sticky Note",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1776,
-        1104
+        1936,
+        1616
       ],
       "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "content": "## Requirements\n### Postiz\n- Create an account on [Postiz](https://postiz.com/?ref=onenode)\n- Install the [community node from Postiz](https://www.npmjs.com/package/n8n-nodes-postiz)\n- Connect your desired social media accounts\n- Get your API key and enable credentials on n8n\n\n### Google Drive\n- Create a folder that will watch for new files added\n- Enable your credentials on n8n for Google Drive\n- Insert a video in mp4 format. Or use Cloud Convert and convert it to mp4 before uploading to Postiz\n\n### Human in the loop\n- Confirm the post title, date and time (you can insert in natural language), and caption by filling the form\n\n## Configuration\nEdit the fields that will be passed later into the workflow inside the red sticker.\nAdapt the system prompt to generate the tags for youtube",
-        "height": 544,
-        "width": 464,
-        "color": 4
-      },
-      "id": "d324906e-c0ae-4efe-87d9-c9d78a7b7935",
-      "name": "Sticky Note4",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        368,
-        240
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "operation": "deleteFile",
-        "fileId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "={{ $('Google Drive Trigger').item.json.id }}"
-        },
-        "options": {}
-      },
-      "id": "3801ed48-b008-4e57-bc93-31fd57c4fc0a",
-      "name": "Delete a file",
-      "type": "n8n-nodes-base.googleDrive",
-      "position": [
-        4464,
-        80
-      ],
-      "typeVersion": 3,
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "ih6pau2KBlXO6pNC",
-          "name": "Google Drive account"
-        }
-      }
     },
     {
       "parameters": {
         "operation": "download",
         "fileId": {
           "__rl": true,
-          "value": "https://drive.google.com/file/d/1rqShoTqVSH7A9Xl7XMyEXLJL6O10BOBY/view?usp=drive_link",
-          "mode": "url"
+          "value": "={{ $json.videoId }}",
+          "mode": "id"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        1312,
-        352
+        1120,
+        2000
       ],
       "id": "db09e896-8e0b-4ee3-b319-06e9e1954eb0",
       "name": "Download file1",
@@ -613,8 +458,8 @@
       "type": "n8n-nodes-postiz.postiz",
       "typeVersion": 1,
       "position": [
-        1584,
-        464
+        1328,
+        2000
       ],
       "id": "60f8f3f2-4469-4109-8e21-e4131182cf53",
       "name": "Postiz",
@@ -624,21 +469,6 @@
           "name": "Postiz account"
         }
       }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://postiz.eevees.cz/public/v1/posts",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2624,
-        832
-      ],
-      "id": "9525eba8-8e81-496c-911c-99bcc3355a3d",
-      "name": "HTTP Request"
     },
     {
       "parameters": {
@@ -669,8 +499,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        2128,
-        464
+        1776,
+        2000
       ],
       "id": "86deb83f-95f2-4b1c-9e1d-9657db74f58f",
       "name": "Send message and wait for response",
@@ -710,95 +540,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2672,
-        480
+        2000,
+        2000
       ],
       "id": "7bcf7749-823d-4c71-bf71-ff44de3271e8",
       "name": "If"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        1072,
-        352
-      ],
-      "id": "2220033c-d699-4bf8-8547-c06cfb945edf",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "url": "https://postiz.eevees.cz/api/public/v1/integrations",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        2672,
-        256
-      ],
-      "id": "ffa95ba3-e62e-4edc-98ef-9f64dbaa9de6",
-      "name": "HTTP Request1",
-      "credentials": {
-        "postizApi": {
-          "id": "nXwxEKg7wJsPHgfY",
-          "name": "Postiz account"
-        },
-        "httpHeaderAuth": {
-          "id": "C5MHMmlBA0RSs7Fw",
-          "name": "postiz eevees"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "text": "={{ $json.currentDate }}",
-        "attributes": {
-          "attributes": [
-            {
-              "name": "datetime",
-              "description": "=Date and time in ISO 8601 format with milliseconds and UTC + 0 ('Z'), e.g., 2024-12-14T08:18:54.274Z. Today is {{ $now }}. Return the output in UTC+2.",
-              "required": true
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "bfdb4d02-63b1-4334-ad7d-962902b9fb6a",
-      "name": "Extract datetime",
-      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
-      "position": [
-        2992,
-        800
-      ],
-      "typeVersion": 1.2
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4.1-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        2816,
-        736
-      ],
-      "id": "f6bad88a-226a-48c8-9845-63040198dade",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "x4WuZYjSfm0LFGHN",
-          "name": "OpenAi account"
-        }
-      }
     },
     {
       "parameters": {
@@ -807,8 +553,8 @@
       "type": "n8n-nodes-postiz.postiz",
       "typeVersion": 1,
       "position": [
-        3168,
-        480
+        2432,
+        2000
       ],
       "id": "f9874328-521c-4d75-982b-6c7c52475ba7",
       "name": "Postiz1",
@@ -821,23 +567,89 @@
     },
     {
       "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "tags",
+              "type": "array"
+            },
+            {
+              "name": "prompt"
+            },
+            {
+              "name": "videoId"
+            },
+            {
+              "name": "videoTitle"
+            },
+            {
+              "name": "videoDesc"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        896,
+        2000
+      ],
+      "id": "ebee4f3b-0512-41f2-941c-8c23d50ba8f9",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "const tags = ($(\"When Executed by Another Workflow\").first().json.tags ?? []);\n\nconst parts = tags.map(item => {\n  const s = String(item).trim();\n  const label = s.charAt(0).toUpperCase() + s.slice(1);\n  return `{ \"value\": \"${s}\", \"label\": \"${label}\" }`;\n});\n\n// Pretty string: each object on its own line, comma-separated\nconst tagsString = parts.join(',\\n    ');\n\nreturn [{\n  json: { tagsString }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2256,
+        2000
+      ],
+      "id": "c1730b96-8457-44d2-8908-a549dbabe535",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {},
+      "id": "cd382111-d04f-412d-9481-79a45226f86e",
+      "name": "Schedule on x",
+      "type": "n8n-nodes-postiz.postiz",
+      "position": [
+        3584,
+        2368
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "postizApi": {
+          "id": "nXwxEKg7wJsPHgfY",
+          "name": "Postiz account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
         "method": "POST",
         "url": "https://postiz.eevees.cz/api/public/v1/posts",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"type\": \"draft\",\n  \"date\": \"2025-09-20T08:18:54.274Z\",\n  \"shortLink\": false,\n  \"tags\": [],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": \"{{ $json.id }}\"\n      },\n      \"settings\": {\n        \"title\": \"testrrrrrr\",\n        \"type\": \"{{ $('Set fields').item.json.youtubeType }}\"\n      },\n      \"value\": [\n        {\n          \"content\": \"This is my cool post\",\n          \"image\": [\n            {\n              \"id\": \"{{ $('Postiz').item.json.id }}\",\n              \"path\": \"{{ $('Postiz').item.json.path }}\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}\n",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": \"{{ $now.toUTC().toISO({ suppressMilliseconds: false }) }}\",\n  \"shortLink\": false,\n  \"tags\": [{{$('Code in JavaScript').item.json.tagsString }}],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": \"{{ $json.id }}\"\n      },\n      \"settings\": {\n        \"title\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n        \"type\": \"{{ $('Set fields').item.json.youtubeType }}\"\n      },\n      \"value\": [\n        {\n          \"content\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n          \"image\": [\n            {\n              \"id\": \"{{ $('Postiz').item.json.id }}\",\n              \"path\": \"{{ $('Postiz').item.json.path }}\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4768,
-        96
+        3104,
+        1808
       ],
       "id": "2590b615-bce6-4ad4-8f66-1fd701a759ab",
-      "name": "HTTP Request2",
+      "name": "Post to youtube",
       "credentials": {
         "httpBearerAuth": {
           "id": "GIJlYnfdPGtZ0ue4",
@@ -851,55 +663,91 @@
     },
     {
       "parameters": {
-        "shortLink": true,
-        "date": "={{ $now.toUTC() }}",
-        "posts": {
-          "post": [
-            {
-              "integrationId": "={{ $json.id }}",
-              "settings": {
-                "setting": [
-                  {
-                    "key": "type",
-                    "stringValue": "={{ $('Set fields').item.json.youtubeType }}"
-                  },
-                  {
-                    "key": "title",
-                    "stringValue": "testttt"
-                  }
-                ]
-              },
-              "value": {
-                "contentItem": [
-                  {
-                    "content": "testerrrr",
-                    "image": {
-                      "imageItem": [
-                        {
-                          "id": "={{ $('Set fields').item.json.id }}",
-                          "path": "={{ $('Set fields').item.json.path }}"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
+        "method": "POST",
+        "url": "https://postiz.eevees.cz/api/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": \"{{ $now.toUTC().toISO({ suppressMilliseconds: false }) }}\",\n  \"shortLink\": false,\n  \"tags\": [{{$('Code in JavaScript').item.json.tagsString }}],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": \"{{ $json.id }}\"\n      },\n      \"settings\": {\n        \"title\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n        \"type\": \"{{ $('Set fields').item.json.youtubeType }}\",\n        \"post_type\": \"post\"\n      },\n      \"value\": [\n        {\n          \"content\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n          \"image\": [\n            {\n              \"id\": \"{{ $('Postiz').item.json.id }}\",\n              \"path\": \"{{ $('Postiz').item.json.path }}\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}\n",
+        "options": {}
       },
-      "id": "bb40f421-b111-420d-b485-39ea0bceac98",
-      "name": "Schedule on youtube",
-      "type": "n8n-nodes-postiz.postiz",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        4208,
-        272
+        3104,
+        2192
       ],
-      "typeVersion": 1,
+      "id": "e3ae051e-2ad8-45ff-b83d-c8274d388897",
+      "name": "Post to instagram",
       "credentials": {
-        "postizApi": {
-          "id": "nXwxEKg7wJsPHgfY",
-          "name": "Postiz account"
+        "httpBearerAuth": {
+          "id": "GIJlYnfdPGtZ0ue4",
+          "name": "GH token"
+        },
+        "httpHeaderAuth": {
+          "id": "C5MHMmlBA0RSs7Fw",
+          "name": "postiz eevees"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz.eevees.cz/api/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": \"{{ $now.toUTC().toISO({ suppressMilliseconds: false }) }}\",\n  \"shortLink\": false,\n  \"tags\": [{{$('Code in JavaScript').item.json.tagsString }}],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": \"{{ $json.id }}\"\n      },\n      \"settings\": {\n        \"title\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n        \"type\": \"{{ $('Set fields').item.json.youtubeType }}\"\n      },\n      \"value\": [\n        {\n          \"content\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n          \"image\": [\n            {\n              \"id\": \"{{ $('Postiz').item.json.id }}\",\n              \"path\": \"{{ $('Postiz').item.json.path }}\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3104,
+        2384
+      ],
+      "id": "89d8cc88-a32e-4731-b59e-ac1b422b7607",
+      "name": "Post to x",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "GIJlYnfdPGtZ0ue4",
+          "name": "GH token"
+        },
+        "httpHeaderAuth": {
+          "id": "C5MHMmlBA0RSs7Fw",
+          "name": "postiz eevees"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz.eevees.cz/api/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": \"{{ $now.toUTC().toISO({ suppressMilliseconds: false }) }}\",\n  \"shortLink\": false,\n  \"tags\": [{{$('Code in JavaScript').item.json.tagsString }}],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": \"{{ $json.id }}\"\n      },\n      \"settings\": {\n        \"title\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n        \"type\": \"{{ $('Set fields').item.json.youtubeType }}\"\n      },\n      \"value\": [\n        {\n          \"content\": \"{{ $('When Executed by Another Workflow').item.json.videoTitle }}\",\n          \"image\": [\n            {\n              \"id\": \"{{ $('Postiz').item.json.id }}\",\n              \"path\": \"{{ $('Postiz').item.json.path }}\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3104,
+        2000
+      ],
+      "id": "7526cfdd-a4c4-4667-a80d-848293892239",
+      "name": "Post to facebook",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "GIJlYnfdPGtZ0ue4",
+          "name": "GH token"
+        },
+        "httpHeaderAuth": {
+          "id": "C5MHMmlBA0RSs7Fw",
+          "name": "postiz eevees"
         }
       }
     }
@@ -920,7 +768,7 @@
       "main": [
         [
           {
-            "node": "Schedule on youtube",
+            "node": "Post to youtube",
             "type": "main",
             "index": 0
           }
@@ -931,7 +779,7 @@
       "main": [
         [
           {
-            "node": "Schedule on Facebook",
+            "node": "Post to facebook",
             "type": "main",
             "index": 0
           }
@@ -942,7 +790,7 @@
       "main": [
         [
           {
-            "node": "Schedule on Instagram",
+            "node": "Post to instagram",
             "type": "main",
             "index": 0
           }
@@ -953,7 +801,7 @@
       "main": [
         [
           {
-            "node": "Schedule on Threads",
+            "node": "Post to x",
             "type": "main",
             "index": 0
           }
@@ -1002,33 +850,7 @@
         ]
       ]
     },
-    "Get integrations": {
-      "main": [
-        []
-      ]
-    },
-    "Upload to Postiz": {
-      "main": [
-        []
-      ]
-    },
     "Schedule on TikTok": {
-      "main": [
-        [
-          {
-            "node": "Delete a file",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Schedule on Threads": {
-      "main": [
-        []
-      ]
-    },
-    "Google Drive Trigger": {
       "main": [
         []
       ]
@@ -1080,38 +902,11 @@
       "main": [
         [
           {
-            "node": "Postiz1",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
         ],
-        []
-      ]
-    },
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Download file1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Extract datetime",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract datetime": {
-      "main": [
         []
       ]
     },
@@ -1125,6 +920,33 @@
           }
         ]
       ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Postiz1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule on x": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
@@ -1134,8 +956,61 @@
   "meta": {
     "templateId": "6653"
   },
-  "pinData": {},
-  "versionId": "beb4637f-e3d4-428c-81e4-8475019e47b2",
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "name": "Eeveevideo-996b2c22ac52ddab0ac72b50f60cf504.mp4",
+          "tags": [
+            "Eevee",
+            "Pokémon",
+            "cute",
+            "hospital",
+            "funny",
+            "close call",
+            "waiting room",
+            "iv stand",
+            "adorable",
+            "slice of life",
+            "cozy",
+            "soft light"
+          ],
+          "prompt": "Subject:\nEevee, facing camera, consistent with the reference image. Beat-locked micro-loop: paw taps (downbeats), tail swishes (offbeats), alternating head tilts on fills, ear flick on pickup, tiny hop as the loop’s button; layered secondary motion (fur settle, ear rebound).\n\nWhat’s Happening (one crisp situation):\nA readable, rhythmic loop that fits LOCATION and MOOD: Eevee keeps time with paw taps, does curious sniffs between beats, adds a tiny hop into the last downbeat; environmental kinetics and the creeping hazard escalate tension while remaining playful; loopable ending state returns to idle pose.\n\nSTYLE:\nCute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur detail, subtle film grain.\n\nLOCATION:\nHospital waiting room, early morning. Two natural moving sound props: wheels of a swiveling IV stand gently rolling with slight motion blur and dangling tube drifting; subtle soft chime from door chime or indicator LEDs ticking. Grounded details include a row of upholstered chairs and a cheery potted plant near a clean floor with subtle reflections.\n\nHAZARD (near-miss, behind Eevee):\nSwiveling IV stand rolling by quietly behind Eevee. Path: initially a soft defocused shape from scene edge, edges sharpen with parallax as it moves closer, partially occluded behind Eevee, aligns to stop inches short of contact. Visible motion cues include wheel jitter, gentle rolling with light motion blur, tube swaying lightly. Micro-particles like tiny dust motes drift near the hazard. CUT cleanly 0.2-0.4 s before contact; Eevee remains calm and cheerful.\n\nMOOD:\nClueless delight, playful curiosity.\n\nCamera:\nGentle 5–8% dolly-in with subtle sub-percent X/Y handheld sway; slight 3–5° micro-arc by end of bar 3; parallax emphasized through passing foreground props. Two focus events: (1) soft rack 250–350 ms (Eevee → hazard → Eevee) at mid-loop; (2) 120 ms micro-breath refocus on Eevee’s eyes after the tiny hop.\n\nSong & Sound (focus on Eevee):\nCreate a 4-bar loop at approx. 140 BPM (4/4) with light side-chain feel. Paw taps on downbeats, tail swishes on offbeats. Eevee vocal calls \"vee!\" on ~2.2s and responses on bar end. Vocal palette includes short notes (200–400 ms) plus one longer note (600–800 ms) toward end. Environmental foley low-volume includes wheel rattle, door chime, and soft tube swishing, mixed with warm vocals and mild reverb.\n\nBeat-by-beat (8 seconds, motion-rich):\n0.0–0.6 s: Pickup with light room tone inhale, micro head tilt, ear flick; tiny dust motes in key light; hazard appears as defocused shape.\n0.6–2.0 s: Bar 1 establishes Eevee center-frame; paw taps on beats 1 & 3; tail swish on 2 & 4; dolly-in begins; background prop #1 (IV stand wheels) rolls steadily; Eevee \"vee!\" vocal at ~2.2 s.\n2.0–4.0 s: Bar 2 hazard enters from edge with parallax; indicator LED ticks each beat; subtle handheld sway; Eevee blinks on beat 3; quick sniff on beat 4; environment answers with soft click/chime.\n4.0–5.0 s: Bar 3A rack-focus 300 ms on hazard revealing wheel jitter and tube sway; micro-particles drift; slight motion blur.\n5.0–6.0 s: Bar 3B rack back to Eevee; counter-head tilt; continued paw taps; camera micro arc; hazard edges sharpen closer.\n6.0–7.4 s: Bar 4A rising tension; hazard brake light glow or wheel narrowing approach; Eevee hums two-note on downbeats; tail swishes faster as eighths.\n7.4–7.8 s: Bar 4B climax with tiny hop on beat 4; 120 ms micro-breath refocus on Eevee’s eyes; Eevee holds cheerful extended \"ee-vee~\" vocal; hazard stops a whisker away.\n7.8–8.0 s: Button. CUT cleanly before contact; Eevee bright and safe; natural Foley tails fade.\n\nSafety & content:\nNo words beyond Eevee vocals; wholesome, playful, no distress. Motion and sounds plausible for hospital waiting room. Hazard benign and reversible; no contact or impact sounds.",
+          "videoId": "1vF7w7vOewj8JsPZX0DgeUaIck_d6NauM",
+          "videoTitle": "Eevee’s Hospital Wheelie—Near-Miss Cuteness!",
+          "videoDesc": "Eevee’s morning stroll turns adventurous in a hospital waiting room! As she explores near a row of chairs and a cheerful plant stand, a swiveling IV stand rolls just a whisker away from her fluffy tail—moment frozen before any contact. The cutest close call ever, with Eevee’s wide-eyed delight stealing the show!"
+        }
+      }
+    ],
+    "Postiz": [
+      {
+        "json": {
+          "id": "7bce33ed-9073-4e55-8239-1393e6e3a829",
+          "name": "Eeveevideo-996b2c22ac52ddab0ac72b50f60cf504.mp4",
+          "path": "https://postiz.eevees.cz/uploads/2025/09/21/5a1324acbd33ae14e48cc1010d8639e14.mp4",
+          "thumbnail": null,
+          "alt": null
+        }
+      }
+    ],
+    "Send message and wait for response": [
+      {
+        "json": {
+          "data": {
+            "approved": true
+          }
+        }
+      }
+    ],
+    "Code in JavaScript": [
+      {
+        "json": {
+          "tagsString": "{ \"value\": \"Eevee\", \"label\": \"Eevee\" },\n    { \"value\": \"Pokémon\", \"label\": \"Pokémon\" },\n    { \"value\": \"cute\", \"label\": \"Cute\" },\n    { \"value\": \"hospital\", \"label\": \"Hospital\" },\n    { \"value\": \"funny\", \"label\": \"Funny\" },\n    { \"value\": \"close call\", \"label\": \"Close call\" },\n    { \"value\": \"waiting room\", \"label\": \"Waiting room\" },\n    { \"value\": \"iv stand\", \"label\": \"Iv stand\" },\n    { \"value\": \"adorable\", \"label\": \"Adorable\" },\n    { \"value\": \"slice of life\", \"label\": \"Slice of life\" },\n    { \"value\": \"cozy\", \"label\": \"Cozy\" },\n    { \"value\": \"soft light\", \"label\": \"Soft light\" }"
+        }
+      }
+    ]
+  },
+  "versionId": "793af054-fe97-4519-aad8-59a428db640d",
   "triggerCount": 0,
   "shared": [
     {
