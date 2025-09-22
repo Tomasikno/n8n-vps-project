@@ -1,0 +1,28 @@
+{
+  "createdAt": "2025-09-21T22:27:31.261Z",
+  "updatedAt": "2025-09-21T22:27:31.261Z",
+  "id": "7SGhgWJHHZ6IrrRM",
+  "name": "X thread creator for day to day eevee activities",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6097ec1b-9d3b-45c0-8fae-6721ddb35cc6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-21T22:27:31.271Z",
+      "updatedAt": "2025-09-21T22:27:31.271Z",
+      "role": "workflow:owner",
+      "workflowId": "7SGhgWJHHZ6IrrRM",
+      "projectId": "kqMrkEZYsdGVbgzw"
+    }
+  ],
+  "tags": []
+}
