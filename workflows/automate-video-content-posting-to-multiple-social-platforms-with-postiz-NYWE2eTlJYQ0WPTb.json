@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-16T15:52:04.984Z",
-  "updatedAt": "2025-09-21T17:38:19.000Z",
+  "updatedAt": "2025-09-22T09:39:50.000Z",
   "id": "NYWE2eTlJYQ0WPTb",
   "name": "Automate Video Content Posting to Multiple Social Platforms with Postiz",
   "active": false,
@@ -956,61 +956,8 @@
   "meta": {
     "templateId": "6653"
   },
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "name": "Eeveevideo-996b2c22ac52ddab0ac72b50f60cf504.mp4",
-          "tags": [
-            "Eevee",
-            "Pokémon",
-            "cute",
-            "hospital",
-            "funny",
-            "close call",
-            "waiting room",
-            "iv stand",
-            "adorable",
-            "slice of life",
-            "cozy",
-            "soft light"
-          ],
-          "prompt": "Subject:\nEevee, facing camera, consistent with the reference image. Beat-locked micro-loop: paw taps (downbeats), tail swishes (offbeats), alternating head tilts on fills, ear flick on pickup, tiny hop as the loop’s button; layered secondary motion (fur settle, ear rebound).\n\nWhat’s Happening (one crisp situation):\nA readable, rhythmic loop that fits LOCATION and MOOD: Eevee keeps time with paw taps, does curious sniffs between beats, adds a tiny hop into the last downbeat; environmental kinetics and the creeping hazard escalate tension while remaining playful; loopable ending state returns to idle pose.\n\nSTYLE:\nCute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur detail, subtle film grain.\n\nLOCATION:\nHospital waiting room, early morning. Two natural moving sound props: wheels of a swiveling IV stand gently rolling with slight motion blur and dangling tube drifting; subtle soft chime from door chime or indicator LEDs ticking. Grounded details include a row of upholstered chairs and a cheery potted plant near a clean floor with subtle reflections.\n\nHAZARD (near-miss, behind Eevee):\nSwiveling IV stand rolling by quietly behind Eevee. Path: initially a soft defocused shape from scene edge, edges sharpen with parallax as it moves closer, partially occluded behind Eevee, aligns to stop inches short of contact. Visible motion cues include wheel jitter, gentle rolling with light motion blur, tube swaying lightly. Micro-particles like tiny dust motes drift near the hazard. CUT cleanly 0.2-0.4 s before contact; Eevee remains calm and cheerful.\n\nMOOD:\nClueless delight, playful curiosity.\n\nCamera:\nGentle 5–8% dolly-in with subtle sub-percent X/Y handheld sway; slight 3–5° micro-arc by end of bar 3; parallax emphasized through passing foreground props. Two focus events: (1) soft rack 250–350 ms (Eevee → hazard → Eevee) at mid-loop; (2) 120 ms micro-breath refocus on Eevee’s eyes after the tiny hop.\n\nSong & Sound (focus on Eevee):\nCreate a 4-bar loop at approx. 140 BPM (4/4) with light side-chain feel. Paw taps on downbeats, tail swishes on offbeats. Eevee vocal calls \"vee!\" on ~2.2s and responses on bar end. Vocal palette includes short notes (200–400 ms) plus one longer note (600–800 ms) toward end. Environmental foley low-volume includes wheel rattle, door chime, and soft tube swishing, mixed with warm vocals and mild reverb.\n\nBeat-by-beat (8 seconds, motion-rich):\n0.0–0.6 s: Pickup with light room tone inhale, micro head tilt, ear flick; tiny dust motes in key light; hazard appears as defocused shape.\n0.6–2.0 s: Bar 1 establishes Eevee center-frame; paw taps on beats 1 & 3; tail swish on 2 & 4; dolly-in begins; background prop #1 (IV stand wheels) rolls steadily; Eevee \"vee!\" vocal at ~2.2 s.\n2.0–4.0 s: Bar 2 hazard enters from edge with parallax; indicator LED ticks each beat; subtle handheld sway; Eevee blinks on beat 3; quick sniff on beat 4; environment answers with soft click/chime.\n4.0–5.0 s: Bar 3A rack-focus 300 ms on hazard revealing wheel jitter and tube sway; micro-particles drift; slight motion blur.\n5.0–6.0 s: Bar 3B rack back to Eevee; counter-head tilt; continued paw taps; camera micro arc; hazard edges sharpen closer.\n6.0–7.4 s: Bar 4A rising tension; hazard brake light glow or wheel narrowing approach; Eevee hums two-note on downbeats; tail swishes faster as eighths.\n7.4–7.8 s: Bar 4B climax with tiny hop on beat 4; 120 ms micro-breath refocus on Eevee’s eyes; Eevee holds cheerful extended \"ee-vee~\" vocal; hazard stops a whisker away.\n7.8–8.0 s: Button. CUT cleanly before contact; Eevee bright and safe; natural Foley tails fade.\n\nSafety & content:\nNo words beyond Eevee vocals; wholesome, playful, no distress. Motion and sounds plausible for hospital waiting room. Hazard benign and reversible; no contact or impact sounds.",
-          "videoId": "1vF7w7vOewj8JsPZX0DgeUaIck_d6NauM",
-          "videoTitle": "Eevee’s Hospital Wheelie—Near-Miss Cuteness!",
-          "videoDesc": "Eevee’s morning stroll turns adventurous in a hospital waiting room! As she explores near a row of chairs and a cheerful plant stand, a swiveling IV stand rolls just a whisker away from her fluffy tail—moment frozen before any contact. The cutest close call ever, with Eevee’s wide-eyed delight stealing the show!"
-        }
-      }
-    ],
-    "Postiz": [
-      {
-        "json": {
-          "id": "7bce33ed-9073-4e55-8239-1393e6e3a829",
-          "name": "Eeveevideo-996b2c22ac52ddab0ac72b50f60cf504.mp4",
-          "path": "https://postiz.eevees.cz/uploads/2025/09/21/5a1324acbd33ae14e48cc1010d8639e14.mp4",
-          "thumbnail": null,
-          "alt": null
-        }
-      }
-    ],
-    "Send message and wait for response": [
-      {
-        "json": {
-          "data": {
-            "approved": true
-          }
-        }
-      }
-    ],
-    "Code in JavaScript": [
-      {
-        "json": {
-          "tagsString": "{ \"value\": \"Eevee\", \"label\": \"Eevee\" },\n    { \"value\": \"Pokémon\", \"label\": \"Pokémon\" },\n    { \"value\": \"cute\", \"label\": \"Cute\" },\n    { \"value\": \"hospital\", \"label\": \"Hospital\" },\n    { \"value\": \"funny\", \"label\": \"Funny\" },\n    { \"value\": \"close call\", \"label\": \"Close call\" },\n    { \"value\": \"waiting room\", \"label\": \"Waiting room\" },\n    { \"value\": \"iv stand\", \"label\": \"Iv stand\" },\n    { \"value\": \"adorable\", \"label\": \"Adorable\" },\n    { \"value\": \"slice of life\", \"label\": \"Slice of life\" },\n    { \"value\": \"cozy\", \"label\": \"Cozy\" },\n    { \"value\": \"soft light\", \"label\": \"Soft light\" }"
-        }
-      }
-    ]
-  },
-  "versionId": "793af054-fe97-4519-aad8-59a428db640d",
+  "pinData": {},
+  "versionId": "dcd4da4c-90e3-4270-bd61-509607e9e03b",
   "triggerCount": 0,
   "shared": [
     {
