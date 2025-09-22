@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-09-20T21:46:35.211Z",
-  "updatedAt": "2025-09-21T17:55:34.000Z",
+  "updatedAt": "2025-09-22T14:12:46.000Z",
   "id": "ESI2dDbq6Kd1Bi0f",
   "name": "Reels clanker - v1 working",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -29,8 +29,8 @@
       "name": "Wait for Music Processing",
       "type": "n8n-nodes-base.wait",
       "position": [
-        -448,
-        2352
+        -752,
+        2912
       ],
       "webhookId": "9588f687-f211-47e3-a528-966826e7c59f",
       "typeVersion": 1.1,
@@ -65,8 +65,8 @@
       "name": "Poll Music Generation Status",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        -224,
-        2272
+        -528,
+        2832
       ],
       "typeVersion": 4.2,
       "credentials": {
@@ -107,8 +107,8 @@
       "name": "Check if Music Generation Complete",
       "type": "n8n-nodes-base.if",
       "position": [
-        0,
-        2352
+        -304,
+        2912
       ],
       "typeVersion": 2.2,
       "disabled": true
@@ -137,8 +137,8 @@
       "name": "Format and Display Music Results",
       "type": "n8n-nodes-base.set",
       "position": [
-        224,
-        2352
+        -80,
+        2912
       ],
       "typeVersion": 3.4,
       "disabled": true
@@ -148,8 +148,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -976,
-        1824
+        -1152,
+        2272
       ],
       "id": "8034b7ff-53ed-49ef-831b-ef617dd8c843",
       "name": "When clicking ‘Execute workflow’"
@@ -167,8 +167,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        2048,
-        1472
+        -976,
+        1904
       ],
       "id": "c2585525-017d-47cc-b89d-035c259f147f",
       "name": "OpenAI Chat Model",
@@ -186,8 +186,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        2288,
-        1472
+        -720,
+        1904
       ],
       "id": "2556a887-9e88-4cfe-9e46-0acfb4bcabbd",
       "name": "Structured Output Parser"
@@ -199,8 +199,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1936,
-        3152
+        -496,
+        4624
       ],
       "id": "2a81d590-6d59-4e4b-b8f7-ae44ae6945f6",
       "name": "Structured Output Parser1"
@@ -218,8 +218,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -128,
-        2048
+        -320,
+        2592
       ],
       "id": "791aa2da-5ff3-4b7a-b9d3-ab5cc25cb3be",
       "name": "OpenAI Chat Model2",
@@ -261,8 +261,8 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        704,
-        1808
+        608,
+        2512
       ],
       "id": "7d67754d-beed-402c-9d53-b80ad42a378a",
       "name": "Create a database page",
@@ -281,8 +281,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        288,
-        1824
+        160,
+        2512
       ],
       "id": "a43a0ed7-ea4b-4083-8e14-c65598c16651",
       "name": "Code in JavaScript"
@@ -315,8 +315,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        496,
-        1824
+        384,
+        2512
       ],
       "id": "48ff6873-795a-417e-9c46-9206967e8373",
       "name": "If"
@@ -328,21 +328,21 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -352,
-        1824
+        -528,
+        2512
       ],
       "id": "6e316f90-1649-4da7-a5f6-1dbec61029ac",
       "name": "Code in JavaScript1"
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"style\": \"string\",\n  \"location\": \"string\",\n  \"hazard\": \"string\",\n  \"mood\": \"string\",\n  \"aspect_ratio\": \"9:16\",\n  \"title\": \"title\",\n  \"description\": \"desc\",\n  \"tags\": [\"pokemon\", \"eevee\", \"cute\"],\n  \"safety_rule\": \"Imply danger only; freeze BEFORE any contact; wholesome and kid-safe.\",\n  \"negative_prompt\": \"text, captions, UI, logos, watermark, gore, injury, violence, distress, hypersexualization, extra limbs, deformed eyes, poor anatomy, low-res, heavy blur, glitches, jpeg artifacts\",\n  \"prompt\": \"1–2 sentences describing the exact shot to render, including Eevee’s pose/expression, the chosen LOCATION and props, the HAZARD present but not touching, STYLE cues, portrait look (50–85mm), soft warm key + cool rim, shallow depth of field, no text.\"\n}\n"
+        "jsonSchemaExample": "{\n  \"style\": \"string\",\n  \"location\": \"string\",\n  \"mood\": \"string\",\n  \"aspect_ratio\": \"9:16\",\n  \"title\": \"title\",\n  \"description\": \"desc\",\n  \"objects_in_scene\": \"string with things in scene\",\n  \"tags\": [\"pokemon\", \"eevee\", \"cute\"],\n  \"safety_rule\": \"Imply danger only; freeze BEFORE any contact; wholesome and kid-safe.\",\n  \"negative_prompt\": \"text, captions, UI, logos, watermark, gore, injury, violence, distress, hypersexualization, extra limbs, deformed eyes, poor anatomy, low-res, heavy blur, glitches, jpeg artifacts\",\n  \"prompt\": \"1–2 sentences describing the exact shot to render, including Eevee’s pose/expression, the chosen LOCATION and props, the HAZARD present but not touching, STYLE cues, portrait look (50–85mm), soft warm key + cool rim, shallow depth of field, no text.\"\n}\n"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        96,
-        2048
+        -32,
+        2592
       ],
       "id": "d012cb94-e242-43f0-a17d-fe6782e263dc",
       "name": "Structured Output Parser2"
@@ -360,8 +360,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        1680,
-        3152
+        -752,
+        4624
       ],
       "id": "c97f7bc9-fead-4ed1-988c-1cfd41d65611",
       "name": "OpenAI Chat Model3",
@@ -397,8 +397,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        2128,
-        1232
+        -928,
+        1680
       ],
       "id": "515f7727-b175-4909-9dc0-ece960a889a0",
       "name": "lyrics clanker",
@@ -407,15 +407,15 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=ROLE\nYou are a prompt-engineer for an image model. Create a single still-image prompt featuring Eevee in an obscure, everyday situation that is cute, funny, and a little perilous — but nothing bad happens. The scene freezes BEFORE any contact. Also produce a catchy YouTube Shorts-ready Title and Description for the video we’ll make from this image. Think about it.\n\nINPUTS (optional)\n- STYLE_IN: {{ $json.style }}\n- LOCATION_IN: {{ $json.location }}\n- HAZARD_IN: {{ $json.hazard }}\n- MOOD_IN: {{ $json.mood }}\n- PAST_THEMES (array of strings): {{ $json.pastThemes }}\n\nDIVERSITY MEMORY (do this)\n- Consider PAST_THEMES (last 100 themes). Do not produce anything conceptually overlapping. If overlap is unavoidable, rewrite with a clearly distinct angle, setting, time-of-day, or aesthetic.\n\nACTION-HAZARD UPGRADE (very important)\n- The HAZARD must be REAL-WORLD (physical, mechanical, thermal, electrical, weather, moving crowd/vehicle, automated door/belt/robot). No fantasy hazards.\n- Use dynamic, present-tense motion verbs (whooshing, sliding, wobbling, tipping, zipping, rumbling, spritzing, drifting, swinging).\n- Show near-miss micro-physics: slight motion blur, droplets/suds/sparks/crumbs, wheels skidding, door mid-swing, belt inching, spray mid-mist, brake-light glow, steam puffing, elevator doors narrowing, escalator comb approaching.\n- ALWAYS indicate a clear safe gap (“stopping a whisker away”, “pausing inches short”). Freeze the instant BEFORE contact.\n\nHARD RULES\n- Portrait 9:16, high detail, sharp focus, shallow depth of field.\n- Imply danger; no impact, injury, fear, or distress. Cut before contact.\n- No text/logos/watermarks/UI.\n- Keep “Eevee” on-model: expressive eyes, perky ears, small paws, fluffy tail.\n- One frame only; no panels or captions.\n- Keep everything real-life sized.\n\nCURATED POOLS (use when fields are not provided)\nSTYLE (default if STYLE_IN missing): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur.\n\nLOCATION — generate a concise new phrase (≤6 words) that is:\n- Realistic, non-specific (no brands/private homes), varied across runs (indoor/outdoor, transport/retail/office/health/education/nature/industrial), with time-of-day/weather/crowd variety, and not a near-duplicate of PAST_THEMES. Return only the short phrase if asked alone.\n\nHAZARD — invent one brief, benign near-miss (≤8 words) that PLAUSIBLY fits the LOCATION and is REAL:\n- Must include an ACTION VERB and visible motion.\n- Rotate categories: doors (sliding/swinging/elevator), belts/rollers/escalators, wheels/carts/scooters, spills/steam/splashes, robots/drones, weather (gusts/hail/sprinklers), crowd flow, vehicles.\n- SFW and reversible; no instructions, brands, or tool callouts. Return only the short phrase if asked alone.\n\nMOOD — invent a short 2–4 word phrase capturing Eevee’s vibe:\n- Light, SFW, readable (e.g., “wide-eyed wonder”, “playful curiosity”, “mildly alarmed, cheerful”).\n- Vary across runs; avoid repeats and near-duplicates. Return only the phrase if asked alone.\n\nPROMPT CONSTRUCTION (what the image model should render)\nWrite 1–2 compact sentences that include:\n- Eevee’s pose/expression/micro-action (clueless but cheerful), e.g., “Eevee mid-step, ears perked, tail puffed, curious blink.”\n- The LOCATION with 2–3 grounded props (e.g., warning stripe, wet-floor sign, ticket kiosk, luggage cart, steam vent).\n- The REAL HAZARD in visible motion with a stated safe gap (“inches short”, “a whisker away”), frozen BEFORE contact.\n- STYLE + lighting cues: soft warm key from camera-left; cool rim from back-right; portrait 50–85mm look; shallow DOF; clean background; subtle filmic grain; gentle bloom.\n",
+        "text": "=ROLE\nYou are a prompt-engineer for an image model. Create a single still-image prompt featuring Eevee in an obscure, everyday situation that is cute, funny, and lightly perilous — the danger is only suggested/approaching, not imminent. Nothing bad happens. Also produce a catchy YouTube Shorts-ready Title and Description for the video we’ll make from this image. Title must include 2–4 hashtags about the theme and always #EeveesSong #CutePokémon. Title should be no more then 99 characters.\n\nINPUTS (optional)\n\nPAST_THEMES (array of strings): {{ $json.pastThemes }}\n\nDIVERSITY MEMORY\nConsider PAST_THEMES (last 10). Avoid conceptual overlap; if unavoidable, change angle, setting, time-of-day, or aesthetic.\n\nShow subtle physics tells: early motion blur, indicator lights blinking, first droplets/steam puffs, a wheel barely unseated, airflow teasing fur.\n\nMake the safe gap obvious: the hazard is several feet away; clearly no contact soon.\n\nKeep tone playful; no fear, distress, or impact.\n\nHARD RULES\n\nPortrait 9:16, high detail, sharp focus, shallow depth of field.\n\nNo text/logos/watermarks/UI (Very important).\n\nKeep “Eevee” on-model: expressive eyes, perky ears, small paws, fluffy tail, clumsy.\n\nOne frame only; real-life scale props.\n\nCURATED POOLS (use when fields missing)\nSTYLE (default): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur.\n\nLOCATION — generate a concise new phrase (≤6 words):\n\nRealistic, non-specific, varied (indoor/outdoor/retail/nature/industrial/kitchen/jobs/food/gym/events/hikes/forests/bakery), with time-of-day/weather/crowd variety, and not near-duplicate of PAST_THEMES.\n\nMust include an action verb that signals onset/approach.\n\nSFW and reversible; no brands or instructions. \n\nMOOD — 2–4 words (e.g., “wide-eyed wonder”, “playful curiosity”, “mildly alarmed, cheerful”), clumsy. Vary across runs. “oversized round-almond eyes, large iris, wide pupil, baby-animal proportions”\n\nOBJECTS_IN_SCENE - Include objects that eevee can react with in the scene. The objects should be  as I need to include more physics.\n\nPROMPT CONSTRUCTION (what the image model should render)\n\nEevee’s pose/expression/micro-action (curious, cheerful): e.g., “Eevee mid-step, ears perked, tail puffed, curious blink, \nObjects around should be a pile of smaller to mid size objects. And select one that Eevee interacts with.\n\nThe LOCATION with 2–3 grounded props (e.g., wet-floor sign, ticket kiosk, warning stripe, steam vent, food, bakery, food ).\n\nSTYLE + lighting: soft warm key from camera-left; cool rim from back-right; portrait 50–85mm look; shallow DOF; clean background; subtle filmic grain; gentle bloom.\n\nRANDOM SEED FOR GENERATION: {{ (Math.floor(Math.random()*9000000000)+10000000)+ $now.toMillis() >>> 0 }}",
         "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        -96,
-        1824
+        -240,
+        2400
       ],
       "id": "df3e0a4b-71ae-4ad0-8ce5-58958fa496c8",
       "name": "Theme clanker"
@@ -493,8 +493,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -672,
-        2352
+        -976,
+        2912
       ],
       "id": "e7ca52c4-b0ad-4269-86b8-f924cca88095",
       "name": "Request create song",
@@ -533,8 +533,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        640,
-        2352
+        368,
+        2912
       ],
       "id": "e7d6a94c-a172-4490-9a5d-0f0c12324ba0",
       "name": "Upload file1",
@@ -559,8 +559,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -384,
-        1520
+        -976,
+        2112
       ],
       "id": "f23a0ab3-2c35-48a7-9b32-3c9acb0a7e11",
       "name": "Download file",
@@ -588,8 +588,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        448,
-        2352
+        144,
+        2912
       ],
       "id": "3049c5d4-a841-40fd-be24-c70454b5460d",
       "name": "Download songs",
@@ -606,8 +606,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "typeVersion": 1.1,
       "position": [
-        1808,
-        3152
+        -624,
+        4624
       ],
       "id": "a997e23d-4a01-48f9-b07b-febe452ec3dd",
       "name": "Think"
@@ -617,8 +617,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "typeVersion": 1.1,
       "position": [
-        2160,
-        1472
+        -848,
+        1904
       ],
       "id": "55d62c9b-4ce0-499d-9c32-34765bc527b6",
       "name": "Think1"
@@ -636,8 +636,8 @@
       "name": "OpenAI Chat Model4",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "position": [
-        896,
-        2848
+        -976,
+        4096
       ],
       "typeVersion": 1.2,
       "credentials": {
@@ -653,8 +653,8 @@
       "name": "Think3",
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "position": [
-        1024,
-        2848
+        -848,
+        4096
       ],
       "typeVersion": 1
     },
@@ -666,8 +666,8 @@
       "name": "Structured Output Parser4",
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "position": [
-        1152,
-        2848
+        -720,
+        4096
       ],
       "typeVersion": 1.3
     },
@@ -688,8 +688,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1536,
-        2928
+        -976,
+        4400
       ],
       "id": "7498f052-6830-4e23-a571-86b0b9670719",
       "name": "Edit Fields1"
@@ -702,8 +702,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2608,
-        2464
+        144,
+        3456
       ],
       "id": "e187938d-de45-495c-b719-2bdff899d731",
       "name": "Wait",
@@ -729,8 +729,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2832,
-        2480
+        368,
+        3376
       ],
       "id": "a6b8c539-4ef8-4f28-a20a-968eeb45efca",
       "name": "HTTP Request2",
@@ -769,8 +769,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        3056,
-        2480
+        592,
+        3456
       ],
       "id": "4edac245-d177-460d-b9dd-83365e34fccd",
       "name": "If1"
@@ -783,8 +783,8 @@
       "name": "Format Prompt",
       "type": "n8n-nodes-base.code",
       "position": [
-        1280,
-        2624
+        -512,
+        3968
       ],
       "typeVersion": 2
     },
@@ -816,8 +816,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -384,
-        1296
+        -976,
+        1232
       ],
       "id": "acb5af24-081d-42ae-8bc5-3a74f8b28a98",
       "name": "HTTP Request3",
@@ -836,8 +836,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1488,
-        2576
+        -976,
+        3552
       ],
       "id": "40181e08-3490-4ce7-8b0b-f24848117e7a",
       "name": "HTTP Request4"
@@ -849,8 +849,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1712,
-        2576
+        -752,
+        3552
       ],
       "id": "3e1a1f91-61ab-4f2f-8638-85b2acc0d961",
       "name": "Code in JavaScript2"
@@ -860,8 +860,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        3616,
-        2496
+        1040,
+        3360
       ],
       "id": "9634e4fa-28f4-47e8-b94c-89ecb037ce99",
       "name": "No Operation, do nothing"
@@ -894,8 +894,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        2384,
-        2576
+        -80,
+        3552
       ],
       "id": "1d470c66-be56-44a2-b4b6-cd80a7f395de",
       "name": "If2"
@@ -923,8 +923,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        2608,
-        2672
+        144,
+        3648
       ],
       "id": "ff83eb4e-e50e-4174-b8fc-2370df451f43",
       "name": "Send a message",
@@ -964,8 +964,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1936,
-        2576
+        -528,
+        3552
       ],
       "id": "eb78dd1f-b05e-4cf1-93dc-a39bff620f11",
       "name": "Upload image to kei",
@@ -990,8 +990,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2160,
-        2576
+        -304,
+        3552
       ],
       "id": "4c21da4b-0c7d-40b2-97f1-4862c1d44ebb",
       "name": "Post request to generate video",
@@ -1030,8 +1030,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        3280,
-        2480
+        816,
+        3456
       ],
       "id": "f5913901-7a20-452d-a4cc-8185272737e4",
       "name": "If3"
@@ -1059,8 +1059,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3584,
-        2752
+        1040,
+        3552
       ],
       "id": "647c6bdc-a756-4f23-9f21-e3ced69174ac",
       "name": "Send a message1",
@@ -1085,8 +1085,8 @@
       "name": "Generate Video Script Clanker",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        944,
-        2624
+        -928,
+        3872
       ],
       "typeVersion": 2
     },
@@ -1116,8 +1116,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3760,
-        2480
+        1264,
+        3360
       ],
       "id": "8c1f198a-74a0-4bfd-8cba-523963ae6dc6",
       "name": "HTTP Request"
@@ -1132,8 +1132,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1728,
-        2928
+        -704,
+        4400
       ],
       "id": "69f7078c-cda9-4408-b86c-0b3a40cb0703",
       "name": "Video script timing clanker",
@@ -1153,8 +1153,8 @@
       "name": "OpenAI Chat Model5",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "position": [
-        2800,
-        2000
+        3056,
+        2736
       ],
       "typeVersion": 1.2,
       "credentials": {
@@ -1170,8 +1170,8 @@
       "name": "Think4",
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "position": [
-        2944,
-        2016
+        3184,
+        2736
       ],
       "typeVersion": 1
     },
@@ -1183,15 +1183,15 @@
       "name": "Structured Output Parser5",
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "position": [
-        3072,
-        2016
+        3312,
+        2736
       ],
       "typeVersion": 1.3
     },
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Role:\nYou are a senior prompt-engineer for Google VEO-3. From the provided META_PROMPT, produce a short-form vertical video prompt for a single image input (the subject must remain visually consistent with the image). Output one cohesive prompt (no on-screen text). Think about it.\n\nGlobal constraints:\n\nAspect: 9:16 vertical. Hyper-adorable, wholesome. No harm, no impact; CUT before contact.\n\nSubject: Eevee always faces the camera; Eevee vocalizations are musical—they form a simple melody and percussive pattern. No captions.\n\nReal-world physics only. Everything life-sized, grounded, and plausible for LOCATION.\n\nMotion must be clear in THREE layers (amplified):\n\nSubject (primary action loop): crisp, beat-locked micro-moves with overlapping motion: ear flicks (small), head tilts (alternating left/right), tiny hops (heel-toe), paw taps (accented on downbeats), tail swishes (offbeats), quick sniff with nose wiggle, soft blinks with eyelid follow-through. Add secondary motion: fur settles, tail inertia, ear bounce.\n\nCamera (supporting choreography): gentle 5–8% dolly-in plus sub-percent handheld sway (X/Y), slight parallax on background props, one micro-arc (≤5°) by end of bar 3, and two controlled focus events: short rack (Eevee → hazard → Eevee) and a 100–150 ms micro-breath refocus after the hop.\n\nEnvironment (continuous kinetics): at least two moving elements that match LOCATION (e.g., belt inching, doors whooshing, cart wheels rolling, indicator LEDs ticking, mop bucket drifting). Add micro-particles: motes in light cone, mist/steam puffs, crumbs or droplets depending on setting. Include tiny bounce/roll dynamics and subtle reflections in glossy surfaces.\n\nHazard (staged for near-miss tension):\n\nEnters subtly from edge or occlusion, eases-in (S-curve), gains clarity via parallax and rack-focus, approaches on a believable path behind Eevee, then stalls a whisker away.\n\nMust be real-world (doors/escalators/belts/wheels/steam/weather/robot/crowd/vehicle). Include visible motion cues: wheel jitter, belt teeth ticking, door mid-swing, brake light glow, steam vent burp, sprinkler spit.\n\nCUT 0.2–0.4 s before contact; hold Eevee safe and cheerful. No startle, no distress.\n\nLighting & optics:\n\nPractical, location-true (window/fluorescent/neon/overhead). Soft key (camera-left) + faint cool rim (back-right). Natural WB.\n\nLens: 35–50 mm eq., f/2.0–f/2.8, realistic bokeh (cat-eye edges allowed), mild sensor grain, tiny breathing on focus pulls.\n\nPreserve highlights; subtle bloom; no CGI sheen.\n\nUse the given inputs when present; otherwise infer sensible values from META_PROMPT.\n\nInputs:\nMETA_PROMPT: {{ $('Theme clanker').item.json.output.prompt }}\nLOCATION: {{ $('Theme clanker').item.json.output.location }}\nHAZARD: {{ $('Theme clanker').item.json.output.hazard }}\nMOOD: {{ $('Theme clanker').item.json.output.mood }}\nAUDIO_URL (optional): if provided, sync to its downbeats; otherwise generate an internal beat grid (see “Song & Sound”).\n\nSTYLE (if missing, infer from META_PROMPT): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur.\n\nNow produce the final VEO-3 prompt with the following sections (plain text, no JSON):\n\nSubject:\nEevee, facing camera, consistent with the reference image. Beat-locked micro-loop: paw taps (downbeats), tail swishes (offbeats), alternating head tilts on fills, ear flick on pickup, tiny hop as the loop’s button; layered secondary motion (fur settle, ear rebound).\n\nWhat’s Happening (one crisp situation):\nA readable, rhythmic loop that fits LOCATION and MOOD: Eevee keeps time with paw taps, does curious sniffs between beats, adds a tiny hop into the last downbeat; environmental kinetics and the creeping hazard escalate tension while remaining playful; loopable ending state returns to idle pose.\n\nSTYLE:\n[Use STYLE above or infer from META_PROMPT. Include: realistic fur detail, gentle bloom, subtle film grain, warm key + cool rim.]\n\nLOCATION:\n[Use provided LOCATION or infer a specific, mundane real-world spot with two natural moving props that also make sound (e.g., belt rattle + door whoosh, cart wheel chatter + indicator click). Include 1–2 grounded set details (warning stripe, wet-floor sign, ticket kiosk, steam vent, scuff marks).]\n\nHAZARD (near-miss, behind Eevee):\n[Use provided HAZARD or infer a benign creeping danger consistent with LOCATION. Path plan: appears as soft shape → edges sharpen with parallax → partial occlusion behind Eevee → aligns to a safe stop inches short; visible motion cues (e.g., belt teeth ticking, door mid-swing, wheel micro-skid), light micro-particles (mist/sparks/crumbs) as appropriate. CUT before contact.]\n\nMOOD:\n[Use provided MOOD or pick 1–2: playful curiosity, wide-eyed wonder, mildly alarmed but cheerful.]\n\nCamera:\nGentle 5–8% dolly-in with micro sway; slight 3–5° arc by bar 3; parallax emphasized through foreground prop pass; two focus events: (1) soft rack 250–350 ms (Eevee → hazard → Eevee) at mid-loop, (2) 120 ms micro-breath refocus after the hop to settle on Eevee’s eyes.\n\nSong & Sound (focus on Eevee):\n\nIf AUDIO_URL is present: detect tempo; lock paw taps to downbeats; tail swish to offbeats; place Eevee vocal “calls” on bar starts and “responses” on bar ends; align the tiny hop with a fill or bar-end drop.\n\nIf no audio: create a 4-bar loop at ~140 BPM (4/4) with a light side-chain feel.\n\nEevee vocal palette (cute, musical, no lyrics): “vee”, “vi”, “vii”, “ee”, “ui”, soft “mmm” hums. Short notes (200–400 ms) + one longer (600–800 ms) toward the end.\n\nCall & response: Eevee “vee!” on ~2.2 s; environment answers (door chime / belt click / cart rattle tick).\n\nFoley (diegetic, low): pick 2–3 that match LOCATION (e.g., conveyor chatter, sliding-door whoosh, wheel rattle, coin clink, ticket flutter, LED blink beeps, steam puff).\n\nMix notes: Eevee vocals foreground and warm; Foley −14 to −18 LUFS relative; small-room reverb (0.6–0.9 s); side-chain Foley −2 to −3 dB under vocal peaks.\n\nBeat-by-beat (8 seconds, motion-rich):\n\n0.0–0.6 s (pickup): Light inhale of room tone; micro head tilt; ear flick; tiny dust motes cross the key light. Hazard is only a defocused shape.\n\n0.6–2.0 s (Bar 1): Establish Eevee center-frame. Paw taps on beats 1 & 3; tail swish on 2 & 4; micro dolly-in begins; background prop #1 moves steadily (belt inching / door starting to glide). Eevee “vee!” at ~2.2 s (end of bar).\n\n2.0–4.0 s (Bar 2): Hazard enters from edge/occlusion; parallax increases; indicator LED ticks every beat. Subtle handheld sway. Eevee blinks on beat 3; quick sniff on beat 4; environment answers with soft click/chime.\n\n4.0–5.0 s (Bar 3A): Rack-focus 300 ms to hazard: reveal motion cue (wheel jitter / door mid-swing / belt teeth). Mist/crumbs/suds visible; brief motion blur.\n\n5.0–6.0 s (Bar 3B): Rack back to Eevee; head tilt counter-side; paw taps continue; camera adds micro arc; hazard creeps closer (clearer edges).\n\n6.0–7.4 s (Bar 4A): Tension rises; brake light glow / door narrowing / escalator comb approaching; Eevee adds two-note hum on downbeats; tail swish faster (eighths) for a bar.\n\n7.4–7.8 s (Bar 4B climax): Tiny hop on beat 4; micro-breath refocus (120 ms) snaps to Eevee’s eyes; Eevee holds cheerful “ee-vee~” (~700 ms). Hazard stops a whisker away—visible safe gap.\n\n7.8–8.0 s (Button): CUT cleanly before any contact; hold Eevee bright and safe; Foley tails naturally.\n\nSafety & content rules:\n\nNo lyrics, no words beyond Eevee-like vocalizations. Wholesome, playful.\n\nKeep levels comfortable; no harsh transients; no impact sounds.\n\nAll motion and sounds must be plausible for LOCATION; hazard is benign and reversible; always cut before contact.",
+        "text": "=You are a senior prompt-engineer for Google VEO-3. Produce a short-form vertical video prompt for a single image input, preserving visual continuity (subject, styling, props). Output one cohesive prompt (no on-screen text). Final prompt should include mention of eevee sounds and music in the background. Eevee should be active and not standing around. Objects should be acitve around her.\n\nContinuity: Match Eevee’s look, fur, lighting vibe, LOCATION, props, and time-of-day indicated in image.\n\nEevee notices the one of the OBEJCTS infront of her and plays with it or pushes it away or reacts in cute/funny way or uses it for her entertainment or tries to bite it. There needs to be action. Eevee is a clumsy creature.\n\nGlobal constraints:\n\nHyper-adorable, wholesome. Contact with object.\nSubject: Eevee faces camera; Cute lo-fi song should be playing in the background. Eevee should make cute fox like noises.\nReal-world physics; life-sized; LOCATION must be plausible.\nThree motion layers (amplified): Subject / Camera / Environment as specified below. Eevee needs to be safe at all times. Camera can move throu the space like someone is recording her. Slight camera shake is encouraged. Prompt cant contain new lines I need it to be json ready.\n\ninclude camera work:\nGentle 5–8% dolly-in with micro handheld sway; 3–5° micro-arc by bar 3; foreground prop pass for parallax. Two focus events: (1) soft rack 250–350 ms (Eevee → object → Eevee) to sell the play exchange; (2) 120 ms micro-breath refocus after the hop to lock on Eevee’s eyes.\n\nInputs\n\nMOOD: {{ $('Theme clanker').item.json.output.mood }}\nOBEJCTS: {{ $('Theme clanker').item.json.output.objects_in_scene }}\nSTYLE (fallback if missing): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur.",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "="
@@ -1201,8 +1201,8 @@
       "name": "Generate Video Script Clanker1",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        2864,
-        1808
+        3136,
+        2496
       ],
       "typeVersion": 2
     },
@@ -1221,8 +1221,8 @@
       "name": "NanoBanana: Create Image",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        1104,
-        1808
+        832,
+        2512
       ],
       "typeVersion": 4.2,
       "credentials": {
@@ -1238,14 +1238,14 @@
     },
     {
       "parameters": {
-        "amount": 30
+        "amount": 15
       },
       "id": "4688b83a-e094-41f2-a732-5d450bce0597",
       "name": "Wait for Image Edit",
       "type": "n8n-nodes-base.wait",
       "position": [
-        1280,
-        1808
+        1056,
+        2512
       ],
       "webhookId": "df52d997-45c4-431f-bdf6-89dd25027b5b",
       "typeVersion": 1.1
@@ -1270,8 +1270,8 @@
       "name": "Download Edited Image",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        1536,
-        1808
+        1264,
+        2496
       ],
       "typeVersion": 4.2,
       "credentials": {
@@ -1305,8 +1305,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2304,
-        1808
+        2608,
+        2512
       ],
       "id": "270347d9-370b-4b60-8e63-4733a68c2b03",
       "name": "Upload file",
@@ -1345,8 +1345,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2656,
-        1808
+        2832,
+        2512
       ],
       "id": "9c567528-a84b-4f0e-b6de-3111884cd7b7",
       "name": "Upload image to kei1",
@@ -1364,8 +1364,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2096,
-        2432
+        -976,
+        3136
       ],
       "id": "424964b1-d9f3-443b-9045-90777f30a793",
       "name": "Code in JavaScript3",
@@ -1379,43 +1379,12 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        3520,
-        1696
+        3968,
+        2416
       ],
       "id": "d162dbbb-7949-4f71-8a41-15af062c7f81",
       "name": "Wait1",
       "webhookId": "1c427600-ac0c-4f7c-8f6c-c9fa999f472d"
-    },
-    {
-      "parameters": {
-        "url": "https://api.kie.ai/api/v1/veo/record-info",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "taskId",
-              "value": "={{ $json.data.taskId }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        3744,
-        1632
-      ],
-      "id": "47c136a1-c757-4479-b04b-651849b21faa",
-      "name": "HTTP Request5",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "MpyAwaVM7w2r7fsp",
-          "name": "kei"
-        }
-      }
     },
     {
       "parameters": {
@@ -1444,8 +1413,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        3968,
-        1712
+        4416,
+        2416
       ],
       "id": "2adc4b2c-2a4b-4088-8152-5d626572e73c",
       "name": "If4"
@@ -1478,8 +1447,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        3296,
-        1808
+        3744,
+        2512
       ],
       "id": "c8d1a4a3-8470-4a32-b51a-fa2137e58560",
       "name": "If5"
@@ -1507,8 +1476,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        3520,
-        1904
+        3968,
+        2608
       ],
       "id": "9f2ce18a-f6c6-4d26-bfc9-3f35fbcf572e",
       "name": "Send a message2",
@@ -1547,15 +1516,15 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        4176,
-        1728
+        4640,
+        2416
       ],
       "id": "bd295354-36d7-4fb8-a426-58f2cc17b483",
       "name": "If6"
     },
     {
       "parameters": {
-        "url": "={{ $json.data.resultJson.parseJson().resultUrls.last() }}",
+        "url": "={{ $('Download Edited Image').item.json.data.resultJson.parseJson().resultUrls[0] }}",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "options": {}
@@ -1563,8 +1532,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1776,
-        1808
+        2192,
+        2496
       ],
       "id": "6bc47382-2cd7-435c-81b8-74c3d75690b4",
       "name": "Dowload nano banana image from kei",
@@ -1574,17 +1543,6 @@
           "name": "kei"
         }
       }
-    },
-    {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.toolThink",
-      "typeVersion": 1.1,
-      "position": [
-        -16,
-        2064
-      ],
-      "id": "0036b18e-3551-4cea-b1ca-43d7c9e94eed",
-      "name": "Think2"
     },
     {
       "parameters": {
@@ -1602,8 +1560,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4432,
-        1712
+        4864,
+        2416
       ],
       "id": "e3e872f3-a69e-4571-beeb-9cafe7f02b1d",
       "name": "Request video info",
@@ -1699,8 +1657,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4896,
-        1712
+        5312,
+        2416
       ],
       "id": "7907ba5f-3943-4012-859f-7725f77f9991",
       "name": "Call 'Automate Video Content Posting to Multiple Social Platforms with Postiz'"
@@ -1725,8 +1683,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        4640,
-        1712
+        5088,
+        2416
       ],
       "id": "6fda237f-1d92-4b7f-8ca6-53b32375dc4d",
       "name": "Upload video",
@@ -1745,8 +1703,8 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -80,
-        1376
+        -976,
+        1456
       ],
       "id": "6abbe608-f0ec-45df-855f-2a4d222335e0",
       "name": "Convert to File"
@@ -1758,8 +1716,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2032,
-        1808
+        2384,
+        2512
       ],
       "id": "39832b38-e901-4fe8-918e-f1b4b8793063",
       "name": "Code in JavaScript5"
@@ -1775,14 +1733,14 @@
           "cachedResultName": "Themes",
           "cachedResultUrl": "https://www.notion.so/27358cd71b1580e5965fd144b72c15b4"
         },
-        "limit": 100,
+        "limit": 10,
         "options": {}
       },
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        -624,
-        1824
+        -752,
+        2512
       ],
       "id": "03188629-3bd1-4b73-9741-bf24b2e18ed7",
       "name": "Get many database pages",
@@ -1800,8 +1758,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        144,
-        1376
+        -752,
+        1456
       ],
       "id": "7af06d5b-35ba-43e8-8b61-f693e98917ee",
       "name": "Code in JavaScript4"
@@ -1827,8 +1785,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        368,
-        1376
+        -528,
+        1456
       ],
       "id": "cdca4a36-da9b-46f5-9a7e-20b563788047",
       "name": "Upload file2",
@@ -1847,14 +1805,14 @@
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"prompt\":\"{{ $('Theme clanker').item.json.output.prompt }}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
+        "jsonBody": "={\n  \"prompt\":\"{{ $json.output.final_prompt }}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        3152,
-        1808
+        3520,
+        2512
       ],
       "id": "8bba5e9a-2fab-47df-a6f6-379daa93bbf7",
       "name": "Post request to generate video1",
@@ -1864,6 +1822,181 @@
           "name": "kei"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        -176,
+        2592
+      ],
+      "id": "8efc5615-30b9-49ca-93e4-eb12e2f6ab49",
+      "name": "Think2"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendAndWait",
+        "guildId": {
+          "__rl": true,
+          "value": "846456961419444304",
+          "mode": "list",
+          "cachedResultName": "Tomasiknos diary",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1417600388479189136",
+          "mode": "list",
+          "cachedResultName": "videos-notification",
+          "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417600388479189136"
+        },
+        "message": "=📹 **New Video Concept Created!**  \n👉 [{{ $('Theme clanker').item.json.output.title }}]({{ $json.data.resultJson.parseJson().resultUrls }})  \n{{ $json.data.resultJson.parseJson().resultUrls }}\nDo you approve? ✅❌\n------------------------",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1696,
+        2496
+      ],
+      "id": "9a68dcf3-b98b-4202-a1f2-ef58a6f21826",
+      "name": "Send message and wait for response",
+      "webhookId": "c783b4c9-cfd5-48a3-8182-e749b01daf93",
+      "credentials": {
+        "discordBotApi": {
+          "id": "kODEUwvmo26ApL4g",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "209f3354-931f-46a0-8b8e-10b2337200ce",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1920,
+        2496
+      ],
+      "id": "f3b1f9ec-6ca0-4d86-bc3d-e1359ff52a5b",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/veo/record-info",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4192,
+        2336
+      ],
+      "id": "47c136a1-c757-4479-b04b-651849b21faa",
+      "name": "Check video status",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "MpyAwaVM7w2r7fsp",
+          "name": "kei"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d8cacba-15ca-4a89-b063-d3093d9818b0",
+              "leftValue": "={{ $json.data.state }}",
+              "rightValue": "generating",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        2496
+      ],
+      "id": "a0aede51-868a-4116-8b99-519e723dd5cf",
+      "name": "is image generating"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12
+            },
+            {
+              "triggerAtHour": 16,
+              "triggerAtMinute": 34
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -992,
+        2512
+      ],
+      "id": "76b191ad-f445-471b-a1e3-647a17d2500d",
+      "name": "Schedule Trigger"
     }
   ],
   "connections": {
@@ -1909,13 +2042,7 @@
     },
     "When clicking ‘Execute workflow’": {
       "main": [
-        [
-          {
-            "node": "Get many database pages",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "OpenAI Chat Model": {
@@ -2381,7 +2508,7 @@
       "main": [
         [
           {
-            "node": "Dowload nano banana image from kei",
+            "node": "is image generating",
             "type": "main",
             "index": 0
           }
@@ -2419,18 +2546,7 @@
       "main": [
         [
           {
-            "node": "HTTP Request5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request5": {
-      "main": [
-        [
-          {
-            "node": "If4",
+            "node": "Check video status",
             "type": "main",
             "index": 0
           }
@@ -2479,17 +2595,6 @@
           {
             "node": "Code in JavaScript5",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Think2": {
-      "ai_tool": [
-        [
-          {
-            "node": "Theme clanker",
-            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -2587,12 +2692,98 @@
           }
         ]
       ]
+    },
+    "Think2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Theme clanker",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message and wait for response": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "Dowload nano banana image from kei",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many database pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check video status": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is image generating": {
+      "main": [
+        [
+          {
+            "node": "Wait for Image Edit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send message and wait for response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many database pages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "0ojzXCM1qIQjMHta"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": {
     "templateId": "6046",
     "templateCredsSetupCompleted": true
@@ -2638,8 +2829,8 @@
       }
     ]
   },
-  "versionId": "9495a518-8b43-40fa-a2bc-2e09f785c1d7",
-  "triggerCount": 0,
+  "versionId": "f440d21e-492a-48e6-9feb-224c1c13bbcd",
+  "triggerCount": 1,
   "shared": [
     {
       "createdAt": "2025-09-20T21:46:35.225Z",
