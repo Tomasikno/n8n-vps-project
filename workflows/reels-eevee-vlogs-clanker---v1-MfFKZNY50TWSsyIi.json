@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-23T14:15:21.769Z",
-  "updatedAt": "2025-09-23T20:52:15.000Z",
+  "updatedAt": "2025-09-25T10:44:04.000Z",
   "id": "MfFKZNY50TWSsyIi",
   "name": "Reels eevee vlogs clanker - v1",
   "active": false,
@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -1008,
-        2448
+        -1216,
+        2416
       ],
       "id": "da86a11b-f5b2-49d9-89d3-8038bebc6139",
       "name": "When clicking ‘Execute workflow’"
@@ -83,7 +83,8 @@
           "id": "lDq6KxxGETipZmXY",
           "name": "Notion account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -148,7 +149,7 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"style\": \"string\",\n  \"location\": \"string\",\n  \"mood\": \"string\",\n  \"aspect_ratio\": \"9:16\",\n  \"title\": \"title\",\n  \"description\": \"desc\",\n  \"what_eevee_is_doing\": \"string with actions\",\n  \"tags\": [\"pokemon\", \"eevee\", \"cute\"],\n  \"safety_rule\": \"Imply danger only; freeze BEFORE any contact; wholesome and kid-safe.\",\n  \"negative_prompt\": \"text, captions, UI, logos, watermark, gore, injury, violence, distress, hypersexualization, extra limbs, deformed eyes, poor anatomy, low-res, heavy blur, glitches, jpeg artifacts\",\n  \"prompt\": \"1–2 sentences describing the exact shot to render, including Eevee’s pose/expression, the chosen LOCATION and props, the HAZARD present but not touching, STYLE cues, portrait look (50–85mm), soft warm key + cool rim, shallow depth of field, no text.\"\n}\n"
+        "jsonSchemaExample": "{\n  \"style\": \"string\",\n  \"location\": \"string\",\n  \"mood\": \"string\",\n  \"aspect_ratio\": \"9:16\",\n  \"title\": \"title\",\n  \"description\": \"desc\",\n  \"tags\": [\"pokemon\", \"eevee\", \"cute\"],\n  \"negative_prompt\": \"text, captions, UI, logos, watermark, gore, injury, violence, distress, hypersexualization, extra limbs, deformed eyes, poor anatomy, low-res, heavy blur, glitches, jpeg artifacts\",\n  \"prompt\": \"sentences describing the exact shot to render.\"\n}\n"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
@@ -162,9 +163,11 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=ROLE\nYou are a prompt-engineer for an image model. Generate one still-image prompt of Eevee while playing a sport straight toward the camera (action aimed at the lens), no speech, only cute Eevee sounds in the imagined video. Also output a YouTube Shorts Title + Description for the video we’ll cut from this image.\n\nINPUTS\nPAST_THEMES: {{ $json.pastThemes }}\n\nDIVERSITY MEMORY\nStudy PAST_THEMES (last 10). Avoid conceptual overlap. If unavoidable, change angle, setting, time-of-day, weather, or aesthetic.\n\nGLOBAL TONE & SAFETY\nPlayful, cozy, curious. Subtle physics tells: early motion blur, indicator LEDs blinking, mist/drizzle first droplets, wheel barely unseated, airflow ruffling fur. Clear toward-camera action with a safe stopping gap.\n\nHARD RULES\nPortrait 9:16, one frame only, high detail, sharp focus, shallow DOF.\nNo text/logos/watermarks/UI.\nEevee on-model: expressive eyes, perky ears, small paws, fluffy tail, cute.\nReal-life-scale props only.\nSFW and reversible; no brands.\n\nVLOG-SPECIFIC RULES\nLens look: wide (~24–28 mm equiv)\nLighting reads natural: soft warm key from camera-left; cool rim from back-right (e.g., window vs. street/cooler).\nKeep the background readable (clean, realistic), with depth cues and mild bokeh.\nSports blocking: Eevee’s movement, gaze, and primary sport object are oriented along the camera axis, advancing toward the lens; implied momentum but stops safely short of contact.\n\nCURATED POOLS\nSTYLE (default): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur, CG-to-photoreal look.\nLOCATION (generate a concise new phrase ≤6 words): realistic, non-specific, varied (indoor/outdoor/office/nature/industrial/kitchen/jobs/food/gym/events/hikes/forests/meadow), include time-of-day/weather/crowd variety, and not a near-duplicate of PAST_THEMES. Add 2–3 grounded props.\nMOOD (2–4 words): e.g., wide-eyed wonder; playful curiosity; mildly alarmed, cheerful; cozy focus.\n\nWHAT_EEVEE_IS_DOING (pick 1): Football, Basketball, Cricket, Tennis, Volleyball, TableTennis, Baseball, American Football, Rugby Union, Golf, Badminton, Ice Hockey, Field Hockey, Boxing, Mixed Martial Arts (MMA), Athletics (Track & Field), Swimming, Road Cycling, Gymnastics (Artistic), Wrestling, Judo, Karate, Taekwondo, Fencing, Weightlifting, Triathlon, Alpine Skiing, Snowboarding, Biathlon, Speed Skating, Figure Skating, Surfing, Skateboarding, Handball, Water Polo, Snooker, Darts, Formula 1 (Motorsport), MotoGP, Lacrosse, Softball, Netball, Squash, Mountain Biking, Polo, Rowing, Canoe/Kayak Sprint, Beach Volleyball, Gaelic Football, Esports.\n\nPROMPT CONSTRUCTION (what the image model should render)\nsingle paragraph, present tense, no lists, including: Eevee’s sport & micro-action (curious/cheerful) playing the chosen sport toward the camera with a clear safe gap (near-miss energy); LOCATION phrase (≤6 words) + 2–3 grounded props (realistic scale); STYLE + lighting from VLOG-SPECIFIC + STYLE pool (soft warm key camera-left; cool rim back-right; selfie wide ~24–28 mm; shallow DOF; clean, realistic background; subtle filmic grain; gentle bloom; realistic fur); MOOD (2–4 words); WHAT_EEVEE_IS_DOING integrated naturally (one SPORT from the pool). Strictly no UI/text/brand names.\n\nYOUTUBE METADATA\nTITLE (≤99 chars): Punchy and readable.\nDESCRIPTION: 1–2 sentence hook about the vlog moment (no speech; only cute Eevee sounds), then a short tag block. Add 1 sport-relevant hashtag plus #CutePokémon #shors #foryou #viral, include emojis.",
+        "text": "=GOAL\nProduce a smooth, realistic, hyper-adorable vlog clip: Eevee faces the camera, holds a selfie stick at arm’s length, makes cute Eevee noises (no speech), moves through a relatable location, and performs a simple daily activity.\n\nINPUTS\n\nMOOD:  playful | curious | cozy | energetic | morning-sleepy | evening-chill \n\nLOCATION: kitchen | park path  | cozy bedroom | meadow | riverside walkway | café patio | apartment hallway\n\nACTIVITY: making breakfast | watering a plant | choosing a snack | waiting for tram | folding a tiny scarf | unboxing mail | doing light stretches | tasting a strawberry | organizing bag | checking weather\n\nTIME_OF_DAY: golden morning | bright noon | blue hour | night with warm lamps\n\nWEATHER (if outdoors): clear | soft overcast | gentle drizzle | light snow flurries \n\nSTYLE:  cute, cinematic, soft light, cozy, colorful, airy, realistic fur, gentle bloom, filmic grain, warm tones \n\nBPM/PACE (optional feel only):  mellow | mid-tempo | upbeat\n\nRANDOM_SEED: {{ (Math.floor(Math.random()*9000000000)+10000000) }}\n\nGLOBAL CONSTRAINTS\n\nNo text/logos/watermarks/UI. PG-friendly.\n\nSELFIE-STICK / CAMERA LANGUAGE (must-have)\n\nArm-length composition; slight wide-angle perspective; gentle handheld sway.\n\nMicro lens breathing on focus pulls; faint barrel distortion at edges.\n\nSubtle rolling-shutter wobble on quick turns; mild exposure auto-adjust when panning across windows/lights.\n\nOccasional shadow of selfie stick on ground/wall; tiny wrist rotations while walking.\n\nOne clean camera move: either slow dolly-in (Eevee leans toward lens) or quarter-orbit while standing.\n\nMOTION LAYERS (make each visible)\n\nSubject (Eevee): ear flicks, head tilts, soft blinks, tiny hops/steps, tail swishes, brief sniff at lens, one cute nose boop toward camera.\n\nCamera (selfie POV): gentle sway, micro rack-focus (Eevee → prop → Eevee), small yaw/pitch as wrist adjusts.\n\nEnvironment: items that naturally move for the LOCATION (e.g., kettle steam, tram arrival lights blinking, washing machines rotating, leaves fluttering, shop door chime swing, sun motes/dust).\n\nLIGHTING & MATERIALITY\n\nSoft, natural key light; believable bounce; rim light on fur; subtle specular highlights on eyes; shallow DOF for close-ups.\n\nReal-world textures: plush yet realistic fur clumping, paw pads, fabric weave, wood grain, metal sheen on selfie stick clamp.\n\nAUDIO NOTES (non-verbal)\n\nEevee: short, cute fox-like chirps/“vee-vee” hums synced to actions (tilt, hop, boop).\n\nAmbience: room tone / street hush / distant tram bell / kettle hiss / page flip—very light.\n\nNo music unless very faint tonal bed (optional), no lyrics.\n\nACTION BEATS (pick 3–4, fit within DURATION)\n\nEstablish: Eevee raises selfie stick; looks into lens; soft chirp.\n\nActivity moment: ACTIVITY with clear hand/paw interaction (e.g., taps kettle button, selects snack, waters plant, waves tram card).\nNEGATIVE PROMPTS\nNo text overlays, no UI, no logos/brands, no violence, no falls/collisions, no unrealistic physics (keep weight, inertia, and fur response believable).\n\nOUTPUT FORMAT (what VEO-3 should produce)\n“One cohesive prompt describing a single 9:16 video with: MOOD, LOCATION, ACTIVITY, TIME_OF_DAY, WEATHER (if outdoors), selfie-stick camera language, the three motion layers, the action beats, lighting/materiality, and audio notes, honoring GLOBAL CONSTRAINTS and NEGATIVE PROMPTS. Use natural prose (no lists)”\n\nPARAMETERS (guide the model)\n\nShot: selfie close to chest/face; occasional mid-torso cut-in.\n\nFocal: 18–24mm full-frame equiv (selfie wide).\n\nAperture look: shallow DOF, smooth bokeh.\n\nColor: warm-neutral white balance.\n\nCompression: minimal artifacts; clean motion cadence.",
         "hasOutputParser": true,
-        "options": {}
+        "options": {
+          "systemMessage": "=ROLE\nYou are a prompt-engineer for an image model. Generate one still-image prompt of Eevee while playing a sport straight toward the camera (action aimed at the lens), no speech, only cute Eevee sounds in the imagined video. Also output a YouTube Shorts Title + Description for the video we’ll cut from this image. Output needs to be json ready.\n"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
@@ -189,7 +192,7 @@
       "name": "OpenAI Chat Model5",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "position": [
-        -288,
+        -256,
         3152
       ],
       "typeVersion": 1.2,
@@ -227,10 +230,10 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Eevee is playing {{ $('Theme clanker').item.json.output.what_eevee_is_doing }}. She is cute and clumsy. \n\nGlobal constraints\n\nHyper-adorable, wholesome. Contact with object.\nSubject: Eevee faces camera; Eevee should make cute eevee like noises (ee, eevee, vee, eev), subtle chill music in the background.\nReal-world physics; life-sized; LOCATION must be plausible.\nThree motion layers (amplified): Subject / Camera / Environment as specified below. Eevee needs to be safe at all times. Output needs to be json ready. No empty lines and special chars.\n\nInputs\n\nMOOD: {{ $('Theme clanker').item.json.output.mood }}\nWHAT_EEVEE_IS_DOING:{{ $('Theme clanker').item.json.output.what_eevee_is_doing }}\nSTYLE (fallback if missing): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur.",
+        "text": "=GOAL\nProduce a smooth, realistic, hyper-adorable vlog clip: Eevee faces the camera, holds a selfie stick at arm’s length, makes cute Eevee noises (no speech), moves through a relatable location, and performs a simple daily activity.\n\nINPUTS\n\nMOOD:  playful | curious | cozy | energetic | morning-sleepy | evening-chill \n\nLOCATION: kitchen | park path  | cozy bedroom | meadow | riverside walkway | café patio | apartment hallway\n\nACTIVITY: making breakfast | watering a plant | choosing a snack | waiting for tram | folding a tiny scarf | unboxing mail | doing light stretches | tasting a strawberry | organizing bag | checking weather\n\nTIME_OF_DAY: golden morning | bright noon | blue hour | night with warm lamps\n\nWEATHER (if outdoors): clear | soft overcast | gentle drizzle | light snow flurries \n\nSTYLE:  cute, cinematic, soft light, cozy, colorful, airy, realistic fur, gentle bloom, filmic grain, warm tones \n\nBPM/PACE (optional feel only):  mellow | mid-tempo | upbeat\n\nRANDOM_SEED: {{ (Math.floor(Math.random()*9000000000)+10000000) }}\n\nGLOBAL CONSTRAINTS\n\nAudio: Cute Eevee vocalizations only; natural ambience (no lyrics/voiceover). Subtle foley (paw taps, fabric rustle, zipper click, snack crinkle).\n\nNo text/logos/watermarks/UI. PG-friendly.\n\nContinuity: Eevee stays on-model (proportions, fur color, eye shape, ear tilt, tail). Selfie stick visible occasionally; Eevee’s paw/arm enters frame naturally.\n\nSELFIE-STICK / CAMERA LANGUAGE (must-have)\n\nArm-length composition; slight wide-angle perspective; gentle handheld sway.\n\nMicro lens breathing on focus pulls; faint barrel distortion at edges.\n\nSubtle rolling-shutter wobble on quick turns; mild exposure auto-adjust when panning across windows/lights.\n\nOccasional shadow of selfie stick on ground/wall; tiny wrist rotations while walking.\n\nOne clean camera move: either slow dolly-in (Eevee leans toward lens) or quarter-orbit while standing.\n\nMOTION LAYERS (make each visible)\n\nSubject (Eevee): ear flicks, head tilts, soft blinks, tiny hops/steps, tail swishes, brief sniff at lens, one cute nose boop toward camera.\n\nCamera (selfie POV): gentle sway, micro rack-focus (Eevee → prop → Eevee), small yaw/pitch as wrist adjusts.\n\nEnvironment: items that naturally move for the LOCATION (e.g., kettle steam, tram arrival lights blinking, washing machines rotating, leaves fluttering, shop door chime swing, sun motes/dust).\n\nLIGHTING & MATERIALITY\n\nSoft, natural key light; believable bounce; rim light on fur; subtle specular highlights on eyes; shallow DOF for close-ups.\n\nReal-world textures: plush yet realistic fur clumping, paw pads, fabric weave, wood grain, metal sheen on selfie stick clamp.\n\nAUDIO NOTES (non-verbal)\n\nEevee: short, cute fox-like chirps/“vee-vee” hums synced to actions (tilt, hop, boop).\n\nAmbience: room tone / street hush / distant tram bell / kettle hiss / page flip—very light.\n\nNo music unless very faint tonal bed (optional), no lyrics.\n\nACTION BEATS (pick 3–4, fit within DURATION)\n\nEstablish: Eevee raises selfie stick; looks into lens; soft chirp.\n\nActivity moment: ACTIVITY with clear hand/paw interaction (e.g., taps kettle button, selects snack, waters plant, waves tram card).\n\nPOV flourish: quick lens sniff/boop; auto-exposure breath on a turn; micro rack-focus to prop then back to eyes.\n\nButton/outro: tiny wave or tail swish; shy smile/blink; frame holds on Eevee face.\n\nNEGATIVE PROMPTS\nNo text overlays, no UI, no logos/brands, no violence, no falls/collisions, no unrealistic physics (keep weight, inertia, and fur response believable).\n\nOUTPUT FORMAT (what VEO-3 should produce)\n“One cohesive prompt describing a single 9:16 video with: MOOD, LOCATION, ACTIVITY, TIME_OF_DAY, WEATHER (if outdoors), selfie-stick camera language, the three motion layers, the action beats, lighting/materiality, and audio notes, honoring GLOBAL CONSTRAINTS and NEGATIVE PROMPTS. Use natural prose (no lists)”\n\nPARAMETERS (guide the model)\n\nShot: selfie close to chest/face.\n\nFocal: 18–24mm full-frame equiv (selfie wide).\n\nAperture look: shallow DOF, smooth bokeh.\n\nColor: warm-neutral white balance.",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=You are a senior prompt-engineer for Google VEO-3. Produce a short-form vertical video prompt for a single image input, preserving visual continuity (subject, styling, props). Output one cohesive prompt (no on-screen text). Final prompt should include mention of eevee sounds and music in the background. Eevee should be active and not standing around.\n\nContinuity: Match Eevee’s look, fur, lighting vibe, LOCATION, props, and time-of-day indicated in image."
+          "systemMessage": "=ROLE\nYou are a senior prompt-engineer for Google VEO-3. From the META_PROMPT below, generate a short-form vertical video where Eevee vlogs her daily life using a selfie stick. Output one cohesive prompt (no on-screen text). Only one continuous take (no cuts), single fixed location."
         }
       },
       "id": "9989fdd6-6862-4fcc-bb26-6cef2bdffffc",
@@ -341,7 +344,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -720,
+        -592,
         2960
       ],
       "id": "a4bd3fb5-61d6-4d77-a45a-5ccb08abf978",
@@ -381,7 +384,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -528,
+        -432,
         2960
       ],
       "id": "a83433f9-637a-4b46-ba45-503dca2b7f93",
@@ -510,39 +513,6 @@
           "name": "Discord Bot account"
         }
       }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "276822ad-b580-4a8c-b893-99eae452add9",
-              "leftValue": "={{ $json.data.successFlag }}",
-              "rightValue": 1,
-              "operator": {
-                "type": "number",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1440,
-        2864
-      ],
-      "id": "de971bcb-47b0-4c22-9bfc-0135e5579873",
-      "name": "If6"
     },
     {
       "parameters": {
@@ -724,7 +694,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -976,
+        -768,
         2960
       ],
       "id": "42f6f8c0-cbaf-42a1-b07d-bdd17fe5c93f",
@@ -767,7 +737,7 @@
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"prompt\":\"{{ $json.output.final_prompt }}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
+        "jsonBody": "={\n  \"prompt\":\"{{ $json.output.final_prompt }}\",\n  \"imageUrls\": [\"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -946,6 +916,39 @@
       ],
       "id": "18db9243-f945-4072-a993-cb3f5db7ffd3",
       "name": "is image generating"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "276822ad-b580-4a8c-b893-99eae452add9",
+              "leftValue": "={{ $json.data.successFlag }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        2864
+      ],
+      "id": "de971bcb-47b0-4c22-9bfc-0135e5579873",
+      "name": "If6"
     }
   ],
   "connections": {
@@ -1195,17 +1198,6 @@
         ]
       ]
     },
-    "If6": {
-      "main": [
-        [
-          {
-            "node": "Request video info",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Request video info": {
       "main": [
         [
@@ -1329,6 +1321,17 @@
           }
         ]
       ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Request video info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1344,7 +1347,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cc38987c-1ba8-4fb5-8b8e-e3aa2477bfc3",
+  "versionId": "428bec17-95ec-4b46-9e6c-0d9fb927a15d",
   "triggerCount": 1,
   "shared": [
     {
