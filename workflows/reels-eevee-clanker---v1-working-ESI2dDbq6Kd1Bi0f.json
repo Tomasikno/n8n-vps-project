@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-20T21:46:35.211Z",
-  "updatedAt": "2025-09-26T20:16:39.000Z",
+  "updatedAt": "2025-09-29T13:52:34.000Z",
   "id": "ESI2dDbq6Kd1Bi0f",
   "name": "Reels eevee clanker - v1 working",
   "active": false,
@@ -2811,9 +2811,74 @@
           }
         }
       }
+    ],
+    "Theme clanker": [
+      {
+        "json": {
+          "output": {
+            "style": "cute, cinematic, soft light, cozy, colorful, glossy highlights, airy high-key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic photoreal fur rendering",
+            "location": "Sunlit laundromat mid-morning",
+            "mood": "cheeky laundry mischief",
+            "aspect_ratio": "portrait 9:16",
+            "title": "Sock Snatch! 🧦 Eevee's Laundromat Heist 😂 #laundry #mischief #pokemon #cute #eevee #aiart #shorts",
+            "description": "Eevee pulls off a tiny laundromat heist—one paw, one flying sock, and a whole lot of charm. Single-frame photoreal capture of the exact hilarious moment. Like for more cute chaos!",
+            "objects_in_scene": "woven laundry basket (close), lone striped cotton sock (close), metal laundry token and a front-load washer with blinking LED grounded nearby",
+            "what_eevee_is_doing": "snatching a striped sock mid-air with one tiny paw so the sock arcs toward the camera",
+            "tags": [
+              "pokemon",
+              "cute",
+              "eevee",
+              "aiart",
+              "shorts",
+              "laundry",
+              "laundromat",
+              "mischief",
+              "photoreal",
+              "9:16"
+            ],
+            "safety_rule": "SFW scene; no harm or distress; no brands, logos, text, or watermarks; Eevee on-model; single-frame; real-life scale props.",
+            "negative_prompt": "no text, no logos, no watermarks, no UI, no brand names, no extra limbs, no mutated anatomy, no disfigured features, no low-resolution, no blurriness beyond subtle motion blur, no multiple frames, no humans, no violence, no NSFW, avoid unnatural fur, avoid odd lighting or color casts.",
+            "prompt": "Eevee mid-leap, ears perked, tail puffed, big glossy curious eyes and a cheeky grin, one tiny paw snatching a striped cotton sock so the sock arcs toward the camera. Sunlit laundromat mid-morning with a woven laundry basket (close), a lone striped cotton sock (close), a metal laundry token and a front-load washer with a blinking LED grounded nearby. Cute cinematic photoreal style: soft warm key from camera-left and cool rim from back-right; portrait 50–85mm look; portrait 9:16; high detail, sharp focus, shallow DOF; clean background, subtle filmic grain and gentle bloom; realistic glossy fur, studio rim light and natural materials. Mood: cheeky laundry mischief; subtle physics tells: soft early motion blur on the flying sock, tiny lint motes suspended mid-air, the washer's LED gently blinking, a faint gust teasing Eevee's fur; single-frame, real-life scale props, SFW, no text/logos/watermarks, Eevee on-model."
+          }
+        }
+      }
+    ],
+    "Create a database page": [
+      {
+        "json": {
+          "id": "27d58cd7-1b15-811f-97c1-fba6250c8f33",
+          "name": "Sock Snatch! 🧦 Eevee's Laundromat Heist 😂 #laundry #mischief #pokemon #cute #eevee #aiart #shorts",
+          "url": "https://www.notion.so/Sock-Snatch-Eevee-s-Laundromat-Heist-laundry-mischief-pokemon-cute-eevee-aiart-shorts-27d58cd71b15811f97c1fba6250c8f33",
+          "property_seed_lyric": "",
+          "property_one_liner": "Eevee mid-leap, ears perked, tail puffed, big glossy curious eyes and a cheeky grin, one tiny paw snatching a striped cotton sock so the sock arcs toward the camera. Sunlit laundromat mid-morning with a woven laundry basket (close), a lone striped cotton sock (close), a metal laundry token and a front-load washer with a blinking LED grounded nearby. Cute cinematic photoreal style: soft warm key from camera-left and cool rim from back-right; portrait 50–85mm look; portrait 9:16; high detail, sharp focus, shallow DOF; clean background, subtle filmic grain and gentle bloom; realistic glossy fur, studio rim light and natural materials. Mood: cheeky laundry mischief; subtle physics tells: soft early motion blur on the flying sock, tiny lint motes suspended mid-air, the washer's LED gently blinking, a faint gust teasing Eevee's fur; single-frame, real-life scale props, SFW, no text/logos/watermarks, Eevee on-model.",
+          "property_hash": 3305733529,
+          "property_theme": "Sock Snatch! 🧦 Eevee's Laundromat Heist 😂 #laundry #mischief #pokemon #cute #eevee #aiart #shorts"
+        }
+      }
+    ],
+    "NanoBanana: Create Image": [
+      {
+        "json": {
+          "code": 200,
+          "msg": "success",
+          "data": {
+            "taskId": "df7ba36f035a1464267d3bd088e2a7bd",
+            "recordId": "df7ba36f035a1464267d3bd088e2a7bd"
+          }
+        }
+      }
+    ],
+    "Send message and wait for response": [
+      {
+        "json": {
+          "data": {
+            "approved": false
+          }
+        }
+      }
     ]
   },
-  "versionId": "27984177-a7f4-4af4-827e-e86a75000398",
+  "versionId": "a5a93ee4-ef89-4ecf-9b8e-6293a6244ac6",
   "triggerCount": 1,
   "shared": [
     {
