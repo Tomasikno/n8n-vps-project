@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-20T21:46:35.211Z",
-  "updatedAt": "2025-09-29T13:52:34.000Z",
+  "updatedAt": "2025-09-30T16:19:40.000Z",
   "id": "ESI2dDbq6Kd1Bi0f",
   "name": "Reels eevee clanker - v1 working",
   "active": false,
@@ -248,7 +248,7 @@
             },
             {
               "key": "OneLiner|rich_text",
-              "textContent": "={{ $json.prompt }}"
+              "textContent": "={{ $json.image_prompt }}"
             },
             {
               "key": "Hash|number",
@@ -276,7 +276,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Input: Agent JSON on $json.data; past themes on $json.pastThemes (array of strings)\n// Output: either passes through or throws to trigger a regenerate loop\n\nfunction normalize(s) {\n  return s.toLowerCase().replace(/\\s+/g, ' ').trim();\n}\n\nfunction jaroWinkler(s1, s2) {\n  // Lightweight similarity; good enough for titles\n  const m = Math.floor(Math.max(s1.length, s2.length) / 2) - 1;\n  let matches1 = new Array(s1.length).fill(false);\n  let matches2 = new Array(s2.length).fill(false);\n  let matches = 0, transpositions = 0;\n\n  for (let i = 0; i < s1.length; i++) {\n    const start = Math.max(0, i - m), end = Math.min(i + m + 1, s2.length);\n    for (let j = start; j < end; j++) {\n      if (!matches2[j] && s1[i] === s2[j]) { matches1[i] = matches2[j] = true; matches++; break; }\n    }\n  }\n  if (matches === 0) return 0;\n\n  let k = 0;\n  for (let i = 0; i < s1.length; i++) {\n    if (matches1[i]) {\n      while (!matches2[k]) k++;\n      if (s1[i] !== s2[k]) transpositions++;\n      k++;\n    }\n  }\n  transpositions /= 2;\n\n  const j = (matches / s1.length + matches / s2.length + (matches - transpositions) / matches) / 3;\n\n  // Winkler prefix boost\n  let prefix = 0;\n  for (let i = 0; i < Math.min(4, s1.length, s2.length); i++) {\n    if (s1[i] === s2[i]) prefix++; else break;\n  }\n  return j + prefix * 0.1 * (1 - j);\n}\n\nconst agent = $json.output; // JSON from Agent\nconst theme = normalize(agent.prompt || '');\nconst line  = normalize(agent.title || '');\n\nconst past = ($json.pastThemes || []).map(normalize);\nconst candidate = `${theme} | ${line}`;\n\n// Quick hash to catch exact/near-exact repeats\nfunction simpleHash(s) {\n  let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;\n  return h >>> 0;\n}\nconst candHash = simpleHash(candidate);\n\n// Thresholds: adjust to be stricter/looser\nconst SIM_THRESH = 0.90; // 0..1 (higher = stricter)\n\nlet tooSimilar = false;\nfor (const prev of past) {\n  const sim = jaroWinkler(candidate, prev);\n  if (sim >= SIM_THRESH || simpleHash(prev) === candHash) {\n    tooSimilar = true; break;\n  }\n}\n\nif (tooSimilar) {\n  // Throwing makes the node fail and lets you loop back to the Agent\n  throw new Error('Theme too similar to a past entry. Regenerate.');\n}\n\n// If it's unique, expose it for saving\nreturn { ...agent, _hash: candHash };\n"
+        "jsCode": "// Input: Agent JSON on $json.data; past themes on $json.pastThemes (array of strings)\n// Output: either passes through or throws to trigger a regenerate loop\n\nfunction normalize(s) {\n  return s.toLowerCase().replace(/\\s+/g, ' ').trim();\n}\n\nfunction jaroWinkler(s1, s2) {\n  // Lightweight similarity; good enough for titles\n  const m = Math.floor(Math.max(s1.length, s2.length) / 2) - 1;\n  let matches1 = new Array(s1.length).fill(false);\n  let matches2 = new Array(s2.length).fill(false);\n  let matches = 0, transpositions = 0;\n\n  for (let i = 0; i < s1.length; i++) {\n    const start = Math.max(0, i - m), end = Math.min(i + m + 1, s2.length);\n    for (let j = start; j < end; j++) {\n      if (!matches2[j] && s1[i] === s2[j]) { matches1[i] = matches2[j] = true; matches++; break; }\n    }\n  }\n  if (matches === 0) return 0;\n\n  let k = 0;\n  for (let i = 0; i < s1.length; i++) {\n    if (matches1[i]) {\n      while (!matches2[k]) k++;\n      if (s1[i] !== s2[k]) transpositions++;\n      k++;\n    }\n  }\n  transpositions /= 2;\n\n  const j = (matches / s1.length + matches / s2.length + (matches - transpositions) / matches) / 3;\n\n  // Winkler prefix boost\n  let prefix = 0;\n  for (let i = 0; i < Math.min(4, s1.length, s2.length); i++) {\n    if (s1[i] === s2[i]) prefix++; else break;\n  }\n  return j + prefix * 0.1 * (1 - j);\n}\n\nconst agent = $json.output; // JSON from Agent\nconst theme = normalize(agent.image_prompt || '');\nconst line  = normalize(agent.title || '');\n\nconst past = ($json.pastThemes || []).map(normalize);\nconst candidate = `${theme} | ${line}`;\n\n// Quick hash to catch exact/near-exact repeats\nfunction simpleHash(s) {\n  let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;\n  return h >>> 0;\n}\nconst candHash = simpleHash(candidate);\n\n// Thresholds: adjust to be stricter/looser\nconst SIM_THRESH = 0.90; // 0..1 (higher = stricter)\n\nlet tooSimilar = false;\nfor (const prev of past) {\n  const sim = jaroWinkler(candidate, prev);\n  if (sim >= SIM_THRESH || simpleHash(prev) === candHash) {\n    tooSimilar = true; break;\n  }\n}\n\nif (tooSimilar) {\n  // Throwing makes the node fail and lets you loop back to the Agent\n  throw new Error('Theme too similar to a past entry. Regenerate.');\n}\n\n// If it's unique, expose it for saving\nreturn { ...agent, _hash: candHash };\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -336,7 +336,7 @@
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n  \"style\": \"string\",\n  \"location\": \"string\",\n  \"mood\": \"string\",\n  \"aspect_ratio\": \"9:16\",\n  \"title\": \"title\",\n  \"description\": \"desc\",\n  \"objects_in_scene\": \"string with things in scene\",\n  \"what_eevee_is_doing\": \"string with actions\",\n  \"tags\": [\"pokemon\", \"eevee\", \"cute\"],\n  \"safety_rule\": \"Imply danger only; freeze BEFORE any contact; wholesome and kid-safe.\",\n  \"negative_prompt\": \"text, captions, UI, logos, watermark, gore, injury, violence, distress, hypersexualization, extra limbs, deformed eyes, poor anatomy, low-res, heavy blur, glitches, jpeg artifacts\",\n  \"prompt\": \"1–2 sentences describing the exact shot to render, including Eevee’s pose/expression, the chosen LOCATION and props, the HAZARD present but not touching, STYLE cues, portrait look (50–85mm), soft warm key + cool rim, shallow depth of field, no text.\"\n}\n"
+        "jsonSchemaExample": "{\n  \"title\": \"string\",  \n  \"description\": \"string\",\n  \"image_prompt\": \"string\",  \n  \"video_prompt\": \"string\"     \n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
@@ -407,7 +407,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=INPUTS\n\nDIVERSITY MEMORY:\nConsider PAST_THEMES (last 10). Avoid conceptual overlap; if unavoidable, change angle, setting, time-of-day, or aesthetic.\n\nShow subtle physics tells: early motion blur, indicator lights blinking, first droplets/steam puffs, a wheel barely unseated, airflow teasing fur.\n\nKeep tone playful; no fear, distress, or impact.\n\nHARD RULES\n\nPortrait 9:16, high detail, sharp focus, shallow depth of field.\n\nNo text/logos/watermarks/UI.\n\nKeep “Eevee” on-model: expressive eyes, perky ears, small paws, fluffy tail, cute.\n\nOne frame only; real-life scale props.\n\nCURATED POOLS \nSTYLE (default): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur CG look to Photorealisic look.\n\nMust include an action verb that signals action.\n\nSFW and reversible; no brands or instructions. \n\nLOCATION with 2–3 grounded props. generate a concise new phrase (≤6 words):Realistic, non-specific, varied (indoor/outdoor/office/nature/industrial/kitchen/jobs/food/gym/events/hikes/forests/meadow), with time-of-day/weather/crowd variety, and not near-duplicate of PAST_THEMES.\n\nPROMPT CONSTRUCTION:\nWrite 3-5 compact sentences that include:\n\nEevee’s pose/expression/micro-action (curious, cheerful): e.g., “Eevee mid-step, ears perked, tail puffed, big cute eyes.”\n\nLOCATION with 2–3 grounded props. generate a concise new phrase (≤6 words):Realistic, non-specific, varied (indoor/outdoor/office/nature/industrial/kitchen/jobs/food/gym/events/hikes/forests/meadow/food/hobbies), with time-of-day/weather/crowd variety, and not near-duplicate of PAST_THEMES.\n\nSTYLE + lighting: soft warm key from camera-left; cool rim from back-right; portrait 50–85mm look; shallow DOF; clean background; subtle filmic grain; gentle bloom. Realistic fur. Realistic background.\n\nMOOD: 2–4 words (e.g., “wide-eyed wonder”, “playful curiosity”, “mildly alarmed, cheerful”). Vary across runs.\n\nOBJECTS_IN_SCENE: Include objects that eevee can react with in the scene. Atleas one object should be close to Eevee so she can play with it or topple it. Should be relevant to LOCATION\n\nWHAT_EEVEE_IS_DOING: Include action what Eevee will do with the object. Should be cute and funny action.\n\n\nPAST_THEMES: {{ $json.pastThemes }}",
+        "text": "=<aiInstructionRoleBlock>\n  <role>\n    You are a prompt-engineer for an image model. Create a single still-image prompt featuring Eevee in an obscure, everyday situation that is cute, funny, and includes action. Nothing bad happens. Also produce a catchy YouTube Shorts–ready Title and Description for the video we’ll make from this image. Then produce a Veo-3 video prompt describing a short, cute-and-clumsy scene using the provided OBJECTS_IN_SCENE and WHAT_EEVEE_IS_DOING.\n  </role>\n\n  <output>\n\n    <titleRules>\n      <rule>Length ≤ 99 characters.</rule>\n      <rule>Include 1–3 emojis that match the scene.</rule>\n      <rule>Include 2–4 topical hashtags about the theme.</rule>\n      <rule>Always include: #pokemon #cute #eevee #aiart #shorts</rule>\n      <rule>Readable and clicky; no ALL CAPS spam.</rule>\n    </titleRules>\n\n    <descriptionRules>\n      <rule>1–3 short lines, friendly tone, SFW.</rule>\n      <rule>Mention the specific action and quirky situation.</rule>\n      <rule>Optional single CTA.</rule>\n      <rule>No links, no brand names, no instructions.</rule>\n    </descriptionRules>\n  </output>\n\n  <constructionHints>\n    <promptContent>\n      <rule>Obscure but wholesome everyday situation</rule>\n      <rule>Include an explicit action verb (balancing, nudging, sniffing, stacking, whisking).</rule>\n      <rule>Keep it cute/funny; no fear, distress, or impact.</rule>\n      <rule>Prompts need to be valid json. No special characters so I can send it with http request</rule>\n    </promptContent>\n    <imageStyle>\n      <rule>Portrait 9:16 or 3:4; shallow DOF; soft key + gentle rim; crisp fur strands; clean background; no text/logos/watermarks/UI.</rule>\n      <rule>On-model Eevee: expressive eyes, perky ears, small paws, fluffy tail.</rule>\n      <rule>Real-life scale props; scene readable at a glance.</rule>\n    </imageStyle>\n  </constructionHints>\n\n  <templates>\n    <titleTemplate>\n      <![CDATA[\n{emoji1}{emoji2} Eevee {ACTION VERB} {OBSCURE SITUATION}! #{THEME1} #{THEME2} #pokemon #cute #eevee #aiart #shorts\n      ]]>\n    </titleTemplate>\n\n    <descriptionTemplate>\n      <![CDATA[\nEevee {ACTION VERB} in a quirky everyday moment—{ONE-LINE SCENE DETAIL}.\nTiny paws, big focus, maximum cute. {OPTIONAL CTA}\n      ]]>\n    </descriptionTemplate>\n\n    <promptTemplate>\n      <![CDATA[\nUltra photo-real Eevee, life-sized, {MOOD}, {ACTION VERB} in {OBSCURE EVERYDAY SITUATION}, {LOCATION/SETTING}, {TIME OF DAY}. Chest-up or small full-body, shallow DOF, crisp fur strands, glossy eyes with catchlight, delicate whiskers, 2–3 grounded props relevant to the action, soft warm key from camera-left, cool rim from back-right, clean background, subtle film grain, no text/logos/watermarks, single Eevee.\n      ]]>\n    </promptTemplate>\n\n    <videoPromptTemplate engine=\"Veo-3\">\n      <![CDATA[\nOne Eevee only. Tone: cute and clumsy, wholesome, no distress. Scene: {LOCATION/SETTING}, {TIME OF DAY}.\nProps on set (use provided): {OBJECTS_IN_SCENE}. Eevee’s task (use provided): {WHAT_EEVEE_IS_DOING}.\n\nCAMERA: {gentle push-in | slow handheld from 3/4 left | micro-dolly along table}, 50–85mm equivalent, shallow DOF, soft bokeh.\nLIGHTING: soft warm key from camera-left; cool rim from back-right; practicals allowed.\n\nACTION BEATS (cute + clumsy):\n1) Establish: Eevee notices {PRIMARY OBJECT} and pads closer; tiny sniff, ears perk. A small wobble shows clumsiness.\n2) Attempt: Eevee {WHAT_EEVEE_IS_DOING}, paws slightly fumble; {SECONDARY OBJECT} wobbles but doesn’t spill; a single crumb/steam puff/tilt sells realism.\n3) Recovery: Eevee steadies with a paw, blinks wide-eyed, tail flick; proud micro-nod and a tiny second try.\n\nMOTION LAYERS:\n- Subject: small head tilt, paw adjustments, gentle ear/whisker twitch, shy shuffle.\n- Camera: subtle sway or slow push-in; no whip-pans, no cuts.\n- Environment: micro steam/dust motes, faint indicator LED blink, cloth edge lifts in airflow.\n\nSAFETY & STYLE:\nNo text/logos/watermarks/humans/other Pokémon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cozy cinematic look. Single continuous shot.\n      ]]>\n    </videoPromptTemplate>\n  </templates>\n</aiInstructionRoleBlock>\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=ROLE: \nYou are a prompt-engineer for an image model. Create a single still-image prompt featuring Eevee in an obscure, everyday situation that is cute, funny and includes action. Nothing bad happens. Also produce a catchy YouTube Shorts-ready Title and Description for the video we’ll make from this image. Title must include 2–4 hashtags about the theme and always #pokemon #cute #eevee #aiart #shorts .Include emojis in title. Title should be no more then 99 characters."
@@ -1207,7 +1207,8 @@
         -224,
         2960
       ],
-      "typeVersion": 2
+      "typeVersion": 2,
+      "disabled": true
     },
     {
       "parameters": {
@@ -1217,7 +1218,7 @@
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"google/nano-banana\",\n  \"callBackUrl\": \"https://your-domain.com/api/callback\",\n  \"input\": {\n    \"prompt\": \"{{ $('Theme clanker').item.json.output.prompt }}\",\n    \"output_format\": \"png\",\n    \"image_size\": \"9:16\"\n  }\n}",
+        "jsonBody": "={\n  \"model\": \"google/nano-banana\",\n  \"callBackUrl\": \"https://your-domain.com/api/callback\",\n  \"input\": {\n    \"prompt\": \"{{ $('Theme clanker').item.json.output.image_prompt }}\",\n    \"output_format\": \"png\",\n    \"image_size\": \"9:16\"\n  }\n}",
         "options": {}
       },
       "id": "22219817-d1a7-4997-924d-71129b0b3ee7",
@@ -1318,8 +1319,7 @@
           "id": "ih6pau2KBlXO6pNC",
           "name": "Google Drive account"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -1589,8 +1589,7 @@
           "value": {
             "name": "={{ $json.name }}",
             "videoId": "={{ $json.id }}",
-            "prompt": "={{ $('Generate Video Script Clanker1').item.json.output.final_prompt }}",
-            "tags": "={{ $('Theme clanker').item.json.output.tags }}",
+            "prompt": "={{ $('Theme clanker').item.json.output.video_prompt }}",
             "videoTitle": "={{ $('Theme clanker').item.json.output.title }}",
             "videoDesc": "={{ $('Theme clanker').item.json.output.description }}"
           },
@@ -1612,7 +1611,8 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "array"
+              "type": "array",
+              "removed": true
             },
             {
               "id": "prompt",
@@ -1809,7 +1809,7 @@
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"prompt\":\"{{ $json.output.final_prompt }}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
+        "jsonBody": "={\n  \"prompt\":\"{{ $('Theme clanker').item.json.output.video_prompt }}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -2811,74 +2811,9 @@
           }
         }
       }
-    ],
-    "Theme clanker": [
-      {
-        "json": {
-          "output": {
-            "style": "cute, cinematic, soft light, cozy, colorful, glossy highlights, airy high-key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic photoreal fur rendering",
-            "location": "Sunlit laundromat mid-morning",
-            "mood": "cheeky laundry mischief",
-            "aspect_ratio": "portrait 9:16",
-            "title": "Sock Snatch! 🧦 Eevee's Laundromat Heist 😂 #laundry #mischief #pokemon #cute #eevee #aiart #shorts",
-            "description": "Eevee pulls off a tiny laundromat heist—one paw, one flying sock, and a whole lot of charm. Single-frame photoreal capture of the exact hilarious moment. Like for more cute chaos!",
-            "objects_in_scene": "woven laundry basket (close), lone striped cotton sock (close), metal laundry token and a front-load washer with blinking LED grounded nearby",
-            "what_eevee_is_doing": "snatching a striped sock mid-air with one tiny paw so the sock arcs toward the camera",
-            "tags": [
-              "pokemon",
-              "cute",
-              "eevee",
-              "aiart",
-              "shorts",
-              "laundry",
-              "laundromat",
-              "mischief",
-              "photoreal",
-              "9:16"
-            ],
-            "safety_rule": "SFW scene; no harm or distress; no brands, logos, text, or watermarks; Eevee on-model; single-frame; real-life scale props.",
-            "negative_prompt": "no text, no logos, no watermarks, no UI, no brand names, no extra limbs, no mutated anatomy, no disfigured features, no low-resolution, no blurriness beyond subtle motion blur, no multiple frames, no humans, no violence, no NSFW, avoid unnatural fur, avoid odd lighting or color casts.",
-            "prompt": "Eevee mid-leap, ears perked, tail puffed, big glossy curious eyes and a cheeky grin, one tiny paw snatching a striped cotton sock so the sock arcs toward the camera. Sunlit laundromat mid-morning with a woven laundry basket (close), a lone striped cotton sock (close), a metal laundry token and a front-load washer with a blinking LED grounded nearby. Cute cinematic photoreal style: soft warm key from camera-left and cool rim from back-right; portrait 50–85mm look; portrait 9:16; high detail, sharp focus, shallow DOF; clean background, subtle filmic grain and gentle bloom; realistic glossy fur, studio rim light and natural materials. Mood: cheeky laundry mischief; subtle physics tells: soft early motion blur on the flying sock, tiny lint motes suspended mid-air, the washer's LED gently blinking, a faint gust teasing Eevee's fur; single-frame, real-life scale props, SFW, no text/logos/watermarks, Eevee on-model."
-          }
-        }
-      }
-    ],
-    "Create a database page": [
-      {
-        "json": {
-          "id": "27d58cd7-1b15-811f-97c1-fba6250c8f33",
-          "name": "Sock Snatch! 🧦 Eevee's Laundromat Heist 😂 #laundry #mischief #pokemon #cute #eevee #aiart #shorts",
-          "url": "https://www.notion.so/Sock-Snatch-Eevee-s-Laundromat-Heist-laundry-mischief-pokemon-cute-eevee-aiart-shorts-27d58cd71b15811f97c1fba6250c8f33",
-          "property_seed_lyric": "",
-          "property_one_liner": "Eevee mid-leap, ears perked, tail puffed, big glossy curious eyes and a cheeky grin, one tiny paw snatching a striped cotton sock so the sock arcs toward the camera. Sunlit laundromat mid-morning with a woven laundry basket (close), a lone striped cotton sock (close), a metal laundry token and a front-load washer with a blinking LED grounded nearby. Cute cinematic photoreal style: soft warm key from camera-left and cool rim from back-right; portrait 50–85mm look; portrait 9:16; high detail, sharp focus, shallow DOF; clean background, subtle filmic grain and gentle bloom; realistic glossy fur, studio rim light and natural materials. Mood: cheeky laundry mischief; subtle physics tells: soft early motion blur on the flying sock, tiny lint motes suspended mid-air, the washer's LED gently blinking, a faint gust teasing Eevee's fur; single-frame, real-life scale props, SFW, no text/logos/watermarks, Eevee on-model.",
-          "property_hash": 3305733529,
-          "property_theme": "Sock Snatch! 🧦 Eevee's Laundromat Heist 😂 #laundry #mischief #pokemon #cute #eevee #aiart #shorts"
-        }
-      }
-    ],
-    "NanoBanana: Create Image": [
-      {
-        "json": {
-          "code": 200,
-          "msg": "success",
-          "data": {
-            "taskId": "df7ba36f035a1464267d3bd088e2a7bd",
-            "recordId": "df7ba36f035a1464267d3bd088e2a7bd"
-          }
-        }
-      }
-    ],
-    "Send message and wait for response": [
-      {
-        "json": {
-          "data": {
-            "approved": false
-          }
-        }
-      }
     ]
   },
-  "versionId": "a5a93ee4-ef89-4ecf-9b8e-6293a6244ac6",
+  "versionId": "c69c0faa-3c90-4191-95db-853bf731d737",
   "triggerCount": 1,
   "shared": [
     {
