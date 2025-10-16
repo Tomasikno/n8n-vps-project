@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-20T21:46:35.211Z",
-  "updatedAt": "2025-10-15T11:12:45.000Z",
+  "updatedAt": "2025-10-16T14:22:41.000Z",
   "id": "ESI2dDbq6Kd1Bi0f",
   "name": "Reels eevee clanker - v1 working",
   "active": false,
@@ -407,7 +407,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=<aiInstructionRoleBlock>\n  <output>\n    <titleRules>\n      <rule>Length ≤ 99 characters.</rule>\n      <rule>Include 1–3 emojis that match the scene.</rule>\n      <rule>Include 2–4 topical hashtags about the theme.</rule>\n      <rule>Always include: #pokemon #cute #eevee #aiart #shorts</rule>\n      <rule>Readable and clicky; no ALL CAPS spam.</rule>\n    </titleRules>\n\n    <descriptionRules>\n      <rule>1–3 short lines, friendly tone, SFW.</rule>\n      <rule>Mention the specific action and quirky situation.</rule>\n      <rule>Optional single CTA.</rule>\n      <rule>No links, no brand names, no instructions.</rule>\n    </descriptionRules>\n<themeRules>\n  <rule>Consider pastThemes and try to avoid those themes already done.</rule>\n</themeRules>\n  </output>\n\n  <constructionHints>\n    <promptContent>\n      <rule>Obscure but wholesome everyday situation</rule>\n      <rule>Include an explicit action verb (balancing, nudging, sniffing, stacking, whisking).</rule>\n      <rule>Keep it cute/funny; no fear, distress, or impact.</rule>\n      <rule>Prompts need to be valid json. No special characters so I can send it with http request</rule>\n    </promptContent>\n    <imageStyle>\n      <rule>Portrait 9:16 or 3:4; shallow DOF; soft key + gentle rim; crisp fur strands; clean background; no text/logos/watermarks/UI.</rule>\n      <rule>On-model Eevee: expressive eyes, perky ears, small paws, fluffy tail.</rule>\n      <rule>Real-life scale props; scene readable at a glance.</rule>\n    </imageStyle>\n  </constructionHints>\n\n  <templates>\n    <titleTemplate>\n      <![CDATA[\n{emoji1}{emoji2} Eevee {ACTION VERB} {OBSCURE SITUATION}! #{THEME1} #{THEME2} #pokemon #cute #eevee #aiart #shorts\n      ]]>\n    </titleTemplate>\n\n    <descriptionTemplate>\n      <![CDATA[\nEevee {ACTION VERB} in a quirky everyday moment—{ONE-LINE SCENE DETAIL}.\nTiny paws, big focus, maximum cute. {OPTIONAL CTA}\n      ]]>\n    </descriptionTemplate>\n\n    <promptTemplate>\n      <![CDATA[\nUltra photo-real Eevee, life-sized, {MOOD}, {ACTION VERB} in {OBSCURE EVERYDAY SITUATION}, {LOCATION/SETTING}, {TIME OF DAY}. Chest-up or small full-body, shallow DOF, crisp fur strands, glossy eyes with catchlight, delicate whiskers, 2–3 grounded props relevant to the action, soft warm key from camera-left, cool rim from back-right, clean background, subtle film grain, no text/logos/watermarks, single Eevee.\n      ]]>\n    </promptTemplate>\n\n    <videoPromptTemplate engine=\"Veo-3\">\n      <![CDATA[\nOne Eevee only. Tone: cute and clumsy, wholesome, no distress. Scene: {LOCATION/SETTING}, {TIME OF DAY}.\nProps on set (use provided): {OBJECTS_IN_SCENE}. Eevee’s task (use provided): {WHAT_EEVEE_IS_DOING}.\n\nCAMERA: {gentle push-in | slow handheld from 3/4 left | micro-dolly along table}, 50–85mm equivalent, shallow DOF, soft bokeh.\nLIGHTING: soft warm key from camera-left; cool rim from back-right; practicals allowed.\n\nACTION BEATS (cute + clumsy):\n1) Establish: Eevee notices {PRIMARY OBJECT} and pads closer; tiny sniff, ears perk. A small wobble shows clumsiness.\n2) Attempt: Eevee {WHAT_EEVEE_IS_DOING}, paws slightly fumble; {SECONDARY OBJECT} wobbles but doesn’t spill; a single crumb/steam puff/tilt sells realism.\n3) Recovery: Eevee steadies with a paw, blinks wide-eyed, tail flick; proud micro-nod and a tiny second try.\n\nMOTION LAYERS:\n- Subject: small head tilt, paw adjustments, gentle ear/whisker twitch, shy shuffle.\n- Camera: subtle sway or slow push-in; no whip-pans, no cuts.\n- Environment: micro steam/dust motes, faint indicator LED blink, cloth edge lifts in airflow.\n\nSAFETY & STYLE:\nNo text/logos/watermarks/humans/other Pokémon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cozy cinematic look. Single continuous shot.\n      ]]>\n    </videoPromptTemplate>\n  </templates>\n\n<pastThemes>\n  {{ $json.pastThemes }}\n</pastThemes>\n</aiInstructionRoleBlock>\n",
+        "text": "=<aiInstructionRoleBlock>\n  <output>\n    <titleRules>\n      <rule>Length ≤ 99 characters.</rule>\n      <rule>Include 1–3 emojis that match the scene.</rule>\n      <rule>Include 2–4 topical hashtags about the theme.</rule>\n      <rule>Always include: #pokemon #cute #eevee #aiart #shorts</rule>\n      <rule>Readable and clicky; no ALL CAPS spam.</rule>\n    </titleRules>\n\n    <descriptionRules>\n      <rule>1–3 short lines, friendly tone, SFW.</rule>\n      <rule>Mention the specific action and quirky situation.</rule>\n      <rule>Optional single CTA.</rule>\n      <rule>No links, no brand names, no instructions.</rule>\n    </descriptionRules>\n<themeRules>\n  <rule>Consider pastThemes and try to avoid those themes already done.</rule>\n</themeRules>\n  </output>\n\n  <constructionHints>\n    <promptContent>\n      <rule>Obscure but wholesome everyday situation</rule>\n      <rule>Include an explicit action verb (balancing, nudging, sniffing, stacking, whisking).</rule>\n      <rule>Keep it cute/funny; no fear, distress, or impact.</rule>\n      <rule>Prompts need to be valid json. No special characters so I can send it with http request</rule>\n    </promptContent>\n    <imageStyle>\n      <rule>Portrait 9:16 or 3:4; shallow DOF; soft key + gentle rim; crisp fur strands; clean background; no text/logos/watermarks/UI.</rule>\n      <rule>On-model Eevee: expressive eyes, perky ears, small paws, fluffy tail.</rule>\n      <rule>Real-life scale props; scene readable at a glance.</rule>\n    </imageStyle>\n  </constructionHints>\n\n  <templates>\n    <titleTemplate>\n      <![CDATA[\n{emoji1}{emoji2} Eevee {ACTION VERB} {OBSCURE SITUATION}! #{THEME1} #{THEME2} #pokemon #cute #eevee #aiart #shorts\n      ]]>\n    </titleTemplate>\n\n    <descriptionTemplate>\n      <![CDATA[\nEevee {ACTION VERB} in a quirky everyday moment—{ONE-LINE SCENE DETAIL}.\nTiny paws, big focus, maximum cute. {OPTIONAL CTA}\n      ]]>\n    </descriptionTemplate>\n\n    <promptTemplate>\n      <![CDATA[\nUltra photo-real Eevee, life-sized, {MOOD}, {ACTION VERB} in {OBSCURE EVERYDAY SITUATION}, {LOCATION/SETTING}, {TIME OF DAY}. Chest-up or small full-body, shallow DOF, crisp fur strands, glossy eyes with catchlight, delicate whiskers, 2–3 grounded props relevant to the action, soft warm key from camera-left, cool rim from back-right, clean background, subtle film grain, no text/logos/watermarks, single Eevee.\n      ]]>\n    </promptTemplate>\n\n    <videoPromptTemplate engine=\"Veo-3\">\n\n      <![CDATA[\n\"One Eevee only. Tone: cute and clumsy, wholesome, no distress. Scene: {LOCATION/SETTING}, {TIME OF DAY}.\\nProps on set (use provided): {OBJECTS_IN_SCENE}. Eevee’s task (use provided): {WHAT_EEVEE_IS_DOING}.\\n\\nCAMERA: {gentle push-in | slow handheld from 3/4 left | micro-dolly along table}, 50–85mm equivalent, shallow DOF, soft bokeh.\\nLIGHTING: soft warm key from camera-left; cool rim from back-right; practicals allowed.\\n\\nACTION BEATS (cute + clumsy):\\n1) Establish: Eevee notices {PRIMARY OBJECT} and pads closer; tiny sniff, ears perk. A small wobble shows clumsiness.\\n2) Attempt: Eevee {WHAT_EEVEE_IS_DOING}, paws slightly fumble; {SECONDARY OBJECT} wobbles but doesn’t spill; a single crumb/steam puff/tilt sells realism.\\n3) Recovery: Eevee steadies with a paw, blinks wide-eyed, tail flick; proud micro-nod and a tiny second try.\\n\\nMOTION LAYERS:\\n- Subject: small head tilt, paw adjustments, gentle ear/whisker twitch, shy shuffle.\\n- Camera: subtle sway or slow push-in; no whip-pans, no cuts.\\n- Environment: micro steam/dust motes, faint indicator LED blink, cloth edge lifts in airflow.\\n\\nSAFETY & STYLE:\\nNo text/logos/watermarks/humans/other Pokémon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cozy cinematic look. Single continuous shot.\"\n      ]]>\n    </videoPromptTemplate>\n  </templates>\n\n<pastThemes>\n  {{ $json.pastThemes }}\n</pastThemes>\n</aiInstructionRoleBlock>\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=  <role>\n    You are a prompt-engineer for an image model. Create a single still-image prompt featuring Eevee in an obscure, everyday situation that is cute, funny, and includes action. Nothing bad happens. Also produce a catchy YouTube Shorts–ready Title and Description for the video we’ll make from this image. Then produce a Veo-3 video prompt describing a short, cute-and-clumsy scene using the provided OBJECTS_IN_SCENE and WHAT_EEVEE_IS_DOING.\n  </role>"
@@ -1156,8 +1156,8 @@
       "name": "OpenAI Chat Model5",
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "position": [
-        -288,
-        3152
+        96,
+        3504
       ],
       "typeVersion": 1.2,
       "credentials": {
@@ -1173,8 +1173,8 @@
       "name": "Think4",
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "position": [
-        -160,
-        3152
+        208,
+        3456
       ],
       "typeVersion": 1
     },
@@ -1186,8 +1186,8 @@
       "name": "Structured Output Parser5",
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "position": [
-        -48,
-        3152
+        336,
+        3440
       ],
       "typeVersion": 1.3
     },
@@ -1204,8 +1204,8 @@
       "name": "Generate Video Script Clanker1",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        -224,
-        2960
+        96,
+        3248
       ],
       "typeVersion": 2,
       "disabled": true
@@ -1349,7 +1349,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -528,
+        -288,
         2960
       ],
       "id": "9c567528-a84b-4f0e-b6de-3111884cd7b7",
@@ -1988,6 +1988,19 @@
       ],
       "id": "a0aede51-868a-4116-8b99-519e723dd5cf",
       "name": "is image generating"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * n8n Code node (JavaScript)\n * Validates and attempts to \"make JSON valid\" from a string.\n * Input per item: item.json.input (preferred) or item.json.text\n * Output per item:\n * {\n *   ok: boolean,\n *   parsed?: object,\n *   fixedText?: string,      // pretty JSON\n *   error?: string,          // parse error\n *   errorContext?: { pos, snippet, pointer }\n * }\n */\n\nfunction stripBOM(s) {\n  if (!s) return s;\n  return s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s;\n}\n\nfunction removeComments(s) {\n  // remove // line comments and /* block comments */\n  return s\n    .replace(/\\/\\/[^\\n\\r]*/g, '')\n    .replace(/\\/\\*[\\s\\S]*?\\*\\//g, '');\n}\n\nfunction replaceSmartQuotes(s) {\n  const map = {\n    '\\u201C': '\"', '\\u201D': '\"', // “ ”\n    '\\u201E': '\"', '\\u201F': '\"',\n    '\\u2018': \"'\", '\\u2019': \"'\", // ‘ ’\n    '\\u201A': \"'\", '\\u2032': \"'\", // ′\n    '\\u2033': '\"'\n  };\n  return s.replace(/[\\u201C\\u201D\\u201E\\u201F\\u2018\\u2019\\u201A\\u2032\\u2033]/g, ch => map[ch] || ch);\n}\n\nfunction removeTrailingCommas(s) {\n  // ,] or ,}  -> ] or }\n  return s.replace(/,\\s*([}\\]])/g, '$1');\n}\n\nfunction quoteBareKeys(s) {\n  // Turns {a:1, b_c:2, \"d-e\":3} into {\"a\":1, \"b_c\":2, \"d-e\":3}\n  // Only in object contexts following { or ,\n  return s.replace(/([{\\s,])([A-Za-z_][\\w-]*)(\\s*):/g, (m, p1, key, p3) => {\n    // Don't double-quote already quoted keys\n    if (key.startsWith('\"') || key.startsWith(\"'\")) return m;\n    return `${p1}\"${key}\"${p3}:`;\n  });\n}\n\nfunction singleToDoubleQuotes(s) {\n  // Convert single-quoted strings to double-quoted, handling escaped single quotes\n  // This is heuristic; avoids touching JSON inside already double-quoted segments\n  return s.replace(/'([^'\\\\]*(\\\\.[^'\\\\]*)*)'/g, (m, inner) => {\n    const doubled = inner.replace(/\\\\'/g, \"'\").replace(/\"/g, '\\\\\"');\n    return `\"${doubled}\"`;\n  });\n}\n\nfunction normalizeNewlines(s) {\n  return s.replace(/\\r\\n?/g, '\\n');\n}\n\nfunction tryParseJSON(text) {\n  try {\n    return { ok: true, value: JSON.parse(text) };\n  } catch (e) {\n    return { ok: false, error: e };\n  }\n}\n\nfunction caretContext(s, pos, windowSize = 80) {\n  const start = Math.max(0, pos - windowSize);\n  const end = Math.min(s.length, pos + windowSize);\n  const snippet = s.slice(start, end);\n  const pointer = ' '.repeat(pos - start) + '^';\n  return { pos, snippet, pointer };\n}\n\nfunction parseErrorPosition(errMsg) {\n  // Chrome/V8: \"Unexpected token ... in JSON at position 123\"\n  const m = /position\\s+(\\d+)/i.exec(errMsg || '');\n  return m ? parseInt(m[1], 10) : null;\n}\n\nfunction sanitizeToJSON(text) {\n  let s = String(text ?? '');\n  s = stripBOM(s);\n  s = normalizeNewlines(s);\n  s = replaceSmartQuotes(s);\n  s = removeComments(s);\n  s = s.trim();\n\n  // Quick try first\n  let res = tryParseJSON(s);\n  if (res.ok) return { ok: true, parsed: res.value, fixedText: JSON.stringify(res.value, null, 2) };\n\n  // Heuristic fixes\n  s = quoteBareKeys(s);\n  s = singleToDoubleQuotes(s);\n  s = removeTrailingCommas(s);\n\n  res = tryParseJSON(s);\n  if (res.ok) return { ok: true, parsed: res.value, fixedText: JSON.stringify(res.value, null, 2) };\n\n  // Final attempt: if looks like array/object but missing a closing bracket, try to balance\n  const opens = (s.match(/{/g) || []).length;\n  const closes = (s.match(/}/g) || []).length;\n  const openB = (s.match(/\\[/g) || []).length;\n  const closeB = (s.match(/]/g) || []).length;\n  let s2 = s + '}'.repeat(Math.max(0, opens - closes)) + ']'.repeat(Math.max(0, openB - closeB));\n\n  if (s2 !== s) {\n    res = tryParseJSON(s2);\n    if (res.ok) return { ok: true, parsed: res.value, fixedText: JSON.stringify(res.value, null, 2) };\n  }\n\n  // Failed: report context\n  const errMsg = (res.error && res.error.message) ? res.error.message : 'Invalid JSON';\n  const pos = parseErrorPosition(errMsg) ?? 0;\n  const ctx = caretContext(s, pos);\n  return { ok: false, error: errMsg, errorContext: ctx, fixedText: s };\n}\n\n// Process each incoming item\nconst out = [];\n\nfor (const item of $()) {\n  const src = item.json?.input ?? item.json?.text ?? null;\n\n  if (typeof src !== 'string') {\n    // If no string provided, pass through original JSON\n    out.push({\n      json: {\n        ok: true,\n        parsed: item.json,\n        fixedText: JSON.stringify(item.json ?? {}, null, 2),\n        note: 'No string provided; passed through original item.json'\n      }\n    });\n    continue;\n  }\n\n  const result = sanitizeToJSON(src);\n\n  // Optionally attach the parsed object as fields for downstream nodes\n  if (result.ok) {\n    out.push({\n      json: {\n        ok: true,\n        parsed: result.parsed,\n        fixedText: result.fixedText\n      }\n    });\n  } else {\n    out.push({\n      json: {\n        ok: false,\n        error: result.error,\n        errorContext: result.errorContext,\n        fixedText: result.fixedText\n      }\n    });\n  }\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        3232
+      ],
+      "id": "3ad19b84-4dbb-4b8d-8d9a-2bf991785ff5",
+      "name": "validate json"
     }
   ],
   "connections": {
@@ -2470,13 +2483,7 @@
     },
     "Generate Video Script Clanker1": {
       "main": [
-        [
-          {
-            "node": "Post request to generate video1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "NanoBanana: Create Image": {
@@ -2516,7 +2523,7 @@
       "main": [
         [
           {
-            "node": "Generate Video Script Clanker1",
+            "node": "Post request to generate video1",
             "type": "main",
             "index": 0
           }
@@ -2758,6 +2765,11 @@
           }
         ]
       ]
+    },
+    "validate json": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
@@ -2813,7 +2825,7 @@
       }
     ]
   },
-  "versionId": "4e85e80d-c86c-452a-8944-a9badb45aa2f",
+  "versionId": "0f713fb0-34eb-4352-86c1-c3ec00bb8d43",
   "triggerCount": 1,
   "shared": [
     {
