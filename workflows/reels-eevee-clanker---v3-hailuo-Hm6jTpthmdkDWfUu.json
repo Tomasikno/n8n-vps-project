@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-10-16T14:49:57.819Z",
-  "updatedAt": "2025-10-16T16:07:08.000Z",
+  "updatedAt": "2025-10-18T16:37:26.000Z",
   "id": "Hm6jTpthmdkDWfUu",
   "name": "Reels eevee clanker - v3 hailuo",
   "active": false,
@@ -407,7 +407,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=<aiInstruction>\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Action: Eevee actively eats or nibbles the chosen FOOD (visible bite/lick/slurp); crumbs/sauce OK but don’t cover the face.</rule>\n    <rule>Foods MUST be safe for small animals: fruit (apple, strawberry, blueberry, watermelon), rice, mochi (non-chocolate), steamed veggies, plain noodle, rice pudding, pumpkin soup, grapes/raisins, soup </rule>\n    <rule>Vibe: cute, wholesome, cozy.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, café neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Props: only what supports eating (plate/bowl/cup/napkin/tiny fork or chopsticks).</rule>\n    <rule>Hard NO: text/logos/watermarks/UI, humans, other Pokémon, collars/tags, duplicate Eevees, extreme mess, low-res artifacts.</rule>\n<rule>Prompts need to be json valid string, no special characters so I can send it in http request</rule>\n<rule>Consider PAST_THEMES and try to avoid them</rule>\n  </globalRules>\n\n  <variables>\n    <food>\n      <option>food</option>\n      <option>taiyaki (no chocolate)</option>\n      <option>mochi</option>\n      <option>onigiri</option>\n      <option>apple slice</option>\n      <option>ramen noodle strand</option>\n      <option>blueberry yogurt</option>\n      <option>tiny sandwich</option>\n      <option>watermelon wedge</option>\n      <option>rice pudding</option>\n      <option>soup</option>\n      <option>coffee</option>\n      <option>steak</option>\n    </food>\n    <location>\n      <option>kitchen table</option>\n      <option>café window seat</option>\n      <option>picnic blanket</option>\n      <option>cozy living-room rug</option>\n      <option>park bench</option>\n    </location>\n    <mood>\n      <option>playful</option>\n      <option>cozy</option>\n      <option>curious</option>\n      <option>delighted</option>\n    </mood>\n    <timeOfDay>\n      <option>golden morning</option>\n      <option>bright noon</option>\n      <option>blue hour</option>\n      <option>night with warm lamps</option>\n    </timeOfDay>\n    <cameraStill>\n      <option>macro close-up</option>\n      <option>chest-up</option>\n      <option>small full-body on surface</option>\n    </cameraStill>\n    <cameraMove>\n      <option>gentle push-in</option>\n      <option>slow handheld from 3/4 left</option>\n      <option>static tripod with shallow DOF</option>\n      <option>micro-dolly along table</option>\n    </cameraMove>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>\n      <option>9:16</option>\n    </allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, eating {FOOD} at {LOCATION}, {TIME_OF_DAY}. {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near {plate/bowl}, natural crumbs/sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n One Eevee only. Scene: {LOCATION}, {TIME_OF_DAY}, cozy, safe and wholesome. Camera: {CAMERA_MOVE}. LENS: 50–85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep the proportion of Eevee as close as possible she is a Pokemon.\n      ACTION BEATS:\n      1) Establish: Eevee looks at {FOOD} on {plate/bowl}, sniffs once (subtle whisker twitch).\n      2) Bite/lick: Eevee leans in and takes a small {bite/lick/slurp}; show believable texture (e.g., steam, gloss, crumbs, seeds).\n      3) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble.\n      MOTION LAYERS:\n      - Subject: small head tilt, paw stabilization, gentle chew.\n      - Camera: {gentle push-in OR slow handheld sway}, no whip-pans, no cuts.\n      - Environment: micro steam from hot items or tiny pollen dust motes in light.\n    SOUND: Eevee is making curte Eevee noises (ee, eevee, vee), chill lo-fi song in the background.\n  \n      SAFETY & STYLE:\n      No text/logos/humans/other Pokémon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n\n<pastThemes>\n Avoid these past themse at all cost, come up with a new theme:\n{{ $json.pastThemes }}\n</pastThemes>\n\n\n    <negativePrompt>\n      extra limbs, duplicate Eevee, humans, collars, text, watermark, heavy motion blur, overprocessed fur, face obscured by mess, unsafe foods (chocolate, coffee, alcohol, grapes/raisins), low-res, distorted anatomy, exaggerated cartoon style\n    </negativePrompt>\n  </templates>\n</aiInstruction>\n",
+        "text": "=<aiInstruction>\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Action: Eevee actively eats or nibbles FOOD (visible bite/lick/slurp); crumbs/sauce OK but don’t cover the face.</rule>\n    <rule>FOOD must be invented via &lt;foodGenerator&gt; (no hardcoded list).</rule>\n    <rule>Forbidden: chocolate/cocoa, coffee/caffeine/tea, alcohol, grapes/raisins/currants/sultanas, onion/garlic/chive/leek, xylitol/artificial sweeteners, spicy/peppery foods, raw bones, pits/stones, wild mushrooms, highly processed fast food, brand names.</rule>\n    <rule>Vibe: cute, wholesome, cozy.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, cafe neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Props: only what supports eating (plate/bowl/cup/napkin/tiny fork or chopsticks). No straws.</rule>\n    <rule>Hard NO: text/logos/watermarks/UI, humans, other Pokemon, collars/tags, duplicate Eevees, extreme mess, low-res artifacts.</rule>\n    <rule>Consider PAST_THEMES and avoid conceptual overlap; if overlap is unavoidable, change angle/time/location/food form.</rule>\n  </globalRules>\n\n  <foodGenerator>\n    <categories>\n      <fruit>apple slice|banana nib|strawberry half|blueberry cluster|pear slice|melon wedge|peach slice (no pit)</fruit>\n      <grains>plain rice ball|plain onigiri (sesame-free)|oat porridge spoon|vanilla rice pudding|mochi (non-chocolate)</grains>\n      <noodles>plain udon noodle|plain ramen noodle|plain rice noodle strand</noodles>\n      <veggies>steamed carrot coin|steamed sweet potato cube|steamed pumpkin cube|pumpkin soup spoon</veggies>\n      <dairy_like>plain yogurt spoon|blueberry yogurt swirl (no chocolate)</dairy_like>\n      <soups>mild veggie puree soup|pumpkin soup cup|carrot soup cup</soups>\n    </categories>\n    <forms>tiny plate|small bowl|mini cup</forms>\n    <descriptors>light steam wisp|glossy surface|few crumbs on plate|tiny swirl pattern|cup condensation</descriptors>\n    <samplingRecipe>\n      1) Uniformly sample a category at high temperature; 2) pick one item; 3) pick one serving form that fits; 4) optionally add 0–2 descriptors that are safe; 5) output FOOD as a short noun phrase (<= 8 words), ASCII only, e.g. \"strawberry half on tiny plate\", \"pumpkin soup cup\".\n    </samplingRecipe>\n    <constraints>No forbidden items; vary across runs; prefer items not seen in PAST_THEMES.</constraints>\n  </foodGenerator>\n\n  <variables>\n    <location>kitchen table|cafe window seat|picnic blanket|cozy living-room rug|park bench</location>\n    <mood>playful|cozy|curious|delighted</mood>\n    <timeOfDay>golden morning|bright noon|blue hour|night with warm lamps</timeOfDay>\n    <cameraStill>macro close-up|chest-up|small full-body on surface</cameraStill>\n    <cameraMove>gentle push-in|slow handheld from 3/4 left|static tripod with shallow DOF|micro-dolly along table</cameraMove>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>9:16</allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, eating {FOOD} at {LOCATION}, {TIME_OF_DAY}. {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near plate or bowl, natural crumbs or sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n      One Eevee only. Scene: {LOCATION}, {TIME_OF_DAY}, cozy, safe and wholesome. Camera: {CAMERA_MOVE}. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\n      ACTION BEATS:\n      1) Establish: Eevee looks at {FOOD} on plate or bowl, sniffs once (subtle whisker twitch).\n      2) Bite/lick: Eevee leans in and takes a small bite/lick/slurp; show believable texture (steam, gloss, crumbs; only safe fruit seeds).\n      3) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble.\n      MOTION LAYERS:\n      - Subject: small head tilt, paw stabilization, gentle chew.\n      - Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n      - Environment: micro steam from hot items or tiny dust motes in light.\n      SOUND: Eevee makes cute 'ee' and 'vee' vocalizations; chill lo-fi in background.\n      SAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n\n    <negativePrompt>\n      extra limbs, duplicate Eevee, humans, collars, text, watermark, heavy motion blur, overprocessed fur, face obscured by mess, unsafe foods (chocolate, coffee, alcohol, grapes, raisins, onions, garlic, xylitol), low-res, distorted anatomy, exaggerated cartoon style\n    </negativePrompt>\n  </templates>\n\n  <pastThemes>{{ $json.pastThemes }}</pastThemes>\n\n  <!-- OUTPUT CONTRACT: reply must be a single JSON object, HTTP-safe -->\n  <outputContract>\n    <rule>Before templating, instantiate {FOOD} by sampling via &lt;foodGenerator&gt; while avoiding &lt;pastThemes&gt;.</rule>\n    <rule>Return EXACTLY one JSON object with keys: \"title\", \"image_prompt\", \"video_prompt\", \"negative_prompt\". No markdown, no explanations.</rule>\n    <rule>All string values must be ASCII only. Escape quotes and backslashes per JSON spec. Newlines must be \"\\n\". No emojis or smart quotes.</rule>\n    <rule>Keep \"title\" &lt;= 99 chars, add simple ASCII hashtags if desired.</rule>\n    <rule>If any unsafe or forbidden item would appear, resample FOOD silently.</rule>\n  </outputContract>\n</aiInstruction>\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=<role>You are a prompt-engineer for photo-real images AND Veo-3 video. Generate ONE concept where Eevee eats a specific food, looking irresistibly cute.</role>"
@@ -1340,7 +1340,7 @@
             },
             {
               "name": "fileName",
-              "value": "=test-image{{$now.format('yyyy-MM-dd-ss:mm')}}.png"
+              "value": "=test-image{{$now.format('yyyy-MM-dd-ss-mm')}}.png"
             }
           ]
         },
@@ -1349,7 +1349,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -304,
+        -96,
         2960
       ],
       "id": "13979065-2022-4c6e-9d86-65f967d27a18",
@@ -1383,7 +1383,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        976,
+        1184,
         2864
       ],
       "id": "8366157b-3c94-4dce-828c-d918a19e33c4",
@@ -1417,7 +1417,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1424,
+        1632,
         2864
       ],
       "id": "ddbcc2f2-fb09-4deb-930e-6a6251be226f",
@@ -1451,7 +1451,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        752,
+        960,
         2960
       ],
       "id": "daed3a04-8d32-45c0-84db-eee791a040de",
@@ -1480,7 +1480,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        976,
+        1184,
         3056
       ],
       "id": "872751de-c5f3-4dce-a826-a6d5a8f65a42",
@@ -1520,7 +1520,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1648,
+        1856,
         2864
       ],
       "id": "4f13d0ec-9ce0-4ccb-9779-2856b7fd28b1",
@@ -1564,7 +1564,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1872,
+        2080,
         2864
       ],
       "id": "62516ff3-27aa-49e2-8b5e-f7f11910e492",
@@ -1661,7 +1661,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2320,
+        2528,
         2864
       ],
       "id": "adc70708-bf74-4ca4-acdc-0b4c208351a7",
@@ -1687,7 +1687,7 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2096,
+        2304,
         2864
       ],
       "id": "4d80964a-b66a-451a-9fa9-3830c35ee610",
@@ -1815,7 +1815,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        528,
+        736,
         2960
       ],
       "id": "50c1488c-1b3b-4e75-9f6f-79eb3fefcb48",
@@ -1934,7 +1934,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
+        1408,
         2784
       ],
       "id": "ab732475-5c9b-498d-9aef-132db40fbfbd",
@@ -1998,13 +1998,13 @@
         "nodeCredentialType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"hailuo/02-image-to-video-pro\",\n  \"callBackUrl\": \"https://your-domain.com/api/callback\",\n  \"input\": {\n    \"prompt\": \"{{ $('Theme clanker').item.json.output.video_prompt }}\",\n    \"image_url\": \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\",\n    \"prompt_optimizer\": true\n  }\n}",
+        "jsonBody": "={\n  \"model\": \"hailuo/02-image-to-video-pro\",\n  \"callBackUrl\": \"https://your-domain.com/api/callback\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($('Theme clanker').item.json.output.video_prompt) }},\n    \"image_url\": \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\",\n    \"prompt_optimizer\": true\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        272,
+        480,
         2960
       ],
       "id": "7ddbed4f-43d6-40d3-8d7e-0a8295614b6e",
@@ -2015,6 +2015,20 @@
           "name": "kei"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}$('Theme clanker').first().json.output.prompt\n\nreturn $('Theme clanker').all()."
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        2960
+      ],
+      "id": "8f913f04-5dac-40fc-beb1-6fb36234a12b",
+      "name": "Code in JavaScript6",
+      "disabled": true
     }
   ],
   "connections": {
@@ -2548,7 +2562,7 @@
       "main": [
         [
           {
-            "node": "Upload image to kei1",
+            "node": "Code in JavaScript6",
             "type": "main",
             "index": 0
           }
@@ -2790,6 +2804,17 @@
           }
         ]
       ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Upload image to kei1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2845,7 +2870,7 @@
       }
     ]
   },
-  "versionId": "c6e105b4-42f3-4d2e-be2b-0938fa9a54b7",
+  "versionId": "55b59290-5312-4117-9451-6a5215b79e13",
   "triggerCount": 1,
   "shared": [
     {
