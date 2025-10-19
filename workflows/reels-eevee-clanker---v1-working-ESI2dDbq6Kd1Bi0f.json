@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-20T21:46:35.211Z",
-  "updatedAt": "2025-10-16T14:22:41.000Z",
+  "updatedAt": "2025-10-19T11:06:35.000Z",
   "id": "ESI2dDbq6Kd1Bi0f",
   "name": "Reels eevee clanker - v1 working",
   "active": false,
@@ -1809,7 +1809,7 @@
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"prompt\":\"{{ $('Theme clanker').item.json.output.video_prompt }}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
+        "jsonBody": "={\n  \"prompt\":\"{{ JSON.stringify($('Theme clanker').item.json.output.video_prompt)}}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -2825,7 +2825,7 @@
       }
     ]
   },
-  "versionId": "0f713fb0-34eb-4352-86c1-c3ec00bb8d43",
+  "versionId": "4212db3b-9a2b-4e0f-9f4f-6ec410cea0b1",
   "triggerCount": 1,
   "shared": [
     {
