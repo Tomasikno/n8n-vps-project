@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-20T21:46:35.211Z",
-  "updatedAt": "2025-10-19T11:06:35.000Z",
+  "updatedAt": "2025-10-20T18:55:10.000Z",
   "id": "ESI2dDbq6Kd1Bi0f",
   "name": "Reels eevee clanker - v1 working",
   "active": false,
@@ -218,8 +218,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -304,
-        2672
+        -368,
+        2528
       ],
       "id": "791aa2da-5ff3-4b7a-b9d3-ab5cc25cb3be",
       "name": "OpenAI Chat Model2",
@@ -323,26 +323,13 @@
     },
     {
       "parameters": {
-        "jsCode": "// Input is many items from Data Store. We output ONE item.\nconst themes = $('Get many database pages').all().map(i => {\n  console.log(i);\n  const t = i.json.name || '';\n  const l = i.json.property_one_liner || '';\n  return `${t} | ${l}`.trim();\n});\nreturn [{ json: { pastThemes: themes } }];\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -528,
-        2448
-      ],
-      "id": "6e316f90-1649-4da7-a5f6-1dbec61029ac",
-      "name": "Code in JavaScript1"
-    },
-    {
-      "parameters": {
         "jsonSchemaExample": "{\n  \"title\": \"string\",  \n  \"description\": \"string\",\n  \"image_prompt\": \"string\",  \n  \"video_prompt\": \"string\"     \n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        -32,
-        2672
+        -64,
+        2512
       ],
       "id": "d012cb94-e242-43f0-a17d-fe6782e263dc",
       "name": "Structured Output Parser2"
@@ -403,24 +390,6 @@
       "id": "515f7727-b175-4909-9dc0-ece960a889a0",
       "name": "lyrics clanker",
       "disabled": true
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=<aiInstructionRoleBlock>\n  <output>\n    <titleRules>\n      <rule>Length ≤ 99 characters.</rule>\n      <rule>Include 1–3 emojis that match the scene.</rule>\n      <rule>Include 2–4 topical hashtags about the theme.</rule>\n      <rule>Always include: #pokemon #cute #eevee #aiart #shorts</rule>\n      <rule>Readable and clicky; no ALL CAPS spam.</rule>\n    </titleRules>\n\n    <descriptionRules>\n      <rule>1–3 short lines, friendly tone, SFW.</rule>\n      <rule>Mention the specific action and quirky situation.</rule>\n      <rule>Optional single CTA.</rule>\n      <rule>No links, no brand names, no instructions.</rule>\n    </descriptionRules>\n<themeRules>\n  <rule>Consider pastThemes and try to avoid those themes already done.</rule>\n</themeRules>\n  </output>\n\n  <constructionHints>\n    <promptContent>\n      <rule>Obscure but wholesome everyday situation</rule>\n      <rule>Include an explicit action verb (balancing, nudging, sniffing, stacking, whisking).</rule>\n      <rule>Keep it cute/funny; no fear, distress, or impact.</rule>\n      <rule>Prompts need to be valid json. No special characters so I can send it with http request</rule>\n    </promptContent>\n    <imageStyle>\n      <rule>Portrait 9:16 or 3:4; shallow DOF; soft key + gentle rim; crisp fur strands; clean background; no text/logos/watermarks/UI.</rule>\n      <rule>On-model Eevee: expressive eyes, perky ears, small paws, fluffy tail.</rule>\n      <rule>Real-life scale props; scene readable at a glance.</rule>\n    </imageStyle>\n  </constructionHints>\n\n  <templates>\n    <titleTemplate>\n      <![CDATA[\n{emoji1}{emoji2} Eevee {ACTION VERB} {OBSCURE SITUATION}! #{THEME1} #{THEME2} #pokemon #cute #eevee #aiart #shorts\n      ]]>\n    </titleTemplate>\n\n    <descriptionTemplate>\n      <![CDATA[\nEevee {ACTION VERB} in a quirky everyday moment—{ONE-LINE SCENE DETAIL}.\nTiny paws, big focus, maximum cute. {OPTIONAL CTA}\n      ]]>\n    </descriptionTemplate>\n\n    <promptTemplate>\n      <![CDATA[\nUltra photo-real Eevee, life-sized, {MOOD}, {ACTION VERB} in {OBSCURE EVERYDAY SITUATION}, {LOCATION/SETTING}, {TIME OF DAY}. Chest-up or small full-body, shallow DOF, crisp fur strands, glossy eyes with catchlight, delicate whiskers, 2–3 grounded props relevant to the action, soft warm key from camera-left, cool rim from back-right, clean background, subtle film grain, no text/logos/watermarks, single Eevee.\n      ]]>\n    </promptTemplate>\n\n    <videoPromptTemplate engine=\"Veo-3\">\n\n      <![CDATA[\n\"One Eevee only. Tone: cute and clumsy, wholesome, no distress. Scene: {LOCATION/SETTING}, {TIME OF DAY}.\\nProps on set (use provided): {OBJECTS_IN_SCENE}. Eevee’s task (use provided): {WHAT_EEVEE_IS_DOING}.\\n\\nCAMERA: {gentle push-in | slow handheld from 3/4 left | micro-dolly along table}, 50–85mm equivalent, shallow DOF, soft bokeh.\\nLIGHTING: soft warm key from camera-left; cool rim from back-right; practicals allowed.\\n\\nACTION BEATS (cute + clumsy):\\n1) Establish: Eevee notices {PRIMARY OBJECT} and pads closer; tiny sniff, ears perk. A small wobble shows clumsiness.\\n2) Attempt: Eevee {WHAT_EEVEE_IS_DOING}, paws slightly fumble; {SECONDARY OBJECT} wobbles but doesn’t spill; a single crumb/steam puff/tilt sells realism.\\n3) Recovery: Eevee steadies with a paw, blinks wide-eyed, tail flick; proud micro-nod and a tiny second try.\\n\\nMOTION LAYERS:\\n- Subject: small head tilt, paw adjustments, gentle ear/whisker twitch, shy shuffle.\\n- Camera: subtle sway or slow push-in; no whip-pans, no cuts.\\n- Environment: micro steam/dust motes, faint indicator LED blink, cloth edge lifts in airflow.\\n\\nSAFETY & STYLE:\\nNo text/logos/watermarks/humans/other Pokémon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cozy cinematic look. Single continuous shot.\"\n      ]]>\n    </videoPromptTemplate>\n  </templates>\n\n<pastThemes>\n  {{ $json.pastThemes }}\n</pastThemes>\n</aiInstructionRoleBlock>\n",
-        "hasOutputParser": true,
-        "options": {
-          "systemMessage": "=  <role>\n    You are a prompt-engineer for an image model. Create a single still-image prompt featuring Eevee in an obscure, everyday situation that is cute, funny, and includes action. Nothing bad happens. Also produce a catchy YouTube Shorts–ready Title and Description for the video we’ll make from this image. Then produce a Veo-3 video prompt describing a short, cute-and-clumsy scene using the provided OBJECTS_IN_SCENE and WHAT_EEVEE_IS_DOING.\n  </role>"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        -240,
-        2448
-      ],
-      "id": "df3e0a4b-71ae-4ad0-8ce5-58958fa496c8",
-      "name": "Theme clanker"
     },
     {
       "parameters": {
@@ -1728,35 +1697,6 @@
     },
     {
       "parameters": {
-        "resource": "databasePage",
-        "operation": "getAll",
-        "databaseId": {
-          "__rl": true,
-          "value": "27358cd7-1b15-80e5-965f-d144b72c15b4",
-          "mode": "list",
-          "cachedResultName": "Themes",
-          "cachedResultUrl": "https://www.notion.so/27358cd71b1580e5965fd144b72c15b4"
-        },
-        "limit": 10,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        -768,
-        2448
-      ],
-      "id": "03188629-3bd1-4b73-9741-bf24b2e18ed7",
-      "name": "Get many database pages",
-      "credentials": {
-        "notionApi": {
-          "id": "lDq6KxxGETipZmXY",
-          "name": "Notion account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "jsCode": "function fnv1a(str){let h=0x811c9dc5;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=(h>>>0)*0x01000193;}return (h>>>0);}\nreturn $input.all().map(item => ({\n  json: { ...item.json, id: fnv1a((item.json.text ?? 'hello world')).toString(36), data: item.binary.data },\n  binary: item.binary ?? {}\n}));"
       },
       "type": "n8n-nodes-base.code",
@@ -1809,7 +1749,7 @@
         "genericAuthType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"prompt\":\"{{ JSON.stringify($('Theme clanker').item.json.output.video_prompt)}}\",\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
+        "jsonBody": "={\n  \"prompt\":{{ JSON.stringify($('Theme clanker').item.json.output.video_prompt)}},\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -1832,8 +1772,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolThink",
       "typeVersion": 1.1,
       "position": [
-        -176,
-        2672
+        -208,
+        2528
       ],
       "id": "8efc5615-30b9-49ca-93e4-eb12e2f6ab49",
       "name": "Think2"
@@ -2001,6 +1941,77 @@
       ],
       "id": "3ad19b84-4dbb-4b8d-8d9a-2bf991785ff5",
       "name": "validate json"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Input is many items from Data Store. We output ONE item.\nconst themes = $('Get past themes').all().map(i => {\n  console.log(i);\n  const t = i.json.properties.Theme.title[0].plain_text || '';\n  const l =i.json.properties.OneLiner.rich_text[0].plain_text || '';\n  return `<theme>${t} | ${l}</theme>`.trim();\n});\nreturn [{ json: { pastThemes: themes } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        2448
+      ],
+      "id": "56644398-0a0d-42e9-bb78-642e26d2f622",
+      "name": "parse past themes"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "27358cd7-1b15-80e5-965f-d144b72c15b4",
+          "mode": "list",
+          "cachedResultName": "Themes",
+          "cachedResultUrl": "https://www.notion.so/27358cd71b1580e5965fd144b72c15b4"
+        },
+        "limit": 10,
+        "simple": false,
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "timestamp": true,
+                "key": "created_time",
+                "direction": "descending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        2448
+      ],
+      "id": "0dfac01e-1e87-493d-9866-0507e4d1e20d",
+      "name": "Get past themes",
+      "credentials": {
+        "notionApi": {
+          "id": "lDq6KxxGETipZmXY",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=<aiInstruction>\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Action: Eevee actively eats or nibbles FOOD (visible bite/lick/slurp); crumbs/sauce OK but don’t cover the face.</rule>\n    <rule>FOOD must be invented via &lt;foodGenerator&gt; (no hardcoded list).</rule>\n    <rule>Forbidden: chocolate/cocoa, coffee/caffeine/tea, alcohol, grapes/raisins/currants/sultanas, onion/garlic/chive/leek, xylitol/artificial sweeteners, spicy/peppery foods, raw bones, pits/stones, wild mushrooms, highly processed fast food, brand names.</rule>\n    <rule>Vibe: cute, wholesome, cozy.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, cafe neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Props: only what supports eating (plate/bowl/cup/napkin/tiny fork or chopsticks). No straws.</rule>\n    <rule>Hard NO: text/logos/watermarks/UI, humans, other Pokemon, collars/tags, duplicate Eevees, extreme mess, low-res artifacts.</rule>\n    <rule>Consider PAST_THEMES and avoid conceptual overlap; if overlap is unavoidable, change angle/time/location/food form.</rule>\n  \n\n  </globalRules>\n<pastThemes> \nAVOID THESE THEMES OR SIMILAR THEMES (VERY IMPORTANT!!!): \n{{ $json.pastThemes }}\n</pastThemes>\n  <foodGenerator>\n    <categories>\n      <fruit>apple slice|banana nib|blueberry cluster|pear slice|melon wedge|peach slice (no pit)</fruit>\n      <grains>plain rice ball|plain onigiri (sesame-free)|oat porridge spoon|vanilla rice pudding|mochi (non-chocolate)</grains>\n      <noodles>plain udon noodle|plain ramen noodle|plain rice noodle strand</noodles>\n      <veggies>steamed carrot coin|steamed sweet potato cube|steamed pumpkin cube|pumpkin soup spoon</veggies>\n      <dairy_like>plain yogurt spoon|blueberry yogurt swirl (no chocolate)</dairy_like>\n      <soups>mild veggie puree soup|pumpkin soup cup|carrot soup cup</soups>\n    </categories>\n    <forms>tiny plate|small bowl|mini cup</forms>\n    <descriptors>light steam wisp|glossy surface|few crumbs on plate|tiny swirl pattern|cup condensation</descriptors>\n    <samplingRecipe>\n      1) Uniformly sample a category at high temperature; 2) pick one item; 3) pick one serving form that fits; 4) optionally add 0–2 descriptors that are safe; 5) output FOOD as a short noun phrase (<= 8 words), ASCII only, e.g. \"strawberry half on tiny plate\", \"pumpkin soup cup\".\n    </samplingRecipe>\n    <constraints>No forbidden items; vary across runs; prefer items not seen in PAST_THEMES.</constraints>\n  </foodGenerator>\n\n  <variables>\n    <location>kitchen table|cafe window seat|picnic blanket|cozy living-room rug|park bench</location>\n    <mood>playful|cozy|curious|delighted</mood>\n    <timeOfDay>golden morning|bright noon|blue hour|night with warm lamps</timeOfDay>\n    <cameraStill>macro close-up|chest-up|small full-body on surface</cameraStill>\n    <cameraMove>gentle push-in|slow handheld from 3/4 left|static tripod with shallow DOF|micro-dolly along table</cameraMove>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>9:16</allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, eating {FOOD} at {LOCATION}, {TIME_OF_DAY}. {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near plate or bowl, natural crumbs or sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n      One Eevee only. Scene: {LOCATION}, {TIME_OF_DAY}, cozy, safe and wholesome. Camera: {CAMERA_MOVE}. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\n      ACTION BEATS:\n      1) Establish: Eevee looks at {FOOD} on plate or bowl, sniffs once (subtle whisker twitch).\n      2) Bite/lick: Eevee leans in and takes a small bite/lick/slurp; show believable texture (steam, gloss, crumbs; only safe fruit seeds).\n      3) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble.\n      MOTION LAYERS:\n      - Subject: small head tilt, paw stabilization, gentle chew.\n      - Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n      - Environment: micro steam from hot items or tiny dust motes in light.\n      SOUND: Eevee makes cute 'ee' and 'vee' vocalizations; chill lo-fi in background.\n      SAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n  </templates>\n\n\n  <!-- OUTPUT CONTRACT: reply must be a single JSON object, HTTP-safe -->\n  <outputContract>\n    <rule>Before templating, instantiate {FOOD} by sampling via &lt;foodGenerator&gt; while avoiding &lt;pastThemes&gt;.</rule>\n    <rule>Return EXACTLY one JSON object with keys: \"title\", \"image_prompt\", \"video_prompt\", \"negative_prompt\". No markdown, no explanations.</rule>\n    <rule>All string values must be ASCII only. Escape quotes and backslashes per JSON spec. Newlines must be \"\\n\". No emojis or smart quotes.</rule>\n    <rule>Keep \"title\" &lt;= 99 chars, add simple ASCII hashtags if desired.</rule>\n    <rule>If any unsafe or forbidden item would appear, resample FOOD silently.</rule>\n  </outputContract>\n</aiInstruction>\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=  <role>\n    You are a prompt-engineer for an image model. Create a single still-image prompt featuring Eevee in an obscure, everyday situation that is cute, funny, and includes action. Nothing bad happens. Also produce a catchy YouTube Shorts–ready Title and Description for the video we’ll make from this image. Then produce a Veo-3 video prompt describing a short, cute-and-clumsy scene using the provided OBJECTS_IN_SCENE and WHAT_EEVEE_IS_DOING.\n  </role>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -288,
+        2320
+      ],
+      "id": "df3e0a4b-71ae-4ad0-8ce5-58958fa496c8",
+      "name": "Theme clanker"
     }
   ],
   "connections": {
@@ -2048,7 +2059,7 @@
       "main": [
         [
           {
-            "node": "Get many database pages",
+            "node": "Get past themes",
             "type": "main",
             "index": 0
           }
@@ -2133,17 +2144,6 @@
         []
       ]
     },
-    "Code in JavaScript1": {
-      "main": [
-        [
-          {
-            "node": "Theme clanker",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Structured Output Parser2": {
       "ai_outputParser": [
         [
@@ -2169,17 +2169,6 @@
     "lyrics clanker": {
       "main": [
         []
-      ]
-    },
-    "Theme clanker": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript",
-            "type": "main",
-            "index": 0
-          }
-        ]
       ]
     },
     "Request create song": {
@@ -2659,17 +2648,6 @@
         ]
       ]
     },
-    "Get many database pages": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Upload file2": {
       "main": [
         []
@@ -2730,7 +2708,7 @@
         ],
         [
           {
-            "node": "Get many database pages",
+            "node": "Get past themes",
             "type": "main",
             "index": 0
           }
@@ -2769,6 +2747,39 @@
     "validate json": {
       "main": [
         []
+      ]
+    },
+    "parse past themes": {
+      "main": [
+        [
+          {
+            "node": "Theme clanker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get past themes": {
+      "main": [
+        [
+          {
+            "node": "parse past themes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Theme clanker": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -2825,7 +2836,7 @@
       }
     ]
   },
-  "versionId": "4212db3b-9a2b-4e0f-9f4f-6ec410cea0b1",
+  "versionId": "1035f2a4-fc79-4be7-a260-bb5c9caede27",
   "triggerCount": 1,
   "shared": [
     {
