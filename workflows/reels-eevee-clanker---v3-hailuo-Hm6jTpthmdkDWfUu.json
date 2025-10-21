@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-10-16T14:49:57.819Z",
-  "updatedAt": "2025-10-18T16:37:26.000Z",
+  "updatedAt": "2025-10-20T18:45:35.000Z",
   "id": "Hm6jTpthmdkDWfUu",
   "name": "Reels eevee clanker - v3 hailuo",
   "active": false,
@@ -323,19 +323,6 @@
     },
     {
       "parameters": {
-        "jsCode": "// Input is many items from Data Store. We output ONE item.\nconst themes = $('Get many database pages').all().map(i => {\n  console.log(i);\n  const t = i.json.name || '';\n  const l = i.json.property_one_liner || '';\n  return `${t} | ${l}`.trim();\n});\nreturn [{ json: { pastThemes: themes } }];\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -528,
-        2448
-      ],
-      "id": "7446c40b-acb0-44e6-bd35-b2217e68bd55",
-      "name": "Code in JavaScript1"
-    },
-    {
-      "parameters": {
         "jsonSchemaExample": "{\n  \"title\": \"string\",\n  \"prompt\": \"string\",\n  \"negative_prompt\": \"string\",\n  \"video_prompt\": \"string\"\n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
@@ -407,7 +394,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=<aiInstruction>\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Action: Eevee actively eats or nibbles FOOD (visible bite/lick/slurp); crumbs/sauce OK but don’t cover the face.</rule>\n    <rule>FOOD must be invented via &lt;foodGenerator&gt; (no hardcoded list).</rule>\n    <rule>Forbidden: chocolate/cocoa, coffee/caffeine/tea, alcohol, grapes/raisins/currants/sultanas, onion/garlic/chive/leek, xylitol/artificial sweeteners, spicy/peppery foods, raw bones, pits/stones, wild mushrooms, highly processed fast food, brand names.</rule>\n    <rule>Vibe: cute, wholesome, cozy.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, cafe neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Props: only what supports eating (plate/bowl/cup/napkin/tiny fork or chopsticks). No straws.</rule>\n    <rule>Hard NO: text/logos/watermarks/UI, humans, other Pokemon, collars/tags, duplicate Eevees, extreme mess, low-res artifacts.</rule>\n    <rule>Consider PAST_THEMES and avoid conceptual overlap; if overlap is unavoidable, change angle/time/location/food form.</rule>\n  </globalRules>\n\n  <foodGenerator>\n    <categories>\n      <fruit>apple slice|banana nib|strawberry half|blueberry cluster|pear slice|melon wedge|peach slice (no pit)</fruit>\n      <grains>plain rice ball|plain onigiri (sesame-free)|oat porridge spoon|vanilla rice pudding|mochi (non-chocolate)</grains>\n      <noodles>plain udon noodle|plain ramen noodle|plain rice noodle strand</noodles>\n      <veggies>steamed carrot coin|steamed sweet potato cube|steamed pumpkin cube|pumpkin soup spoon</veggies>\n      <dairy_like>plain yogurt spoon|blueberry yogurt swirl (no chocolate)</dairy_like>\n      <soups>mild veggie puree soup|pumpkin soup cup|carrot soup cup</soups>\n    </categories>\n    <forms>tiny plate|small bowl|mini cup</forms>\n    <descriptors>light steam wisp|glossy surface|few crumbs on plate|tiny swirl pattern|cup condensation</descriptors>\n    <samplingRecipe>\n      1) Uniformly sample a category at high temperature; 2) pick one item; 3) pick one serving form that fits; 4) optionally add 0–2 descriptors that are safe; 5) output FOOD as a short noun phrase (<= 8 words), ASCII only, e.g. \"strawberry half on tiny plate\", \"pumpkin soup cup\".\n    </samplingRecipe>\n    <constraints>No forbidden items; vary across runs; prefer items not seen in PAST_THEMES.</constraints>\n  </foodGenerator>\n\n  <variables>\n    <location>kitchen table|cafe window seat|picnic blanket|cozy living-room rug|park bench</location>\n    <mood>playful|cozy|curious|delighted</mood>\n    <timeOfDay>golden morning|bright noon|blue hour|night with warm lamps</timeOfDay>\n    <cameraStill>macro close-up|chest-up|small full-body on surface</cameraStill>\n    <cameraMove>gentle push-in|slow handheld from 3/4 left|static tripod with shallow DOF|micro-dolly along table</cameraMove>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>9:16</allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, eating {FOOD} at {LOCATION}, {TIME_OF_DAY}. {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near plate or bowl, natural crumbs or sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n      One Eevee only. Scene: {LOCATION}, {TIME_OF_DAY}, cozy, safe and wholesome. Camera: {CAMERA_MOVE}. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\n      ACTION BEATS:\n      1) Establish: Eevee looks at {FOOD} on plate or bowl, sniffs once (subtle whisker twitch).\n      2) Bite/lick: Eevee leans in and takes a small bite/lick/slurp; show believable texture (steam, gloss, crumbs; only safe fruit seeds).\n      3) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble.\n      MOTION LAYERS:\n      - Subject: small head tilt, paw stabilization, gentle chew.\n      - Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n      - Environment: micro steam from hot items or tiny dust motes in light.\n      SOUND: Eevee makes cute 'ee' and 'vee' vocalizations; chill lo-fi in background.\n      SAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n\n    <negativePrompt>\n      extra limbs, duplicate Eevee, humans, collars, text, watermark, heavy motion blur, overprocessed fur, face obscured by mess, unsafe foods (chocolate, coffee, alcohol, grapes, raisins, onions, garlic, xylitol), low-res, distorted anatomy, exaggerated cartoon style\n    </negativePrompt>\n  </templates>\n\n  <pastThemes>{{ $json.pastThemes }}</pastThemes>\n\n  <!-- OUTPUT CONTRACT: reply must be a single JSON object, HTTP-safe -->\n  <outputContract>\n    <rule>Before templating, instantiate {FOOD} by sampling via &lt;foodGenerator&gt; while avoiding &lt;pastThemes&gt;.</rule>\n    <rule>Return EXACTLY one JSON object with keys: \"title\", \"image_prompt\", \"video_prompt\", \"negative_prompt\". No markdown, no explanations.</rule>\n    <rule>All string values must be ASCII only. Escape quotes and backslashes per JSON spec. Newlines must be \"\\n\". No emojis or smart quotes.</rule>\n    <rule>Keep \"title\" &lt;= 99 chars, add simple ASCII hashtags if desired.</rule>\n    <rule>If any unsafe or forbidden item would appear, resample FOOD silently.</rule>\n  </outputContract>\n</aiInstruction>\n",
+        "text": "=<aiInstruction>\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Action: Eevee actively eats or nibbles FOOD (visible bite/lick/slurp); crumbs/sauce OK but don’t cover the face.</rule>\n    <rule>FOOD must be invented via &lt;foodGenerator&gt; (no hardcoded list).</rule>\n    <rule>Forbidden: chocolate/cocoa, coffee/caffeine/tea, alcohol, grapes/raisins/currants/sultanas, onion/garlic/chive/leek, xylitol/artificial sweeteners, spicy/peppery foods, raw bones, pits/stones, wild mushrooms, highly processed fast food, brand names.</rule>\n    <rule>Vibe: cute, wholesome, cozy.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, cafe neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Props: only what supports eating (plate/bowl/cup/napkin/tiny fork or chopsticks). No straws.</rule>\n    <rule>Hard NO: text/logos/watermarks/UI, humans, other Pokemon, collars/tags, duplicate Eevees, extreme mess, low-res artifacts.</rule>\n    <rule>Consider PAST_THEMES and avoid conceptual overlap; if overlap is unavoidable, change angle/time/location/food form.</rule>\n  \n\n  </globalRules>\n<pastThemes> \nAVOID THESE THEMES OR SIMILAR THEMES (VERY IMPORTANT!!!): \n{{ $json.pastThemes }}\n</pastThemes>\n  <foodGenerator>\n    <categories>\n      <fruit>apple slice|banana nib|blueberry cluster|pear slice|melon wedge|peach slice (no pit)</fruit>\n      <grains>plain rice ball|plain onigiri (sesame-free)|oat porridge spoon|vanilla rice pudding|mochi (non-chocolate)</grains>\n      <noodles>plain udon noodle|plain ramen noodle|plain rice noodle strand</noodles>\n      <veggies>steamed carrot coin|steamed sweet potato cube|steamed pumpkin cube|pumpkin soup spoon</veggies>\n      <dairy_like>plain yogurt spoon|blueberry yogurt swirl (no chocolate)</dairy_like>\n      <soups>mild veggie puree soup|pumpkin soup cup|carrot soup cup</soups>\n    </categories>\n    <forms>tiny plate|small bowl|mini cup</forms>\n    <descriptors>light steam wisp|glossy surface|few crumbs on plate|tiny swirl pattern|cup condensation</descriptors>\n    <samplingRecipe>\n      1) Uniformly sample a category at high temperature; 2) pick one item; 3) pick one serving form that fits; 4) optionally add 0–2 descriptors that are safe; 5) output FOOD as a short noun phrase (<= 8 words), ASCII only, e.g. \"strawberry half on tiny plate\", \"pumpkin soup cup\".\n    </samplingRecipe>\n    <constraints>No forbidden items; vary across runs; prefer items not seen in PAST_THEMES.</constraints>\n  </foodGenerator>\n\n  <variables>\n    <location>kitchen table|cafe window seat|picnic blanket|cozy living-room rug|park bench</location>\n    <mood>playful|cozy|curious|delighted</mood>\n    <timeOfDay>golden morning|bright noon|blue hour|night with warm lamps</timeOfDay>\n    <cameraStill>macro close-up|chest-up|small full-body on surface</cameraStill>\n    <cameraMove>gentle push-in|slow handheld from 3/4 left|static tripod with shallow DOF|micro-dolly along table</cameraMove>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>9:16</allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, eating {FOOD} at {LOCATION}, {TIME_OF_DAY}. {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near plate or bowl, natural crumbs or sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n      One Eevee only. Scene: {LOCATION}, {TIME_OF_DAY}, cozy, safe and wholesome. Camera: {CAMERA_MOVE}. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\n      ACTION BEATS:\n      1) Establish: Eevee looks at {FOOD} on plate or bowl, sniffs once (subtle whisker twitch).\n      2) Bite/lick: Eevee leans in and takes a small bite/lick/slurp; show believable texture (steam, gloss, crumbs; only safe fruit seeds).\n      3) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble.\n      MOTION LAYERS:\n      - Subject: small head tilt, paw stabilization, gentle chew.\n      - Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n      - Environment: micro steam from hot items or tiny dust motes in light.\n      SOUND: Eevee makes cute 'ee' and 'vee' vocalizations; chill lo-fi in background.\n      SAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n  </templates>\n\n\n  <!-- OUTPUT CONTRACT: reply must be a single JSON object, HTTP-safe -->\n  <outputContract>\n    <rule>Before templating, instantiate {FOOD} by sampling via &lt;foodGenerator&gt; while avoiding &lt;pastThemes&gt;.</rule>\n    <rule>Return EXACTLY one JSON object with keys: \"title\", \"image_prompt\", \"video_prompt\", \"negative_prompt\". No markdown, no explanations.</rule>\n    <rule>All string values must be ASCII only. Escape quotes and backslashes per JSON spec. Newlines must be \"\\n\". No emojis or smart quotes.</rule>\n    <rule>Keep \"title\" &lt;= 99 chars, add simple ASCII hashtags if desired.</rule>\n    <rule>If any unsafe or forbidden item would appear, resample FOOD silently.</rule>\n  </outputContract>\n</aiInstruction>\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=<role>You are a prompt-engineer for photo-real images AND Veo-3 video. Generate ONE concept where Eevee eats a specific food, looking irresistibly cute.</role>"
@@ -1332,7 +1319,7 @@
           "parameters": [
             {
               "name": "base64Data",
-              "value": "={{ $('Code in JavaScript5').item.json.data.data }}"
+              "value": "={{ $('Parse image binary data').item.json.data.data }}"
             },
             {
               "name": "uploadPath",
@@ -1392,73 +1379,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "534dab23-0283-4363-8adf-fe3bf721ab73",
-              "leftValue": "={{ $json.data.state }}",
-              "rightValue": "generating",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1632,
-        2864
-      ],
-      "id": "ddbcc2f2-fb09-4deb-930e-6a6251be226f",
-      "name": "If4"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "a076f882-1a40-4aca-8cf2-318b031fdb4f",
-              "leftValue": "={{ $json.msg }}",
-              "rightValue": "success",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        960,
-        2960
-      ],
-      "id": "daed3a04-8d32-45c0-84db-eee791a040de",
-      "name": "If5"
-    },
-    {
-      "parameters": {
         "resource": "message",
         "guildId": {
           "__rl": true,
@@ -1492,39 +1412,6 @@
           "name": "Discord Bot account"
         }
       }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "276822ad-b580-4a8c-b893-99eae452add9",
-              "leftValue": "={{ $json.data.state }}",
-              "rightValue": "success",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1856,
-        2864
-      ],
-      "id": "4f13d0ec-9ce0-4ccb-9779-2856b7fd28b1",
-      "name": "If6"
     },
     {
       "parameters": {
@@ -1715,48 +1602,6 @@
     },
     {
       "parameters": {
-        "jsCode": "return $input.all().map(item => ({\n  json: { ...item.json, data: item.binary.data },\n  binary: item.binary ?? {}\n}));"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -976,
-        2960
-      ],
-      "id": "612002db-ba41-4134-8ca8-77b5a0ea606f",
-      "name": "Code in JavaScript5"
-    },
-    {
-      "parameters": {
-        "resource": "databasePage",
-        "operation": "getAll",
-        "databaseId": {
-          "__rl": true,
-          "value": "27358cd7-1b15-80e5-965f-d144b72c15b4",
-          "mode": "list",
-          "cachedResultName": "Themes",
-          "cachedResultUrl": "https://www.notion.so/27358cd71b1580e5965fd144b72c15b4"
-        },
-        "limit": 10,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        -768,
-        2448
-      ],
-      "id": "1436b1ad-d895-4a9e-81e2-c3893aa90da9",
-      "name": "Get many database pages",
-      "credentials": {
-        "notionApi": {
-          "id": "lDq6KxxGETipZmXY",
-          "name": "Notion account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "jsCode": "function fnv1a(str){let h=0x811c9dc5;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=(h>>>0)*0x01000193;}return (h>>>0);}\nreturn $input.all().map(item => ({\n  json: { ...item.json, id: fnv1a((item.json.text ?? 'hello world')).toString(36), data: item.binary.data },\n  binary: item.binary ?? {}\n}));"
       },
       "type": "n8n-nodes-base.code",
@@ -1883,40 +1728,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "209f3354-931f-46a0-8b8e-10b2337200ce",
-              "leftValue": "={{ $json.data.approved }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1936,
-        2448
-      ],
-      "id": "19bbe8f9-dcdc-4a89-aefa-8b9cd7b946a8",
-      "name": "If7"
-    },
-    {
-      "parameters": {
         "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpBearerAuth",
@@ -2029,6 +1840,206 @@
       "id": "8f913f04-5dac-40fc-beb1-6fb36234a12b",
       "name": "Code in JavaScript6",
       "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "27358cd7-1b15-80e5-965f-d144b72c15b4",
+          "mode": "list",
+          "cachedResultName": "Themes",
+          "cachedResultUrl": "https://www.notion.so/27358cd71b1580e5965fd144b72c15b4"
+        },
+        "limit": 10,
+        "simple": false,
+        "options": {
+          "sort": {
+            "sortValue": [
+              {
+                "timestamp": true,
+                "key": "created_time",
+                "direction": "descending"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -768,
+        2448
+      ],
+      "id": "1436b1ad-d895-4a9e-81e2-c3893aa90da9",
+      "name": "Get Past themes",
+      "credentials": {
+        "notionApi": {
+          "id": "lDq6KxxGETipZmXY",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Input is many items from Data Store. We output ONE item.\nconst themes = $('Get Past themes').all().map(i => {\n  console.log(i);\n  const t = i.json.properties.Theme.title[0].plain_text || '';\n  const l =i.json.properties.OneLiner.rich_text[0].plain_text || '';\n  return `<theme>${t} | ${l}</theme>`.trim();\n});\nreturn [{ json: { pastThemes: themes } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -528,
+        2448
+      ],
+      "id": "7446c40b-acb0-44e6-bd35-b2217e68bd55",
+      "name": "Parse past themes"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => ({\n  json: { ...item.json, data: item.binary.data },\n  binary: item.binary ?? {}\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -976,
+        2960
+      ],
+      "id": "612002db-ba41-4134-8ca8-77b5a0ea606f",
+      "name": "Parse image binary data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a076f882-1a40-4aca-8cf2-318b031fdb4f",
+              "leftValue": "={{ $json.msg }}",
+              "rightValue": "success",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        2960
+      ],
+      "id": "daed3a04-8d32-45c0-84db-eee791a040de",
+      "name": "Is request success"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "534dab23-0283-4363-8adf-fe3bf721ab73",
+              "leftValue": "={{ $json.data.state }}",
+              "rightValue": "generating",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1632,
+        2864
+      ],
+      "id": "ddbcc2f2-fb09-4deb-930e-6a6251be226f",
+      "name": "is video generating"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "276822ad-b580-4a8c-b893-99eae452add9",
+              "leftValue": "={{ $json.data.state }}",
+              "rightValue": "success",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        2880
+      ],
+      "id": "4f13d0ec-9ce0-4ccb-9779-2856b7fd28b1",
+      "name": "Is generation success"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "209f3354-931f-46a0-8b8e-10b2337200ce",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1936,
+        2448
+      ],
+      "id": "19bbe8f9-dcdc-4a89-aefa-8b9cd7b946a8",
+      "name": "Is concept approved"
     }
   ],
   "connections": {
@@ -2076,7 +2087,7 @@
       "main": [
         [
           {
-            "node": "Get many database pages",
+            "node": "Get Past themes",
             "type": "main",
             "index": 0
           }
@@ -2159,17 +2170,6 @@
           }
         ],
         []
-      ]
-    },
-    "Code in JavaScript1": {
-      "main": [
-        [
-          {
-            "node": "Theme clanker",
-            "type": "main",
-            "index": 0
-          }
-        ]
       ]
     },
     "Structured Output Parser2": {
@@ -2585,58 +2585,11 @@
         ]
       ]
     },
-    "If4": {
-      "main": [
-        [
-          {
-            "node": "Wait1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "If6",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If5": {
-      "main": [
-        [
-          {
-            "node": "Wait1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send a message2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Dowload nano banana image from kei": {
       "main": [
         [
           {
-            "node": "Code in JavaScript5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If6": {
-      "main": [
-        [
-          {
-            "node": "Request video info",
+            "node": "Parse image binary data",
             "type": "main",
             "index": 0
           }
@@ -2676,28 +2629,6 @@
         ]
       ]
     },
-    "Code in JavaScript5": {
-      "main": [
-        [
-          {
-            "node": "Upload file",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get many database pages": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Upload file2": {
       "main": [
         []
@@ -2718,7 +2649,7 @@
       "main": [
         [
           {
-            "node": "If5",
+            "node": "Is request success",
             "type": "main",
             "index": 0
           }
@@ -2740,25 +2671,7 @@
       "main": [
         [
           {
-            "node": "If7",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If7": {
-      "main": [
-        [
-          {
-            "node": "Dowload nano banana image from kei",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Get many database pages",
+            "node": "Is concept approved",
             "type": "main",
             "index": 0
           }
@@ -2769,7 +2682,7 @@
       "main": [
         [
           {
-            "node": "If4",
+            "node": "is video generating",
             "type": "main",
             "index": 0
           }
@@ -2810,6 +2723,104 @@
         [
           {
             "node": "Upload image to kei1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Past themes": {
+      "main": [
+        [
+          {
+            "node": "Parse past themes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse past themes": {
+      "main": [
+        [
+          {
+            "node": "Theme clanker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse image binary data": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is request success": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is video generating": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is generation success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is generation success": {
+      "main": [
+        [
+          {
+            "node": "Request video info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is concept approved": {
+      "main": [
+        [
+          {
+            "node": "Dowload nano banana image from kei",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Past themes",
             "type": "main",
             "index": 0
           }
@@ -2870,7 +2881,7 @@
       }
     ]
   },
-  "versionId": "55b59290-5312-4117-9451-6a5215b79e13",
+  "versionId": "c8625f14-93a9-46cd-9da6-d0e3c308e994",
   "triggerCount": 1,
   "shared": [
     {
