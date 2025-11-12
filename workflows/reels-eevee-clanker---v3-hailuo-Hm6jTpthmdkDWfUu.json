@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-10-16T14:49:57.819Z",
-  "updatedAt": "2025-10-20T18:45:35.000Z",
+  "updatedAt": "2025-11-12T10:30:02.000Z",
   "id": "Hm6jTpthmdkDWfUu",
   "name": "Reels eevee clanker - v3 hailuo",
   "active": false,
@@ -394,7 +394,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=<aiInstruction>\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Action: Eevee actively eats or nibbles FOOD (visible bite/lick/slurp); crumbs/sauce OK but don’t cover the face.</rule>\n    <rule>FOOD must be invented via &lt;foodGenerator&gt; (no hardcoded list).</rule>\n    <rule>Forbidden: chocolate/cocoa, coffee/caffeine/tea, alcohol, grapes/raisins/currants/sultanas, onion/garlic/chive/leek, xylitol/artificial sweeteners, spicy/peppery foods, raw bones, pits/stones, wild mushrooms, highly processed fast food, brand names.</rule>\n    <rule>Vibe: cute, wholesome, cozy.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, cafe neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Props: only what supports eating (plate/bowl/cup/napkin/tiny fork or chopsticks). No straws.</rule>\n    <rule>Hard NO: text/logos/watermarks/UI, humans, other Pokemon, collars/tags, duplicate Eevees, extreme mess, low-res artifacts.</rule>\n    <rule>Consider PAST_THEMES and avoid conceptual overlap; if overlap is unavoidable, change angle/time/location/food form.</rule>\n  \n\n  </globalRules>\n<pastThemes> \nAVOID THESE THEMES OR SIMILAR THEMES (VERY IMPORTANT!!!): \n{{ $json.pastThemes }}\n</pastThemes>\n  <foodGenerator>\n    <categories>\n      <fruit>apple slice|banana nib|blueberry cluster|pear slice|melon wedge|peach slice (no pit)</fruit>\n      <grains>plain rice ball|plain onigiri (sesame-free)|oat porridge spoon|vanilla rice pudding|mochi (non-chocolate)</grains>\n      <noodles>plain udon noodle|plain ramen noodle|plain rice noodle strand</noodles>\n      <veggies>steamed carrot coin|steamed sweet potato cube|steamed pumpkin cube|pumpkin soup spoon</veggies>\n      <dairy_like>plain yogurt spoon|blueberry yogurt swirl (no chocolate)</dairy_like>\n      <soups>mild veggie puree soup|pumpkin soup cup|carrot soup cup</soups>\n    </categories>\n    <forms>tiny plate|small bowl|mini cup</forms>\n    <descriptors>light steam wisp|glossy surface|few crumbs on plate|tiny swirl pattern|cup condensation</descriptors>\n    <samplingRecipe>\n      1) Uniformly sample a category at high temperature; 2) pick one item; 3) pick one serving form that fits; 4) optionally add 0–2 descriptors that are safe; 5) output FOOD as a short noun phrase (<= 8 words), ASCII only, e.g. \"strawberry half on tiny plate\", \"pumpkin soup cup\".\n    </samplingRecipe>\n    <constraints>No forbidden items; vary across runs; prefer items not seen in PAST_THEMES.</constraints>\n  </foodGenerator>\n\n  <variables>\n    <location>kitchen table|cafe window seat|picnic blanket|cozy living-room rug|park bench</location>\n    <mood>playful|cozy|curious|delighted</mood>\n    <timeOfDay>golden morning|bright noon|blue hour|night with warm lamps</timeOfDay>\n    <cameraStill>macro close-up|chest-up|small full-body on surface</cameraStill>\n    <cameraMove>gentle push-in|slow handheld from 3/4 left|static tripod with shallow DOF|micro-dolly along table</cameraMove>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>9:16</allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, eating {FOOD} at {LOCATION}, {TIME_OF_DAY}. {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near plate or bowl, natural crumbs or sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n      One Eevee only. Scene: {LOCATION}, {TIME_OF_DAY}, cozy, safe and wholesome. Camera: {CAMERA_MOVE}. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\n      ACTION BEATS:\n      1) Establish: Eevee looks at {FOOD} on plate or bowl, sniffs once (subtle whisker twitch).\n      2) Bite/lick: Eevee leans in and takes a small bite/lick/slurp; show believable texture (steam, gloss, crumbs; only safe fruit seeds).\n      3) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble.\n      MOTION LAYERS:\n      - Subject: small head tilt, paw stabilization, gentle chew.\n      - Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n      - Environment: micro steam from hot items or tiny dust motes in light.\n      SOUND: Eevee makes cute 'ee' and 'vee' vocalizations; chill lo-fi in background.\n      SAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n  </templates>\n\n\n  <!-- OUTPUT CONTRACT: reply must be a single JSON object, HTTP-safe -->\n  <outputContract>\n    <rule>Before templating, instantiate {FOOD} by sampling via &lt;foodGenerator&gt; while avoiding &lt;pastThemes&gt;.</rule>\n    <rule>Return EXACTLY one JSON object with keys: \"title\", \"image_prompt\", \"video_prompt\", \"negative_prompt\". No markdown, no explanations.</rule>\n    <rule>All string values must be ASCII only. Escape quotes and backslashes per JSON spec. Newlines must be \"\\n\". No emojis or smart quotes.</rule>\n    <rule>Keep \"title\" &lt;= 99 chars, add simple ASCII hashtags if desired.</rule>\n    <rule>If any unsafe or forbidden item would appear, resample FOOD silently.</rule>\n  </outputContract>\n</aiInstruction>\n",
+        "text": "=<aiInstruction>\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Action: Eevee actively eats or nibbles FOOD (visible bite/lick/slurp); crumbs/sauce OK but don’t cover the face.</rule>\n    <rule>FOOD must be invented via &lt;foodGenerator&gt; (no hardcoded list).</rule>\n    <rule>Forbidden: chocolate/cocoa, coffee/caffeine/tea, alcohol, grapes/raisins/currants/sultanas, onion/garlic/chive/leek, xylitol/artificial sweeteners, spicy/peppery foods, raw bones, pits/stones, wild mushrooms, highly processed fast food, brand names.</rule>\n    <rule>Vibe: cute, wholesome, cozy.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, cafe neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Props: only what supports eating (plate/bowl/cup/napkin/tiny fork or chopsticks). No straws.</rule>\n    <rule>Hard NO: text/logos/watermarks/UI, humans, other Pokemon, collars/tags, duplicate Eevees, extreme mess, low-res artifacts.</rule>\n    <rule>Consider PAST_THEMES and avoid conceptual overlap; if overlap is unavoidable, change angle/time/location/food form.</rule>\n  \n\n  </globalRules>\n<pastThemes> \nAVOID THESE THEMES OR SIMILAR THEMES (VERY IMPORTANT!!!): \n{{ $json.pastThemes }}\n</pastThemes>\n  <foodGenerator>\n    <categories>\n      <fruit>apple slice|banana nib|blueberry cluster|pear slice|melon wedge|peach slice (no pit)</fruit>\n      <grains>plain rice ball|plain onigiri (sesame-free)|oat porridge spoon|vanilla rice pudding|mochi (non-chocolate)</grains>\n      <noodles>plain udon noodle|plain ramen noodle|plain rice noodle strand</noodles>\n      <veggies>steamed carrot coin|steamed sweet potato cube|steamed pumpkin cube|pumpkin soup spoon</veggies>\n      <dairy_like>plain yogurt spoon|blueberry yogurt swirl (no chocolate)</dairy_like>\n      <soups>mild veggie puree soup|pumpkin soup cup|carrot soup cup</soups>\n    </categories>\n    <forms>tiny plate|small bowl|mini cup</forms>\n    <descriptors>light steam wisp|glossy surface|few crumbs on plate|tiny swirl pattern|cup condensation</descriptors>\n    <samplingRecipe>\n      1) Uniformly sample a category at high temperature; 2) pick one item; 3) pick one serving form that fits; 4) optionally add 0–2 descriptors that are safe; 5) output FOOD as a short noun phrase (<= 8 words), ASCII only, e.g. \"strawberry half on tiny plate\", \"pumpkin soup cup\".\n    </samplingRecipe>\n    <constraints>No forbidden items; vary across runs; prefer items not seen in PAST_THEMES.</constraints>\n  </foodGenerator>\n\n  <variables>\n    <location>kitchen table|cafe window seat|picnic blanket|cozy living-room rug|park bench</location>\n    <mood>playful|cozy|curious|delighted</mood>\n    <timeOfDay>golden morning|bright noon|blue hour|night with warm lamps</timeOfDay>\n    <cameraStill>macro close-up|chest-up|small full-body on surface</cameraStill>\n    <cameraMove>gentle push-in|slow handheld from 3/4 left|static tripod with shallow DOF|micro-dolly along table</cameraMove>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>9:16</allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, eating {FOOD} at {LOCATION}, {TIME_OF_DAY}. {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near plate or bowl, natural crumbs or sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n      One Eevee only. Scene: {LOCATION}, {TIME_OF_DAY}, cozy, safe and wholesome. Camera: {CAMERA_MOVE}. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\n      ACTION BEATS:\n      1) Bite/lick: Eevee leans in and takes a small bite/lick/slurp; show believable texture.\n      2) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble. Makes sound like \"vee\", \"eevee\", \"eee\"\n      MOTION LAYERS:\n      - Subject: small head tilt, paw stabilization, gentle chew.\n      - Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n      - Environment: micro steam from hot items or tiny dust motes in light.\n      SOUND: Eevee makes cute 'ee' and 'vee' vocalizations; chill lo-fi in background.\n      SAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n  </templates>\n\n\n  <!-- OUTPUT CONTRACT: reply must be a single JSON object, HTTP-safe -->\n  <outputContract>\n    <rule>Before templating, instantiate {FOOD} by sampling via &lt;foodGenerator&gt; while avoiding &lt;pastThemes&gt;.</rule>\n    <rule>Return EXACTLY one JSON object with keys: \"title\", \"image_prompt\", \"video_prompt\", \"negative_prompt\". No markdown, no explanations.</rule>\n    <rule>All string values must be ASCII only. Escape quotes and backslashes per JSON spec. Newlines must be \"\\n\". No emojis or smart quotes.</rule>\n    <rule>Keep \"title\" &lt;= 99 chars, add simple ASCII hashtags if desired.</rule>\n    <rule>If any unsafe or forbidden item would appear, resample FOOD silently.</rule>\n  </outputContract>\n</aiInstruction>\n",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=<role>You are a prompt-engineer for photo-real images AND Veo-3 video. Generate ONE concept where Eevee eats a specific food, looking irresistibly cute.</role>"
@@ -1809,7 +1809,7 @@
         "nodeCredentialType": "httpBearerAuth",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"hailuo/02-image-to-video-pro\",\n  \"callBackUrl\": \"https://your-domain.com/api/callback\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($('Theme clanker').item.json.output.video_prompt) }},\n    \"image_url\": \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\",\n    \"prompt_optimizer\": true\n  }\n}",
+        "jsonBody": "={\n  \"model\": \"hailuo/2-3-image-to-video-pro\",\n  \"callBackUrl\": \"https://your-domain.com/api/callback\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($('Theme clanker').item.json.output.video_prompt) }},\n    \"image_url\": \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\",\n    \"duration\": \"10\",\n    \"resolution\": \"768P\"\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -1954,14 +1954,24 @@
             {
               "id": "534dab23-0283-4363-8adf-fe3bf721ab73",
               "leftValue": "={{ $json.data.state }}",
-              "rightValue": "generating",
+              "rightValue": "waiting",
               "operator": {
                 "type": "string",
                 "operation": "equals"
               }
+            },
+            {
+              "id": "15310cb7-17bd-4530-82be-083e0913b2dc",
+              "leftValue": "={{ $json.data.state }}",
+              "rightValue": "generating",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
             }
           ],
-          "combinator": "and"
+          "combinator": "or"
         },
         "options": {}
       },
@@ -2879,9 +2889,77 @@
           }
         }
       }
+    ],
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {}
+      }
+    ],
+    "NanoBanana: Create Image": [
+      {
+        "json": {
+          "code": 200,
+          "msg": "success",
+          "data": {
+            "taskId": "0628a3da975d9cf372a1310d4d834e84",
+            "recordId": "0628a3da975d9cf372a1310d4d834e84"
+          }
+        }
+      }
+    ],
+    "Theme clanker": [
+      {
+        "json": {
+          "output": {
+            "title": "Eevee Eats Udon at Cafe Window #cute",
+            "prompt": "Ultra photo-real Eevee, life-sized, curious, eating plain udon noodle in small bowl at cafe window seat, blue hour. chest-up composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers, tiny paws near plate or bowl, natural crumbs or sauce details, soft key light with gentle rim, cinematic look, subtle film grain, no text, no logos, single Eevee.",
+            "negative_prompt": "text, watermark, logo, human, humans, other Pokemon, multiple Eevees, duplicate Eevee, collar, tag, brand name, straw, chocolate, cocoa, coffee, tea, alcohol, grapes, raisins, currants, sultanas, onion, garlic, chive, leek, xylitol, artificial sweetener, spicy, peppery, raw bone, pits, stones, wild mushroom, highly processed fast food, extreme mess, low resolution, artifacts, blurriness, out of focus, overexposed, underexposed, cartoon, low detail, watermark, UI, text overlay",
+            "video_prompt": "One Eevee only. Scene: cafe window seat, blue hour, cozy, safe and wholesome. Camera: slow handheld from 3/4 left. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh. LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\nACTION BEATS:\n1) Bite/lick: Eevee leans in and takes a small bite/lick/slurp; show believable texture.\n2) Satisfaction: Eevee blinks, tiny ear flick; a second small nibble. Makes sound like \"vee\", \"eevee\", \"eee\"\nMOTION LAYERS:\n- Subject: small head tilt, paw stabilization, gentle chew.\n- Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n- Environment: micro steam from hot items or tiny dust motes in light.\nSOUND: Eevee makes cute 'ee' and 'vee' vocalizations; chill lo-fi in background.\nSAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Keep face visible and clean. Realistic fur physics; subtle film grain; cinematic, cozy tone."
+          }
+        }
+      }
+    ],
+    "Upload image to kei1": [
+      {
+        "json": {
+          "success": true,
+          "code": 200,
+          "msg": "File uploaded successfully",
+          "data": {
+            "success": true,
+            "fileName": "test-image2025-11-12-32-08.png",
+            "filePath": "kieai/179288/images/base64/test-image2025-11-12-32-08.png",
+            "downloadUrl": "https://tempfile.redpandaai.co/kieai/179288/images/base64/test-image2025-11-12-32-08.png",
+            "fileSize": 1567683,
+            "mimeType": "image/png",
+            "uploadedAt": "2025-11-12T10:08:34.710Z"
+          }
+        }
+      }
+    ],
+    "heluo video request": [
+      {
+        "json": {
+          "code": 200,
+          "msg": "success",
+          "data": {
+            "taskId": "7f7646e20435b799da95a8458f9aa2fe",
+            "recordId": "7f7646e20435b799da95a8458f9aa2fe"
+          }
+        }
+      }
+    ],
+    "Send message and wait for response": [
+      {
+        "json": {
+          "data": {
+            "approved": true
+          }
+        }
+      }
     ]
   },
-  "versionId": "c8625f14-93a9-46cd-9da6-d0e3c308e994",
+  "versionId": "e6b1bff8-04c4-4145-8827-6706c84864b8",
   "triggerCount": 1,
   "shared": [
     {
