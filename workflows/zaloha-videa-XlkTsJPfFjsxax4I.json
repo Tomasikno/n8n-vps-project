@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-19T15:25:13.808Z",
   "updatedAt": "2025-09-19T15:25:49.000Z",
+  "createdAt": "2025-09-19T15:25:13.808Z",
   "id": "XlkTsJPfFjsxax4I",
   "name": "zaloha videa",
   "active": false,
@@ -1694,8 +1694,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-19T15:25:13.825Z",
       "updatedAt": "2025-09-19T15:25:13.825Z",
+      "createdAt": "2025-09-19T15:25:13.825Z",
       "role": "workflow:owner",
       "workflowId": "XlkTsJPfFjsxax4I",
       "projectId": "kqMrkEZYsdGVbgzw"
