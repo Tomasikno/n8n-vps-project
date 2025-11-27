@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-24T08:48:45.915Z",
   "updatedAt": "2025-10-24T17:44:57.000Z",
+  "createdAt": "2025-10-24T08:48:45.915Z",
   "id": "maiY12WG3RV58N1Y",
   "name": "Reels eevee clanker - v5 veo 3.1 message trigger with theme",
   "active": true,
@@ -2952,8 +2952,8 @@
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-10-24T08:48:45.922Z",
       "updatedAt": "2025-10-24T08:48:45.922Z",
+      "createdAt": "2025-10-24T08:48:45.922Z",
       "role": "workflow:owner",
       "workflowId": "maiY12WG3RV58N1Y",
       "projectId": "kqMrkEZYsdGVbgzw"
