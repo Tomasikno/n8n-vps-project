@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-16T11:19:25.590Z",
   "updatedAt": "2025-09-20T11:54:37.000Z",
+  "createdAt": "2025-09-16T11:19:25.590Z",
   "id": "sDL7t48Oldb42S6o",
   "name": "Automated daily workflow backup to GitHub",
   "active": true,
@@ -569,8 +569,8 @@
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-09-16T11:19:25.602Z",
       "updatedAt": "2025-09-16T11:19:25.602Z",
+      "createdAt": "2025-09-16T11:19:25.602Z",
       "role": "workflow:owner",
       "workflowId": "sDL7t48Oldb42S6o",
       "projectId": "kqMrkEZYsdGVbgzw"
