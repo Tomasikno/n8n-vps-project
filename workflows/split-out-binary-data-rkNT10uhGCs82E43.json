@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-14T15:52:03.367Z",
   "updatedAt": "2025-09-16T11:18:28.000Z",
+  "createdAt": "2025-09-14T15:52:03.367Z",
   "id": "rkNT10uhGCs82E43",
   "name": "Split Out Binary Data",
   "active": false,
@@ -134,8 +134,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-14T15:52:03.380Z",
       "updatedAt": "2025-09-14T15:52:03.380Z",
+      "createdAt": "2025-09-14T15:52:03.380Z",
       "role": "workflow:owner",
       "workflowId": "rkNT10uhGCs82E43",
       "projectId": "kqMrkEZYsdGVbgzw"
