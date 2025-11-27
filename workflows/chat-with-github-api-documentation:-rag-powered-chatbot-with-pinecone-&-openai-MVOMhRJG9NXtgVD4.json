@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-20T12:10:15.726Z",
   "updatedAt": "2025-09-20T19:17:06.000Z",
+  "createdAt": "2025-09-20T12:10:15.726Z",
   "id": "MVOMhRJG9NXtgVD4",
   "name": "Chat with GitHub API Documentation: RAG-Powered Chatbot with Pinecone & OpenAI",
   "active": false,
@@ -427,8 +427,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-20T12:10:15.737Z",
       "updatedAt": "2025-09-20T12:10:15.737Z",
+      "createdAt": "2025-09-20T12:10:15.737Z",
       "role": "workflow:owner",
       "workflowId": "MVOMhRJG9NXtgVD4",
       "projectId": "kqMrkEZYsdGVbgzw"
