@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-14T16:22:14.809Z",
   "updatedAt": "2025-09-16T11:18:25.000Z",
+  "createdAt": "2025-09-14T16:22:14.809Z",
   "id": "GZ3Dni70gAk0ujnV",
   "name": "Generate and Split Sample Data Records using JavaScript and Python",
   "active": false,
@@ -156,8 +156,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-14T16:22:14.828Z",
       "updatedAt": "2025-09-14T16:22:14.828Z",
+      "createdAt": "2025-09-14T16:22:14.828Z",
       "role": "workflow:owner",
       "workflowId": "GZ3Dni70gAk0ujnV",
       "projectId": "kqMrkEZYsdGVbgzw"
