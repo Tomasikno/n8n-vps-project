@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-20T12:09:18.795Z",
   "updatedAt": "2025-09-20T12:09:22.000Z",
+  "createdAt": "2025-09-20T12:09:18.795Z",
   "id": "CKx5IUTDQn62kh1z",
   "name": "Demo: RAG in n8n",
   "active": false,
@@ -304,8 +304,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-20T12:09:18.822Z",
       "updatedAt": "2025-09-20T12:09:18.822Z",
+      "createdAt": "2025-09-20T12:09:18.822Z",
       "role": "workflow:owner",
       "workflowId": "CKx5IUTDQn62kh1z",
       "projectId": "kqMrkEZYsdGVbgzw"
