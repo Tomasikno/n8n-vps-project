@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-16T14:49:57.819Z",
   "updatedAt": "2025-11-12T10:30:02.000Z",
+  "createdAt": "2025-10-16T14:49:57.819Z",
   "id": "Hm6jTpthmdkDWfUu",
   "name": "Reels eevee clanker - v3 hailuo",
   "active": false,
@@ -2963,8 +2963,8 @@
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-10-16T14:49:57.835Z",
       "updatedAt": "2025-10-16T14:49:57.835Z",
+      "createdAt": "2025-10-16T14:49:57.835Z",
       "role": "workflow:owner",
       "workflowId": "Hm6jTpthmdkDWfUu",
       "projectId": "kqMrkEZYsdGVbgzw"
