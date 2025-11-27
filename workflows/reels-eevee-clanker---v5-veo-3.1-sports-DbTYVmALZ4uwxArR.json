@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-21T11:55:34.849Z",
   "updatedAt": "2025-10-21T12:03:49.000Z",
+  "createdAt": "2025-10-21T11:55:34.849Z",
   "id": "DbTYVmALZ4uwxArR",
   "name": "Reels eevee clanker - v5 veo 3.1 sports",
   "active": false,
@@ -2860,8 +2860,8 @@
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-10-21T11:55:34.856Z",
       "updatedAt": "2025-10-21T11:55:34.856Z",
+      "createdAt": "2025-10-21T11:55:34.856Z",
       "role": "workflow:owner",
       "workflowId": "DbTYVmALZ4uwxArR",
       "projectId": "kqMrkEZYsdGVbgzw"
