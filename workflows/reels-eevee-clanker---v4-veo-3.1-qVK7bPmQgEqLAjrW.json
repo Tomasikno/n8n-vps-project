@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-21T11:34:04.866Z",
   "updatedAt": "2025-10-24T08:48:42.000Z",
+  "createdAt": "2025-10-21T11:34:04.866Z",
   "id": "qVK7bPmQgEqLAjrW",
   "name": "Reels eevee clanker - v4 veo 3.1",
   "active": false,
@@ -2860,8 +2860,8 @@
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-10-21T11:34:04.876Z",
       "updatedAt": "2025-10-21T11:34:04.876Z",
+      "createdAt": "2025-10-21T11:34:04.876Z",
       "role": "workflow:owner",
       "workflowId": "qVK7bPmQgEqLAjrW",
       "projectId": "kqMrkEZYsdGVbgzw"
