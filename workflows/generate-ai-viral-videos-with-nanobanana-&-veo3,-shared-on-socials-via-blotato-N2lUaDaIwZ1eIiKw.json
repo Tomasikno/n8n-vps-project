@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-19T15:02:50.557Z",
   "updatedAt": "2025-09-20T15:31:38.000Z",
+  "createdAt": "2025-09-19T15:02:50.557Z",
   "id": "N2lUaDaIwZ1eIiKw",
   "name": "Generate AI viral videos with NanoBanana & VEO3, shared on socials via Blotato",
   "active": false,
@@ -1758,8 +1758,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-19T15:02:50.585Z",
       "updatedAt": "2025-09-19T15:02:50.585Z",
+      "createdAt": "2025-09-19T15:02:50.585Z",
       "role": "workflow:owner",
       "workflowId": "N2lUaDaIwZ1eIiKw",
       "projectId": "kqMrkEZYsdGVbgzw"
