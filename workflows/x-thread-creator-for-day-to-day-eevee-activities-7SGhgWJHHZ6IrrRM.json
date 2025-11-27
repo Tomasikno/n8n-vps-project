@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-21T22:27:31.261Z",
   "updatedAt": "2025-09-21T22:27:31.261Z",
+  "createdAt": "2025-09-21T22:27:31.261Z",
   "id": "7SGhgWJHHZ6IrrRM",
   "name": "X thread creator for day to day eevee activities",
   "active": false,
@@ -17,8 +17,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-21T22:27:31.271Z",
       "updatedAt": "2025-09-21T22:27:31.271Z",
+      "createdAt": "2025-09-21T22:27:31.271Z",
       "role": "workflow:owner",
       "workflowId": "7SGhgWJHHZ6IrrRM",
       "projectId": "kqMrkEZYsdGVbgzw"
