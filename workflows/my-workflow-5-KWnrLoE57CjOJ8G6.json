@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-19T16:34:11.436Z",
   "updatedAt": "2025-09-19T16:49:16.000Z",
+  "createdAt": "2025-09-19T16:34:11.436Z",
   "id": "KWnrLoE57CjOJ8G6",
   "name": "My workflow 5",
   "active": false,
@@ -206,8 +206,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-19T16:34:11.441Z",
       "updatedAt": "2025-09-19T16:34:11.441Z",
+      "createdAt": "2025-09-19T16:34:11.441Z",
       "role": "workflow:owner",
       "workflowId": "KWnrLoE57CjOJ8G6",
       "projectId": "kqMrkEZYsdGVbgzw"
