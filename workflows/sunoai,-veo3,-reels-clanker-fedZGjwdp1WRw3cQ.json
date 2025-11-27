@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-19T17:02:15.958Z",
   "updatedAt": "2025-09-20T21:46:18.000Z",
+  "createdAt": "2025-09-19T17:02:15.958Z",
   "id": "fedZGjwdp1WRw3cQ",
   "name": "SunoAI, VEO3, reels clanker",
   "active": false,
@@ -1893,8 +1893,8 @@
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-19T17:02:15.972Z",
       "updatedAt": "2025-09-19T17:02:15.972Z",
+      "createdAt": "2025-09-19T17:02:15.972Z",
       "role": "workflow:owner",
       "workflowId": "fedZGjwdp1WRw3cQ",
       "projectId": "kqMrkEZYsdGVbgzw"
