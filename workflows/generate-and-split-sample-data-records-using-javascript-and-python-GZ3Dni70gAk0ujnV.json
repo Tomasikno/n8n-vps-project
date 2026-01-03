@@ -153,6 +153,7 @@
   },
   "pinData": {},
   "versionId": "791c442b-f932-4fbf-a317-54f8ab7a2273",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
@@ -163,5 +164,6 @@
       "projectId": "kqMrkEZYsdGVbgzw"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
