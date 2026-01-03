@@ -2949,6 +2949,7 @@
     ]
   },
   "versionId": "1fc5c935-6781-4c09-a64e-66b4309df4ff",
+  "activeVersionId": "1fc5c935-6781-4c09-a64e-66b4309df4ff",
   "triggerCount": 1,
   "shared": [
     {
@@ -2959,5 +2960,2902 @@
       "projectId": "kqMrkEZYsdGVbgzw"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-11-27T15:25:38.462Z",
+    "createdAt": "2025-11-27T15:25:38.462Z",
+    "versionId": "1fc5c935-6781-4c09-a64e-66b4309df4ff",
+    "workflowId": "maiY12WG3RV58N1Y",
+    "nodes": [
+      {
+        "parameters": {
+          "content": "AI Music Generator - Parameter Usage Guide\n1. **Prompt** (Music Description)\n    - Purpose: Describe the music content you want to generate.\n    - Example: \"A calm and relaxing piano track with soft melodies\".\n    - Character Limit: Maximum 3000 characters.\n    - Tips:\n      More detailed descriptions lead to better results.\n      Include emotions, rhythm, instruments, etc.\n      In current mode, this description will be used as lyrics content.\n2. **Style** (Music Style)\n    - Purpose: Specify the music genre or style.\n    - Example: \"Classical\", \"Jazz\", \"Pop\", \"Electronic\", \"Rock\".\n    - Character Limit: Maximum 200 characters.\n    - Common Styles: Classical,Jazz,Pop,Electronic,Rock,Hip-hop.\n3. **Title** (Music Title)\n    - Purpose: Set a title for the generated music.\n    - Example: \"Peaceful Piano Meditation\".\n    - Character Limit: Maximum 80 characters.\n    - Usage: Title will be displayed in player interfaces and filenames.\n4. **Api_key** (API Key)\n    - This is what you get in the first step.",
+          "height": 500,
+          "width": 640
+        },
+        "id": "3d959e7e-3a2a-4d0e-8fbb-e1d42889d108",
+        "name": "Sticky Note1",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1168,
+          1104
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "amount": 30
+        },
+        "id": "0f325d69-0567-4513-a620-42bf56ac06a0",
+        "name": "Wait for Music Processing",
+        "type": "n8n-nodes-base.wait",
+        "position": [
+          112,
+          4256
+        ],
+        "webhookId": "4310a9d9-fa0f-4c35-ad9f-62697d75b954",
+        "typeVersion": 1.1,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "url": "https://api.sunoapi.org/api/v1/generate/record-info",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{$json.data.taskId}}"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "120d8c8c-66a9-476c-9c9b-79a043f13be3",
+        "name": "Poll Music Generation Status",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          336,
+          4176
+        ],
+        "typeVersion": 4.2,
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "flynbMcZ320tP6Xq",
+            "name": "Suno bear"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "version": 2,
+              "leftValue": "",
+              "caseSensitive": true,
+              "typeValidation": "loose"
+            },
+            "combinator": "and",
+            "conditions": [
+              {
+                "id": "faf4bf4c-8a8e-49a3-b62a-14a4af0b7dfb",
+                "operator": {
+                  "name": "filter.operator.equals",
+                  "type": "string",
+                  "operation": "equals"
+                },
+                "leftValue": "true",
+                "rightValue": "={{$json.data.status == \"SUCCESS\"}}"
+              }
+            ]
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "id": "be956463-7b72-4067-a5c8-b8b8f3451f25",
+        "name": "Check if Music Generation Complete",
+        "type": "n8n-nodes-base.if",
+        "position": [
+          560,
+          4256
+        ],
+        "typeVersion": 2.2,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "73bdb28d-6b86-47d5-98d2-4647600a11bd",
+                "name": "audioUrl1",
+                "type": "string",
+                "value": "={{$json.data.response.sunoData[0].audioUrl}}"
+              },
+              {
+                "id": "3f468fe2-189d-40a1-805d-9090b93bfe6e",
+                "name": "audioUrl2",
+                "type": "string",
+                "value": "={{ $json.data.response.sunoData[1].audioUrl }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "230c80b3-2ecf-4484-9a01-85ccc1d77965",
+        "name": "Format and Display Music Results",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          784,
+          4256
+        ],
+        "typeVersion": 3.4,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4",
+            "mode": "list",
+            "cachedResultName": "gpt-4"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          -976,
+          1904
+        ],
+        "id": "0566614c-f3b2-4a51-a7d5-84eb14c33a10",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "x4WuZYjSfm0LFGHN",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"title\": \"<short title ≤ 60 chars>\",\n  \"bpm\": 112,\n  \"key\": \"C major\",\n  \"hook\": \"<EXACTLY five words>\",\n  \"verse\": [\n    \"The periodic table groups by how atoms act—\",\n    \"metals here, halogens there—patterns, not just names.\",\n    \"Noble gases rarely react; their shells are full—\",\n    \"they glow in signs but keep to themselves.\",\n    \"Carbon chains build life—rings, branches, backbone code—\",\n    \"swap a bond, and form shifts from sweet to strong.\",\n    \"Water’s bent angle makes poles—tiny magnets—\",\n    \"it sticks, it dissolves, it carries life.\"\n  ],\n  \"chorus\": [\n    \"<HOOK> (crowd: \\\"...\\\")\",\n    \"<supporting line>\",\n    \"<supporting line>\",\n    \"<HOOK> (crowd: \\\"...\\\")\"\n  ],\n  \"outro\": [\n    \"<tag line>\"\n  ]\n}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -720,
+          1904
+        ],
+        "id": "a3ad8d6a-b9f2-45a6-ab8a-da8265206bef",
+        "name": "Structured Output Parser"
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n    \"timeline\": {\n        \"soundtrack\": {\n            \"src\": \"https://s3-ap-southeast-2.amazonaws.com/shotstack-assets/music/moment.mp3\",\n            \"effect\": \"fadeOut\"\n        },\n        \"tracks\": [\n            {\n                \"clips\": [\n                    {\n                        \"asset\": {\n                            \"type\": \"text\",\n                            \"text\": \"HELLO WORLD\",\n                            \"font\": {\n                                \"family\": \"Montserrat ExtraBold\",\n                                \"color\": \"#ffffff\",\n                                \"size\": 32\n                            },\n                            \"alignment\": {\n                                \"horizontal\": \"left\"\n                            }\n                        },\n                        \"start\": 0,\n                        \"length\": 5,\n                        \"transition\": {\n                            \"in\": \"fade\",\n                            \"out\": \"fade\"\n                        }\n                    }\n                ]\n            }\n        ]\n    },\n    \"output\": {\n        \"format\": \"mp4\",\n        \"size\": {\n            \"width\": 1080,\n            \"height\": 920\n        }\n    }\n}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          -496,
+          4688
+        ],
+        "id": "0aa718a2-b8e3-4791-b703-3b376a07a08d",
+        "name": "Structured Output Parser1"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-5-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-5-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          -96,
+          2656
+        ],
+        "id": "280389f3-b688-4542-90b0-c0563cde3c98",
+        "name": "OpenAI Chat Model2",
+        "credentials": {
+          "openAiApi": {
+            "id": "x4WuZYjSfm0LFGHN",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "databasePage",
+          "databaseId": {
+            "__rl": true,
+            "value": "27358cd7-1b15-80e5-965f-d144b72c15b4",
+            "mode": "list",
+            "cachedResultName": "27358cd7-1b15-80e5-965f-d144b72c15b4",
+            "cachedResultUrl": "https://www.notion.so/27358cd71b1580e5965fd144b72c15b4"
+          },
+          "propertiesUi": {
+            "propertyValues": [
+              {
+                "key": "Theme|title",
+                "title": "={{ $json.title }}"
+              },
+              {
+                "key": "OneLiner|rich_text",
+                "textContent": "={{ $json.prompt }}"
+              },
+              {
+                "key": "Hash|number",
+                "numberValue": "={{ $json._hash }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.notion",
+        "typeVersion": 2.2,
+        "position": [
+          816,
+          2448
+        ],
+        "id": "e0b00dbb-ccd7-4766-870c-4e0d1d940451",
+        "name": "Create a database page",
+        "credentials": {
+          "notionApi": {
+            "id": "lDq6KxxGETipZmXY",
+            "name": "Notion account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "fd34a46c-85f5-42a1-a056-cf1108603b6f",
+                "leftValue": "",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          592,
+          2448
+        ],
+        "id": "069e217e-f770-4180-ab6d-6b20f62104e4",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"title\": \"string\",\n  \"prompt\": \"string\",\n  \"negative_prompt\": \"string\",\n  \"video_prompt\": \"string\"\n}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "typeVersion": 1.3,
+        "position": [
+          176,
+          2656
+        ],
+        "id": "5b8926a8-1c41-44af-8307-3c4a5fd0d428",
+        "name": "Structured Output Parser2"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4",
+            "mode": "list",
+            "cachedResultName": "gpt-4"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          -752,
+          4688
+        ],
+        "id": "5d77857d-6f5e-41b5-9cab-b557d1c0bc3c",
+        "name": "OpenAI Chat Model3",
+        "credentials": {
+          "openAiApi": {
+            "id": "x4WuZYjSfm0LFGHN",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "Could spiral into recursion",
+          "height": 80,
+          "width": 256
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          944,
+          1376
+        ],
+        "id": "e83f0bfa-9235-4145-bdf2-ae2ef6d3122a",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Goal: Create a short, ultra-catchy educational song with lyrics about cosmic fun facts that works on TikTok/Reels. stick to only one funfact throuh the entire songs. You dont have to rhyme that much, keep it simple wording, plain even. Make it really educational and with propper science terminology, I want to learn from this and make people learn from this. I need it to be viral. Needs to rhyme.\n\nInstructions (model-facing):\n\nTopic: {{ $json.property_one_liner }}\n\nAudience & tone: General audience, playful / wonder-filled, kid-safe wording, high intelligibility.\n\nLength: 40–60s total; vocals start at 0s or within 2 bars.\n\nTempo/Key: 140 BPM; C major or A minor (easy to sing on phones).\n\nStructure:\n\nVerse (16 lines): 6–9 syllables, ABAB rhyme.\n\nOutro (1–2 lines): quick summary/tag.\n\nFacts style: Numbers & comparisons (e.g., “Light needs ~8 min from Sun”), records (“largest star…”, “fastest spin…”), simple causes (“why galaxies look redshifted”). No jargon; prefer plain analogies (“size like a city”).\n\nMix notes: Vocal-forward; clear mids for phone speakers; minimal reverb; no busy fills over vocals.\n\nSafety: Keep everything non-scary (no disaster gore), no brand names, no politics.",
+          "hasOutputParser": true,
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          -928,
+          1680
+        ],
+        "id": "dd71834d-8b39-427d-8b5b-d5c0d367ef21",
+        "name": "lyrics clanker",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=\n<aiInstruction>\n  <!-- ==== USER INPUT FIELD ==== -->\n  <userTheme>{{ $('extract theme').item.json.user_theme }}</userTheme>  <!-- short phrase, e.g., \"mini painting class\" or \"table tennis practice\" -->\n\n  <globalRules>\n    <rule>Subject: exactly one (1) Eevee, life-sized, plush yet realistic fur, expressive eyes, delicate whiskers.</rule>\n    <rule>Theme: Follow USER_THEME as the sole source of activities and props. Do NOT use any external lists or prior presets.</rule>\n    <rule>Safety: No text/logos/watermarks/UI, humans, other Pokemon, collars/tags, duplicates, brand names, extreme mess. Omit anything unsafe or branded.</rule>\n    <rule>Vibe: cute, wholesome, cozy; cinematic but grounded.</rule>\n    <rule>Lighting: soft natural key + gentle rim; practicals allowed (window, lamp, neon).</rule>\n    <rule>Composition: shallow depth of field; subject cleanly in focus; rule-of-thirds or centered hero composition.</rule>\n    <rule>Consider PAST_THEMES and avoid conceptual overlap; if overlap is unavoidable, change angle/time/location while keeping USER_THEME intact.</rule>\n  </globalRules>\n\n  <themeInterpreter>\n    <instructions>\n      1) Read USER_THEME and derive:\n         - THEME_ACTION: concise action phrase (<= 10 words, ASCII) that directly follows the theme (e.g., \"mixing paint\", \"serving a tennis ball\").\n         - THEME_PROPS: minimal prop set strictly implied by the theme, ASCII, non-branded, safe (e.g., for \"mini painting class\": \"tiny brush, small canvas\").\n         - LOCATION: only if clearly implied by the theme wording (e.g., \"ping-pong table\" -> \"gym\" or \"rec room\"). Otherwise leave empty.\n      2) Do NOT invent unrelated ideas. If a prop/action is unsafe or branded, drop it without replacement.\n      3) Keep minimalism: prefer 0–2 props maximum; prefer one clear action over many.\n    </instructions>\n  </themeInterpreter>\n\n  <variables>\n    <mood>playful|cozy|curious|delighted|focused</mood>\n    <timeOfDay>golden morning|bright noon|blue hour|night with warm lamps</timeOfDay>\n    <cameraStill>macro close-up|chest-up|small full-body on surface</cameraStill>\n    <cameraMove>gentle push-in|slow handheld from 3/4 left|static tripod with shallow DOF|micro-dolly along table</cameraMove>\n    <derived>\n      <theme>{USER_THEME raw}</theme>\n      <themeAction>{THEME_ACTION derived}</themeAction>\n      <themeProps>{THEME_PROPS minimal}</themeProps>\n      <location>{LOCATION if implied else empty}</location>\n    </derived>\n  </variables>\n\n  <defaults>\n    <aspect>9:16</aspect>\n    <allowedAspects>9:16</allowedAspects>\n  </defaults>\n\n  <templates>\n    <imagePromptTemplate>\n      Ultra photo-real Eevee, life-sized, {MOOD}, {THEME_ACTION}{IF LOCATION: \" at \" + LOCATION}{ENDIF}, {TIME_OF_DAY}.\n      {CAMERA_STILL} composition, shallow depth of field, crisp fur strands, glossy eyes with catchlight, delicate whiskers,\n      minimal props: {THEME_PROPS if any}, soft key light with gentle rim, cinematic look, subtle film grain,\n      no text, no logos, single Eevee.\n    </imagePromptTemplate>\n\n    <videoPromptTemplate>\n      One Eevee only. Scene:{IF LOCATION: \" \" + LOCATION + \",\"}{ENDIF} {TIME_OF_DAY}, cozy, safe and wholesome.\n      Camera: {CAMERA_MOVE}. LENS: 50-85mm equivalent, shallow depth of field, soft bokeh.\n      LIGHTING: soft window key + gentle rim/practicals. Keep Eevee proportional; she is a Pokemon.\n      ACTION BEATS:\n      1) Establish: Eevee is {THEME_ACTION}{IF THEME_PROPS: \" with \" + THEME_PROPS}{ENDIF}; brief look to camera, confident and cute.\n      2) Core: Eevee continues {THEME_ACTION} with micro-gestures (ear flick, head tilt, paw stabilization).\n      3) Button: Eevee completes the action proudly; tiny tail swish and blink.\n      MOTION LAYERS:\n      - Subject: micro-gestures suited to THEME_ACTION.\n      - Camera: gentle push-in or slow handheld sway; no whip-pans; no cuts.\n      - Environment: tiny dust motes or subtle reflections if appropriate.\n      SOUND: cute 'ee' and 'vee' vocalizations; chill lo-fi bed (no lyrics).\n      SAFETY & STYLE: No text/logos/humans/other Pokemon/collars. Realistic fur physics; subtle film grain; cinematic, cozy tone.\n    </videoPromptTemplate>\n  </templates>\n\n  <!-- OUTPUT CONTRACT -->\n  <outputContract>\n    <rule>Use only USER_THEME as input; derive actions/props/location per themeInterpreter. Do not add external content.</rule>\n    <rule>Return EXACTLY one JSON object with keys: \"title\", \"image_prompt\", \"video_prompt\", \"negative_prompt\". No markdown, no explanations.</rule>\n    <rule>All string values must be ASCII only. Escape quotes and backslashes per JSON spec. Newlines must be \"\\n\". No emojis or smart quotes.</rule>\n    <rule>Keep \"title\" &lt;= 99 chars; include USER_THEME if helpful; simple ASCII hashtags allowed.</rule>\n    <rule>If USER_THEME is missing/empty, return a single JSON object with an \"error\" key describing the missing input (ASCII).</rule>\n  </outputContract>\n\n  <negativePrompt>\n    text, logo, watermark, UI, human, other Pokemon, duplicate Eevee, collar, tag, unsafe/brand props, extreme mess, low-res artifacts, jpeg artifacts\n  </negativePrompt>\n</aiInstruction>\n",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "=<role>You are a prompt-engineer for photo-real images AND Veo-3 video. Generate ONE concept where Eevee follows USER_THEME (only) and performs actions and uses minimal props that are strictly derived from that theme.</role>\n"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          -32,
+          2448
+        ],
+        "id": "0308e474-e64a-49f7-81d7-103885508ca5",
+        "name": "Theme clanker"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.sunoapi.org/api/v1/generate",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "prompt",
+                "value": "=VERSE:{{ $('lyrics clanker').item.json.output.verse }}\n\nCHORUS: {{ $('lyrics clanker').item.json.output.chorus }}\n\nOUTRO: {{ $('lyrics clanker').item.json.output.outro }}\n\nHOOK: {{ $('lyrics clanker').item.json.output.hook }}\n\n"
+              },
+              {
+                "name": "style",
+                "value": "Electro spoken-word fast paced, 140 BPM, A minor. No intro—voice at 2s. Neutral Female, spoken to rap singing cadence. !!LENGTH:60s!! Minimal palette (side-chained pads, clean kick, sub, airy plucks). Vocal-forward; avoid autotune artifacts and dense fills."
+              },
+              {
+                "name": "title",
+                "value": "={{ $('lyrics clanker').item.json.output.title }}"
+              },
+              {
+                "name": "customMode",
+                "value": "true"
+              },
+              {
+                "name": "instrumental",
+                "value": "false"
+              },
+              {
+                "name": "model",
+                "value": "V4_5"
+              },
+              {
+                "name": "negativeTags",
+                "value": "long intro,instrumental intro,delayed vocals,autotune,heavy reverb,dense fills,busy percussion,vocoder,distortion,glitch fx, tempo changes,choir"
+              },
+              {
+                "name": "vocalGender",
+                "value": "f"
+              },
+              {
+                "name": "styleWeight",
+                "value": "0.80"
+              },
+              {
+                "name": "weirdnessConstraint",
+                "value": "0.35"
+              },
+              {
+                "name": "audioWeight",
+                "value": "0.65"
+              },
+              {
+                "name": "callBackUrl",
+                "value": "https://api.example.com/callback"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -112,
+          4256
+        ],
+        "id": "c1c6c158-99e8-4d89-a557-33880f84e0f8",
+        "name": "Request create song",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "flynbMcZ320tP6Xq",
+            "name": "Suno bear"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "inputDataFieldName": "song",
+          "name": "=song-{{ $now.format('yyyy-MM-dd-HH:mm:ss') }}",
+          "driveId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1u3NLKJAZekpnEeDKfbFDMttdxeWoCRzv",
+            "mode": "list",
+            "cachedResultName": "songs",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1u3NLKJAZekpnEeDKfbFDMttdxeWoCRzv"
+          },
+          "options": {
+            "appPropertiesUi": {
+              "appPropertyValues": [
+                {}
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.googleDrive",
+        "typeVersion": 3,
+        "position": [
+          1232,
+          4256
+        ],
+        "id": "b05c16bf-0cb8-46bf-b3b6-7b5c900b2621",
+        "name": "Upload file1",
+        "credentials": {
+          "googleDriveOAuth2Api": {
+            "id": "ih6pau2KBlXO6pNC",
+            "name": "Google Drive account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "operation": "download",
+          "fileId": {
+            "__rl": true,
+            "value": "https://drive.google.com/file/d/1KxUYCr2M-2LkgOkhha7d0bNqcruW3-L-/view?usp=drive_link",
+            "mode": "url"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleDrive",
+        "typeVersion": 3,
+        "position": [
+          -976,
+          2112
+        ],
+        "id": "f866cb7c-a187-401a-8250-3897c13656f9",
+        "name": "Download file",
+        "credentials": {
+          "googleDriveOAuth2Api": {
+            "id": "ih6pau2KBlXO6pNC",
+            "name": "Google Drive account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.audioUrl1 }}",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "options": {
+            "response": {
+              "response": {
+                "responseFormat": "file",
+                "outputPropertyName": "song"
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1008,
+          4256
+        ],
+        "id": "fe374598-f291-44a3-8f87-5ea53db7081e",
+        "name": "Download songs",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "flynbMcZ320tP6Xq",
+            "name": "Suno bear"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "typeVersion": 1.1,
+        "position": [
+          -624,
+          4688
+        ],
+        "id": "bd7375f8-50cd-4064-96eb-fb09099b0d28",
+        "name": "Think"
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "typeVersion": 1.1,
+        "position": [
+          -848,
+          1904
+        ],
+        "id": "419b759d-04ce-42aa-8ded-7b45314dbc53",
+        "name": "Think1"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4.1-mini"
+          },
+          "options": {}
+        },
+        "id": "3e11a55d-fb58-4c1e-8d0c-aba2c7e033af",
+        "name": "OpenAI Chat Model4",
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "position": [
+          -112,
+          5440
+        ],
+        "typeVersion": 1.2,
+        "credentials": {
+          "openAiApi": {
+            "id": "x4WuZYjSfm0LFGHN",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "id": "6da15614-8355-4af5-a367-a9cea8bed8ab",
+        "name": "Think3",
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "position": [
+          16,
+          5440
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"title\": \"string\",\n  \"final_prompt\": \"string\"\n}\n"
+        },
+        "id": "2950b844-6916-444a-b878-27f44a437f11",
+        "name": "Structured Output Parser4",
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "position": [
+          144,
+          5440
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "a45483d1-d215-4880-a67d-ed66367769c0",
+                "name": "json_master",
+                "value": "={   \"title\": \"<Project name>\",   \"goal\": \"Teach one fun science fact in a friendly, kid-safe way while the mascot host sings to the final song. No on-screen captions.\",   \"format\": {     \"platform\": \"TikTok / Reels\",     \"aspect_ratio\": \"9:16\",     \"resolution\": \"1080x1920\",     \"fps\": 24,     \"duration_sec\": <40-60>   },   \"assets\": {     \"audio_url\": \"<https link to final song>\",     \"reference_image_url\": \"<https link to host image>\"   },   \"scene_summary\": \"Soft sci-fi lab; cozy, bright, and clean. The cute lab-mascot explains a single science fact with simple gestures and bouncy timing.\",   \"style\": \"cute, cinematic, soft light, shallow depth of field, playful, wholesome\",   \"camera\": {     \"type\": \"steadicam/dolly\",     \"movement\": \"gentle push-ins and micro orbits synced to downbeats\",     \"lens\": \"50–85mm portrait feel\"   },   \"lighting\": {     \"type\": \"soft + rim\",     \"sources\": \"warm key from camera-left, cyan rim from back-right, practical lab glows\",     \"fx\": \"subtle bokeh, very light volumetrics\"   },   \"environment\": {     \"location\": \"friendly futuristic lab\",     \"set_pieces\": [\"benches with soft cyan lights\", \"cute glass beakers\", \"tiny hologram panel\"],     \"mood\": \"clean, upbeat, curious\"   },   \"subject\": {     \"host\": {       \"description\": \"adorable lab-mascot with big bright eyes, fluffy collar, white lab coat with colorful pens\",       \"pose\": \"open posture, small head bops, enthusiastic paw gestures\",       \"identity_lock\": \"must match reference_image_url across all shots\"     }   },   \"learning_goal\": \"One clear takeaway in one sentence (kid-safe wording).\",   \"lyrics_input\": \"<paste raw lyrics here>\",   \"beat_map\": [     { \"t_start\": 0.00, \"t_end\": 2.20, \"lyric\": \"<line 1>\", \"syllables\": 6 },     { \"t_start\": 2.20, \"t_end\": 4.60, \"lyric\": \"<line 2>\", \"syllables\": 7 }   ],   \"shots\": [     {       \"id\": \"S1\",       \"t_start\": 0.00,       \"t_end\": 3.00,       \"purpose\": \"Meet the host; start the hook\",       \"framing\": \"medium close-up\",       \"camera\": \"gentle push-in\",       \"action\": \"host smiles, inhales subtly, starts singing; paw pops on first downbeat\",       \"lip_sync_to\": [0],       \"veo_prompt\": \"Vertical 9:16. Cute lab-mascot matching the reference image sings in a softly lit futuristic lab. Realistic fur, glossy eyes, shallow DOF, cyan accents, gentle push-in. No text, no watermarks.\"     },     {       \"id\": \"S2\",       \"t_start\": 3.00,       \"t_end\": 6.00,       \"purpose\": \"Teach the core fact beat\",       \"framing\": \"tight close-up\",       \"camera\": \"locked with micro handheld breathing\",       \"action\": \"mouth shapes AA/EE on stressed syllables; head bop on beats; quick glance to tiny hologram\",       \"lip_sync_to\": [1],       \"veo_prompt\": \"Close-up of the same mascot with precise lip-sync, cyan rim light, soft key, shallow DOF. No text.\"     }   ],   \"motion\": {     \"type\": \"playful gestures + small hologram cutaways\",     \"details\": \"on emphasized words, a tiny lab hologram blips on/off; subtle paw arcs timed to downbeats\"   },   \"vfx\": {     \"hologram\": \"soft cyan HUD elements that appear briefly (no readable text)\",     \"particles\": \"very light dust motes in the bokeh\"   },   \"audio\": {     \"music\": \"use provided song only\",     \"sfx\": [\"soft woosh on camera push\", \"tiny blip when hologram appears\"],     \"ambience\": \"low room tone\",     \"lip_sync\": \"strong; map visemes (MBP, EE, OH, FV) to lyric phonemes; align to beat_map\"   },   \"ending\": \"Host lands on a cute smile + tiny paw wave; quick 0.4s hold; fade out audio tail.\",   \"safety_and_rules\": [     \"no on-screen text or captions\",     \"brand-safe, kid-safe\",     \"keep host identity consistent with reference image\",     \"no logos/watermarks beyond platform defaults\"   ],   \"keywords\": [\"cute\", \"educational\", \"mascot\", \"science fact\", \"soft sci-fi lab\", \"vertical video\"] }",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -976,
+          4464
+        ],
+        "id": "f675bf9d-0170-4dc5-991d-ef87d4e326a1",
+        "name": "Edit Fields1"
+      },
+      {
+        "parameters": {
+          "amount": 1,
+          "unit": "minutes"
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1008,
+          4800
+        ],
+        "id": "da2447ef-ac30-4cda-8288-9d0b8744e0fc",
+        "name": "Wait",
+        "webhookId": "8c13e72d-482b-456c-980b-5c0f6623d067",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "url": "https://api.kie.ai/api/v1/veo/record-info",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{ $json.data.taskId }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1232,
+          4720
+        ],
+        "id": "7010e021-4035-4851-9ab8-f25fd8384921",
+        "name": "HTTP Request2",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "534dab23-0283-4363-8adf-fe3bf721ab73",
+                "leftValue": "={{ $json.data.successFlag }}",
+                "rightValue": "0",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1456,
+          4800
+        ],
+        "id": "a360ba90-791d-4d1c-a75a-956439ff473f",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "jsCode": "const structuredPrompt = $input.first().json.output.final_prompt;\nreturn {\n  json: {\n    prompt: JSON.stringify(structuredPrompt), // this escapes it correctly!\n    model: \"veo3_fast\",\n    aspectRatio: \"9:16\"\n  }\n}\n"
+        },
+        "id": "e4f025c4-b0df-4eb1-9abc-7e6752f97e2d",
+        "name": "Format Prompt",
+        "type": "n8n-nodes-base.code",
+        "position": [
+          352,
+          5312
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://kieai.redpandaai.co/api/file-url-upload",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "fileUrl",
+                "value": "drive.google.com/uc?export=download&id=1KaY5aIfDSLle062iYli6xN8tnwE2q94s"
+              },
+              {
+                "name": "uploadPath",
+                "value": "images/downloaded"
+              },
+              {
+                "name": "fileName",
+                "value": "=my-downloaded-image-{{$now.format('yyyy-MM-dd-HH-mm-ss')}}.png"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -976,
+          1232
+        ],
+        "id": "44ca1d71-ed49-4c60-b38b-804defb77284",
+        "name": "HTTP Request3",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "https://drive.google.com/uc?export=download&id=1KaY5aIfDSLle062iYli6xN8tnwE2q94s",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -112,
+          4896
+        ],
+        "id": "55c89813-3eb7-4e5e-937a-9e5c19142bcd",
+        "name": "HTTP Request4"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  console.log(item.binary)\n}\n\n\n// Converts item.binary.data -> base64 and stores it in item.json.base64\n// Also adds a data: URL for convenience.\nreturn $input.all().map(item => {\n  const binProp = 'data'; // change if your binary prop is named differently\n  const buf = item.binary.data;\n\n  const mime =\n    (item.binary?.[binProp]?.mimeType) ||\n    'application/octet-stream';\n\n  item.json = {\n    ...item.json,\n    buf,\n    fileName: item.binary?.[binProp]?.fileName || 'file.bin',\n    mimeType: mime,\n  };\n\n  return buf;\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          112,
+          4896
+        ],
+        "id": "2ef061c3-ed1c-4cc8-b325-8a40075297bf",
+        "name": "Code in JavaScript2"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1904,
+          4704
+        ],
+        "id": "f73300b4-4f12-4742-b2fe-e365e1ab97e2",
+        "name": "No Operation, do nothing"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "a076f882-1a40-4aca-8cf2-318b031fdb4f",
+                "leftValue": "={{ $json.msg }}",
+                "rightValue": "success",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          784,
+          4896
+        ],
+        "id": "2f1bfa57-d6fb-4c2b-a24b-00f5e623eb8c",
+        "name": "If2"
+      },
+      {
+        "parameters": {
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "846456961419444304",
+            "mode": "list",
+            "cachedResultName": "Tomasiknos diary",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1417600388479189136",
+            "mode": "list",
+            "cachedResultName": "videos-notification",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417600388479189136"
+          },
+          "content": "Sending request to create video failed, check logs\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          1008,
+          4992
+        ],
+        "id": "70e6392a-7a08-46ef-b35b-21e1ad42d937",
+        "name": "Send a message",
+        "webhookId": "18ab8325-bf7f-4d65-bf5c-79608f90d6e1",
+        "credentials": {
+          "discordBotApi": {
+            "id": "kODEUwvmo26ApL4g",
+            "name": "Discord Bot account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://kieai.redpandaai.co/api/file-base64-upload",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "base64Data",
+                "value": "={{$json.data}}"
+              },
+              {
+                "name": "uploadPath",
+                "value": "images/base64"
+              },
+              {
+                "name": "fileName",
+                "value": "=test-image{{$now.format('yyyy-MM-dd-ss:mm')}}.png"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          336,
+          4896
+        ],
+        "id": "c4cb7886-8f51-457a-8c5c-e115cb0c432d",
+        "name": "Upload image to kei",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.kie.ai/api/v1/veo/generate",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"prompt\": {{ $('Format Prompt').item.json.prompt }},\n  \"imageUrls\": [\n    \"{{ $json.data.downloadUrl }}\"\n  ],\n  \"model\": \"{{ $('Format Prompt').item.json.model }}\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"{{ $('Format Prompt').item.json.aspectRatio }}\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }},\n  \"enableFallback\": false,\n  \"enableTranslation\": true\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          560,
+          4896
+        ],
+        "id": "7bb08efd-add2-4db5-b622-c7a8548e9068",
+        "name": "Post request to generate video",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "276822ad-b580-4a8c-b893-99eae452add9",
+                "leftValue": "={{ $json.data.successFlag }}",
+                "rightValue": "1",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1680,
+          4800
+        ],
+        "id": "1804f4ef-d063-4df4-88fe-240aa3c41728",
+        "name": "If3"
+      },
+      {
+        "parameters": {
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "846456961419444304",
+            "mode": "list",
+            "cachedResultName": "Tomasiknos diary",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1417600388479189136",
+            "mode": "list",
+            "cachedResultName": "videos-notification",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417600388479189136"
+          },
+          "content": "Video generation failes. Check logs.",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          1904,
+          4896
+        ],
+        "id": "55da8a63-21d8-4bed-aec3-9973aee145b4",
+        "name": "Send a message1",
+        "webhookId": "6035ff3e-f5bd-4a07-ac32-1501f40c0bf1",
+        "credentials": {
+          "discordBotApi": {
+            "id": "kODEUwvmo26ApL4g",
+            "name": "Discord Bot account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Create a UGC-style video prompt using both the reference image and the user description.  \n\n**Inputs**  \n- User description (optional):  \n  `{{ $('Theme clanker').item.json.output.one_liner }}`  \n- Reference image analysis (stay strictly faithful to what’s visible):  \n  `https://drive.google.com/file/d/1KaY5aIfDSLle062iYli6xN8tnwE2q94s/view?usp=drive_link`  \n\n**Rules**  \n- Keep the style casual, authentic, and realistic. Avoid studio-like or cinematic language.  \n- Default model: `veo3_fast` (unless otherwise specified).  \n- Output only **one JSON object** with the key: `video_prompt`.  \n",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "=system_prompt:\n  ## SYSTEM PROMPT: Structured Video Ad Prompt Generator\n  A - Ask:\n    Generate a structured video ad prompt for cinematic generation, strictly based on the master schema provided in: {{ $json.json_master }}\n\n    The final result must be a JSON object with exactly two top-level keys: `title` and `final_prompt`.\n\n  G - Guidance:\n    role: Creative Director\n    output_count: 1\n    character_limit: None\n    constraints:\n      - The output must be valid JSON.\n      - The `title` field should contain a short, descriptive and unique title (max 15 words).\n      - The `final_prompt` field must contain a **single-line JSON string** that follows the exact structure of {{ $json.json_master }} with all fields preserved.\n      - Do not include any explanations, markdown, or extra text — only the JSON object.\n      - Escape all inner quotes in the `final_prompt` string so it is valid as a stringified JSON inside another JSON.\n    tool_usage:\n      - Ensure consistent alignment across all fields (camera, lighting, motion, etc.).\n      - Maintain full structure even for optional fields (use \"none\", \"\", or [] as needed).\n\n  N - Notation:\n    format: JSON\n    expected_output:\n      {\n        \"title\": \"A unique short title for the scene\",\n        \"final_prompt\": \"{...stringified JSON of the full prompt...}\"\n      }\n\n"
+          }
+        },
+        "id": "a212ba47-5971-4041-bd5a-4cbe4ebfb6a2",
+        "name": "Generate Video Script Clanker",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          -48,
+          5216
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.shotstack.io/edit/stage/render",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "x-api-key",
+                "value": "ptmpOiyKgGYMnnONwvXH7FHzDGOazrIjaEDUS7Cf"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "@hello.json"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2128,
+          4704
+        ],
+        "id": "e9e4db7c-c8b9-41d3-ac42-32e16fecaee8",
+        "name": "HTTP Request"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Role:\nYou are a senior video prompt-engineer for Google Veo 3. Create a short-form, sings to a supplied lyrics. You must: 1) turn the lyrics into a tight shot plan, 2) align visuals lyrics, and 3) output VEO-3 ready prompts (no on-screen text).\n\nInputs:\nTITLE: {{ $('lyrics clanker').item.json.output.title }}\n\nLYRICS: \nVERSE: {{ $('lyrics clanker').item.json.output.verse }}\nCHORUS: {{ $('lyrics clanker').item.json.output.chorus }}\nOUTRO: {{ $('lyrics clanker').item.json.output.outro }}\nHOOK: {{ $('lyrics clanker').item.json.output.hook }}\n\n\nTARGET_DURATION_SEC: 60s\n\nBPM: 140\n\nCreative direction (apply):\n\nFormat: 9:16 vertical, TikTok/Reels ready, no captions/subtitles/watermarks.\n\nSet: soft sci-fi lab (cool practical lights + soft key light, shallow depth of field).\n\nCamera grammar: mostly mid-shots & close-ups; add tasteful push-ins, gentle dolly, occasional over-the-shoulder to holograms or props that are relevant to the lyrics.\n\nColor: clean neutrals with cyan highlights; skin/fur natural; no harsh saturation.\n\nMotion: smooth, rhythmic to the beat; micro-gestures, head bobs, paw/hand cues.\n\nAbsolutely no on-screen text (lyrics, titles, lower-thirds).\n\nSafe for work.\n\nAudio & lip-sync (enforce):\n\nUse AUDIO_URL for audio conditioning / timing.\n\nStrong lip-sync; map visemes (AA, EE, OH, FV, MBP) to word phonemes.\n\nIf no per-word timing is available, estimate from BPM and syllable counts.",
+          "hasOutputParser": true,
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          -704,
+          4464
+        ],
+        "id": "831995a9-e534-4bfb-be01-828c4d012ac0",
+        "name": "Video script timing clanker",
+        "retryOnFail": true,
+        "maxTries": 2
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-5-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-5-mini"
+          },
+          "options": {}
+        },
+        "id": "b7f70952-99ec-4385-bc31-0cd3e7cd6006",
+        "name": "OpenAI Chat Model5",
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "position": [
+          128,
+          3488
+        ],
+        "typeVersion": 1.2,
+        "credentials": {
+          "openAiApi": {
+            "id": "x4WuZYjSfm0LFGHN",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "id": "3025c30a-980c-4b00-8fd7-bea0ca8aeeb2",
+        "name": "Think4",
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "position": [
+          256,
+          3488
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "jsonSchemaExample": "{\n  \"title\": \"string\",\n  \"final_prompt\": \"string\"\n}\n"
+        },
+        "id": "5d297fb0-95b5-44c9-b5a3-454bb9aad1da",
+        "name": "Structured Output Parser5",
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "position": [
+          368,
+          3488
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=You are a senior prompt-engineer for Google VEO-3. Produce a short-form vertical video prompt for a single image input, preserving visual continuity (subject, styling, props). Output one cohesive prompt (no on-screen text). Final prompt should include mention of eevee sounds and music in the background. Eevee should be active and not standing around.\n\n\nContinuity: Match Eevee’s look, realistic fur, lighting vibe, LOCATION, props, and time-of-day indicated in image.\n\nEevee notices the one of the OBEJCTS infront of her and plays with it or pushes it away or reacts in cute/funny way or uses it for her entertainment or bites it or topples it. There needs to be action. Eevee is a clumsy and curious creature. Prioritize Eevee pushing objects/toppling and playing with objects. Could use the objects if possible to kick out of frame. There needs to be interaction with the objects and it needs to be cute.\n\nGlobal constraints\n\nHyper-adorable, wholesome. Contact with object.\nSubject: Eevee faces camera; Eevee should make cute Eevee to fox like like noises (ee, eev, vee). Quiet chill song in the background\nReal-world physics; life-sized; LOCATION must be plausible.\nCamera can move throu the space like someone is recording her for home video, so not a proffesional camera. Output needs to be json ready. No empty lines and special chars.\n\nInputs\n\nMOOD: {{ $('Theme clanker').item.json.output.mood }}\nOBEJCTS: {{ $('Theme clanker').item.json.output.objects_in_scene }}\nWHAT_EEVEE_IS_DOING:{{ $('Theme clanker').item.json.output.what_eevee_is_doing }}\nSTYLE (fallback if missing): cute, cinematic, soft light, cozy, colorful, glossy highlights, airy, high key, natural materials, filmic grain, studio rim light, warm tones, gentle bloom, realistic fur.",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "="
+          }
+        },
+        "id": "b6686bf6-c08c-44a9-b9c8-7d2b6ba206da",
+        "name": "Generate Video Script Clanker1",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          192,
+          3296
+        ],
+        "typeVersion": 2,
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.kie.ai/api/v1/jobs/createTask",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"model\": \"google/nano-banana\",\n  \"callBackUrl\": \"https://your-domain.com/api/callback\",\n  \"input\": {\n    \"prompt\": {{ JSON.stringify($('Theme clanker').item.json.output.prompt) }},\n    \"output_format\": \"png\",\n    \"image_size\": \"9:16\"\n  }\n}",
+          "options": {}
+        },
+        "id": "570f88ae-1dc8-41bc-adbc-3addf9acf40a",
+        "name": "NanoBanana: Create Image",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          1040,
+          2448
+        ],
+        "typeVersion": 4.2,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "foWS03OsC9HJFKQs",
+            "name": "Gemini"
+          },
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "amount": 15
+        },
+        "id": "c9f456b0-2f23-4d34-af82-18796c7cc7e6",
+        "name": "Wait for Image Edit",
+        "type": "n8n-nodes-base.wait",
+        "position": [
+          1264,
+          2448
+        ],
+        "webhookId": "05cf8869-532f-4064-a51a-0e643963d2f7",
+        "typeVersion": 1.1
+      },
+      {
+        "parameters": {
+          "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{ $json.data.taskId }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "6d1688e7-664c-421c-b2e8-5749af803fd2",
+        "name": "Download Edited Image",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          1488,
+          2368
+        ],
+        "typeVersion": 4.2,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "foWS03OsC9HJFKQs",
+            "name": "Gemini"
+          },
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "name": "=eevee-img-{{ $('NanoBanana: Create Image').item.json.data.taskId }}",
+          "driveId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1u3NLKJAZekpnEeDKfbFDMttdxeWoCRzv",
+            "mode": "list",
+            "cachedResultName": "songs",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1u3NLKJAZekpnEeDKfbFDMttdxeWoCRzv"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleDrive",
+        "typeVersion": 3,
+        "position": [
+          -144,
+          2960
+        ],
+        "id": "7835733c-2035-42d2-a950-f50878f4f07e",
+        "name": "Upload file",
+        "credentials": {
+          "googleDriveOAuth2Api": {
+            "id": "ih6pau2KBlXO6pNC",
+            "name": "Google Drive account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://kieai.redpandaai.co/api/file-base64-upload",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "base64Data",
+                "value": "={{ $('Parse image binary data').item.json.data.data }}"
+              },
+              {
+                "name": "uploadPath",
+                "value": "images/base64"
+              },
+              {
+                "name": "fileName",
+                "value": "=test-image{{$now.format('yyyy-MM-dd-ss-mm')}}.png"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          112,
+          2960
+        ],
+        "id": "d8a3fdbb-5ec6-4d54-87d0-45fee749db67",
+        "name": "Upload image to kei1",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "\n// Converts item.binary.data -> base64 and stores it in item.json.base64\n// Also adds a data: URL for convenience.\nreturn .map(item => {\n  const binProp = 'data'; // change if your binary prop is named differently\n  const buf = item.binary.data;\n\n  const mime =\n    (item.binary?.[binProp]?.mimeType) ||\n    'application/octet-stream';\n\n  let newItem = {\n    ...item.json,\n    buf,\n    fileName: item.binary?.[binProp]?.fileName || 'file.bin',\n    mimeType: mime,\n  };\n\n  return newItem;\n});\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -112,
+          4480
+        ],
+        "id": "ddbc7e14-ed31-4da9-b2aa-6ba63c581dea",
+        "name": "Code in JavaScript3",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "amount": 1,
+          "unit": "minutes"
+        },
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          1392,
+          2864
+        ],
+        "id": "46207661-9727-4787-afae-3a06b2549c6f",
+        "name": "Wait1",
+        "webhookId": "681d35e2-1e33-4fc9-93aa-55ec1c53bf5f"
+      },
+      {
+        "parameters": {
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "846456961419444304",
+            "mode": "list",
+            "cachedResultName": "Tomasiknos diary",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1417600388479189136",
+            "mode": "list",
+            "cachedResultName": "videos-notification",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417600388479189136"
+          },
+          "content": "Sending request to create video failed, check logs\n",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          1392,
+          3056
+        ],
+        "id": "8412146a-8f6c-496c-a2c0-3c93c526a980",
+        "name": "Send a message2",
+        "webhookId": "d2d52332-1162-4361-9248-5d74f972706a",
+        "credentials": {
+          "discordBotApi": {
+            "id": "kODEUwvmo26ApL4g",
+            "name": "Discord Bot account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "={{ $('Download Edited Image').item.json.data.resultJson.parseJson().resultUrls[0] }}",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2496,
+          2592
+        ],
+        "id": "4dc0aca8-c24e-4225-ae20-9f71e8f9fefc",
+        "name": "Dowload nano banana image from kei",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.data.response.resultUrls[0] }}",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpBearerAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {}
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2288,
+          2864
+        ],
+        "id": "755da3f8-7295-446c-b38f-4e913e135270",
+        "name": "Request video info",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "NYWE2eTlJYQ0WPTb",
+            "mode": "list",
+            "cachedResultName": "Automate Video Content Posting to Multiple Social Platforms with Postiz"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "name": "={{ $json.name }}",
+              "videoId": "={{ $json.id }}",
+              "prompt": "={{ $('Theme clanker').item.json.output.video_prompt }}",
+              "tags": "={{ $('Theme clanker').item.json.output.tags }}",
+              "videoTitle": "={{ $('Theme clanker').item.json.output.title }}",
+              "videoDesc": "={{ $('Theme clanker').item.json.output.description }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "name",
+                "displayName": "name",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "tags",
+                "displayName": "tags",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "array"
+              },
+              {
+                "id": "prompt",
+                "displayName": "prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "videoId",
+                "displayName": "videoId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "videoTitle",
+                "displayName": "videoTitle",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "videoDesc",
+                "displayName": "videoDesc",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          2736,
+          2864
+        ],
+        "id": "ef5588f7-30fe-43f2-ace4-fdb10bc262ce",
+        "name": "Call 'Automate Video Content Posting to Multiple Social Platforms with Postiz'"
+      },
+      {
+        "parameters": {
+          "name": "=Eeveevideo-{{ $json.data.taskId }}.mp4",
+          "driveId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1tnJQGapWf8ZHzSTTJ3KzVXaq5jRAsHf9",
+            "mode": "list",
+            "cachedResultName": "videos",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1tnJQGapWf8ZHzSTTJ3KzVXaq5jRAsHf9"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleDrive",
+        "typeVersion": 3,
+        "position": [
+          2512,
+          2864
+        ],
+        "id": "4c891c87-76c6-4eae-94de-5732b1fc66c8",
+        "name": "Upload video",
+        "credentials": {
+          "googleDriveOAuth2Api": {
+            "id": "ih6pau2KBlXO6pNC",
+            "name": "Google Drive account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "toJson",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.convertToFile",
+        "typeVersion": 1.1,
+        "position": [
+          -976,
+          1456
+        ],
+        "id": "b815f7b8-3b73-4e4a-8e06-612a6ced3ecb",
+        "name": "Convert to File"
+      },
+      {
+        "parameters": {
+          "jsCode": "function fnv1a(str){let h=0x811c9dc5;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=(h>>>0)*0x01000193;}return (h>>>0);}\nreturn $input.all().map(item => ({\n  json: { ...item.json, id: fnv1a((item.json.text ?? 'hello world')).toString(36), data: item.binary.data },\n  binary: item.binary ?? {}\n}));"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -752,
+          1456
+        ],
+        "id": "e70cb86d-0aa7-41de-8584-d658dad436af",
+        "name": "Code in JavaScript4"
+      },
+      {
+        "parameters": {
+          "inputDataFieldName": "=data",
+          "name": "={{ $json.id }}.json",
+          "driveId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1UshlYoqe8MOV28CsUVPNpemhPIHkWeee",
+            "mode": "list",
+            "cachedResultName": "ids",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1UshlYoqe8MOV28CsUVPNpemhPIHkWeee"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleDrive",
+        "typeVersion": 3,
+        "position": [
+          -528,
+          1456
+        ],
+        "id": "b58e1671-167d-4a8d-a430-25e99cb44ccf",
+        "name": "Upload file2",
+        "credentials": {
+          "googleDriveOAuth2Api": {
+            "id": "ih6pau2KBlXO6pNC",
+            "name": "Google Drive account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "typeVersion": 1.1,
+        "position": [
+          32,
+          2656
+        ],
+        "id": "e8c6b1ee-7f1a-48a6-9f00-d2067ef8c7c6",
+        "name": "Think2"
+      },
+      {
+        "parameters": {
+          "resource": "message",
+          "operation": "sendAndWait",
+          "guildId": {
+            "__rl": true,
+            "value": "846456961419444304",
+            "mode": "list",
+            "cachedResultName": "Tomasiknos diary",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1417600388479189136",
+            "mode": "list",
+            "cachedResultName": "videos-notification",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417600388479189136"
+          },
+          "message": "=📹 **New Video Concept Created!**  \n👉 [{{ $('Theme clanker').item.json.output.title }}]({{ $json.data.resultJson.parseJson().resultUrls }})  \n{{ $json.data.resultJson.parseJson().resultUrls }}\nDo you approve? ✅❌\n------------------------",
+          "approvalOptions": {
+            "values": {
+              "approvalType": "double"
+            }
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          1936,
+          2448
+        ],
+        "id": "c8a78a67-f9a5-416e-8a64-1b7ecd415000",
+        "name": "Send message and wait for response",
+        "webhookId": "43ddd636-b51a-4072-a467-2d0e489c5ceb",
+        "credentials": {
+          "discordBotApi": {
+            "id": "kODEUwvmo26ApL4g",
+            "name": "Discord Bot account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "https://api.kie.ai/api/v1/veo/record-info",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "taskId",
+                "value": "={{ $('VEO video request').item.json.data.taskId }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1616,
+          2784
+        ],
+        "id": "f4a01db6-145a-4150-8d8f-b70f6c481885",
+        "name": "Check video status",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "5d8cacba-15ca-4a89-b063-d3093d9818b0",
+                "leftValue": "={{ $json.data.state }}",
+                "rightValue": "generating",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "65fe8425-8fd0-4642-8aaf-11ea5401d223",
+                "leftValue": "={{ $json.data.state }}",
+                "rightValue": "waiting",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1712,
+          2448
+        ],
+        "id": "52a2a0ab-0e82-4249-a7f6-1174b5229a2f",
+        "name": "is image generating"
+      },
+      {
+        "parameters": {
+          "resource": "databasePage",
+          "operation": "getAll",
+          "databaseId": {
+            "__rl": true,
+            "value": "27358cd7-1b15-80e5-965f-d144b72c15b4",
+            "mode": "list",
+            "cachedResultName": "Themes",
+            "cachedResultUrl": "https://www.notion.so/27358cd71b1580e5965fd144b72c15b4"
+          },
+          "limit": 10,
+          "simple": false,
+          "options": {
+            "sort": {
+              "sortValue": [
+                {
+                  "timestamp": true,
+                  "key": "created_time",
+                  "direction": "descending"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.notion",
+        "typeVersion": 2.2,
+        "position": [
+          -560,
+          2448
+        ],
+        "id": "4b34a35b-b9ed-4ad1-bdc5-5102dc1856c6",
+        "name": "Get Past themes",
+        "credentials": {
+          "notionApi": {
+            "id": "lDq6KxxGETipZmXY",
+            "name": "Notion account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "// Input is many items from Data Store. We output ONE item.\nconst themes = $('Get Past themes').all().map(i => {\n  console.log(i);\n  const t = i.json.properties.Theme.title[0].plain_text || '';\n  const l =i.json.properties.OneLiner.rich_text[0].plain_text || '';\n  return `<theme>${t} | ${l}</theme>`.trim();\n});\nreturn [{ json: { pastThemes: themes } }];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -304,
+          2448
+        ],
+        "id": "2806a5f9-4ec7-4182-8352-19685c6808f6",
+        "name": "Parse past themes",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "jsCode": "return $input.all().map(item => ({\n  json: { ...item.json, data: item.binary.data },\n  binary: item.binary ?? {}\n}));"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -560,
+          2960
+        ],
+        "id": "79db3cc7-b3f4-4bd0-bffb-fa98846abc80",
+        "name": "Parse image binary data"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "a076f882-1a40-4aca-8cf2-318b031fdb4f",
+                "leftValue": "={{ $json.msg }}",
+                "rightValue": "success",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1168,
+          2960
+        ],
+        "id": "4c800511-9f95-40ea-a5de-cfdd13282795",
+        "name": "Is request success"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "534dab23-0283-4363-8adf-fe3bf721ab73",
+                "leftValue": "={{ $json.data.successFlag }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1840,
+          2864
+        ],
+        "id": "9ff5daae-43f3-4318-ad6f-53e1075f983b",
+        "name": "is video generating"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "276822ad-b580-4a8c-b893-99eae452add9",
+                "leftValue": "={{ $json.data.successFlag }}",
+                "rightValue": 1,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          2064,
+          2880
+        ],
+        "id": "95a970ad-3cad-4c5a-baa2-379d8fdcf813",
+        "name": "Is generation success"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "209f3354-931f-46a0-8b8e-10b2337200ce",
+                "leftValue": "={{ $json.data.approved }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          2144,
+          2448
+        ],
+        "id": "cdf6a211-e7cb-424a-ab5d-e0c57ae2587f",
+        "name": "Is concept approved"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Input: Agent JSON on $json.data; past themes on $json.pastThemes (array of strings)\n// Output: either passes through or throws to trigger a regenerate loop\n\nfunction normalize(s) {\n  return s.toLowerCase().replace(/\\s+/g, ' ').trim();\n}\n\nfunction jaroWinkler(s1, s2) {\n  // Lightweight similarity; good enough for titles\n  const m = Math.floor(Math.max(s1.length, s2.length) / 2) - 1;\n  let matches1 = new Array(s1.length).fill(false);\n  let matches2 = new Array(s2.length).fill(false);\n  let matches = 0, transpositions = 0;\n\n  for (let i = 0; i < s1.length; i++) {\n    const start = Math.max(0, i - m), end = Math.min(i + m + 1, s2.length);\n    for (let j = start; j < end; j++) {\n      if (!matches2[j] && s1[i] === s2[j]) { matches1[i] = matches2[j] = true; matches++; break; }\n    }\n  }\n  if (matches === 0) return 0;\n\n  let k = 0;\n  for (let i = 0; i < s1.length; i++) {\n    if (matches1[i]) {\n      while (!matches2[k]) k++;\n      if (s1[i] !== s2[k]) transpositions++;\n      k++;\n    }\n  }\n  transpositions /= 2;\n\n  const j = (matches / s1.length + matches / s2.length + (matches - transpositions) / matches) / 3;\n\n  // Winkler prefix boost\n  let prefix = 0;\n  for (let i = 0; i < Math.min(4, s1.length, s2.length); i++) {\n    if (s1[i] === s2[i]) prefix++; else break;\n  }\n  return j + prefix * 0.1 * (1 - j);\n}\n\nconst agent = $json.output; // JSON from Agent\nconst theme = normalize(agent.prompt || '');\nconst line  = normalize(agent.title || '');\n\nconst past = ($json.pastThemes || []).map(normalize);\nconst candidate = `${theme} | ${line}`;\n\n// Quick hash to catch exact/near-exact repeats\nfunction simpleHash(s) {\n  let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;\n  return h >>> 0;\n}\nconst candHash = simpleHash(candidate);\n\n// Thresholds: adjust to be stricter/looser\nconst SIM_THRESH = 0.90; // 0..1 (higher = stricter)\n\nlet tooSimilar = false;\nfor (const prev of past) {\n  const sim = jaroWinkler(candidate, prev);\n  if (sim >= SIM_THRESH || simpleHash(prev) === candHash) {\n    tooSimilar = true; break;\n  }\n}\n\nif (tooSimilar) {\n  // Throwing makes the node fail and lets you loop back to the Agent\n  throw new Error('Theme too similar to a past entry. Regenerate.');\n}\n\n// If it's unique, expose it for saving\nreturn { ...agent, _hash: candHash };\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          368,
+          2448
+        ],
+        "id": "76452987-a636-4aec-8eda-fe687c1c238d",
+        "name": "Create hash of the theme"
+      },
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -1488,
+          2464
+        ],
+        "id": "311e58f1-6466-466f-94b2-069d28e66f00",
+        "name": "Telegram Trigger",
+        "webhookId": "aa552858-eb2b-4e90-8c45-f1b8cf7ed799",
+        "credentials": {
+          "telegramApi": {
+            "id": "6703EHp9zXVJWoKX",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "a4512116-afc8-4d7e-809d-96498c817f63",
+                "leftValue": "={{ $json.message.text }}",
+                "rightValue": "/theme",
+                "operator": {
+                  "type": "string",
+                  "operation": "startsWith"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -1264,
+          2464
+        ],
+        "id": "2e9f3175-966a-4e69-a154-b555bdfddd7e",
+        "name": "is theme command"
+      },
+      {
+        "parameters": {
+          "jsCode": "function extractTheme(text = '') {\n  const m = text.match(/\\/theme\\s+(.+?)(?=(?:\\s\\/[a-z]+)|[\\r\\n]|$)/i);\n  if (!m) return null;\n  let theme = m[1].trim();\n\n  if ((theme.startsWith('\"') && theme.endsWith('\"')) ||\n      (theme.startsWith(\"'\") && theme.endsWith(\"'\"))) {\n    theme = theme.slice(1, -1).trim();\n  }\n  return theme.replace(/\\s+/g, ' ');\n}\n\nconst inItem = $input.first();\nconst text = inItem?.json?.message?.text ?? '';\n\nconst user_theme = extractTheme(text);\n\n// Return one item (this satisfies N8nOutputItems)\nreturn [\n  {\n    json: { user_theme }, // theme can be string or null\n  },\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1024,
+          2448
+        ],
+        "id": "6db2d801-e9bb-4909-b5ca-da302e2533be",
+        "name": "extract theme"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.kie.ai/api/v1/veo/generate",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "httpBearerAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"prompt\": {{ JSON.stringify($('Theme clanker').item.json.output.video_prompt) }},\n  \"imageUrls\": [\n    \"{{ $('Upload image to kei1').item.json.data.downloadUrl }}\"\n  ],\n  \"model\": \"veo3_fast\",\n  \"watermark\": \"EeveesSongs\",\n  \"callBackUrl\": \"http://your-callback-url.com/complete\",\n  \"aspectRatio\": \"9:16\",\n  \"seeds\": {{ Math.floor(Math.random() * 90000) + 10000 }}\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          688,
+          2960
+        ],
+        "id": "4d8d620c-c114-4185-a545-a33d796536b1",
+        "name": "VEO video request",
+        "credentials": {
+          "httpBearerAuth": {
+            "id": "MpyAwaVM7w2r7fsp",
+            "name": "kei"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "8578d176-9999-44a2-861b-0791b662ca14",
+                "leftValue": "={{ $json.user_theme }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -816,
+          2448
+        ],
+        "id": "f319109a-8bd7-49ce-9e89-8a9111b42086",
+        "name": "If4"
+      }
+    ],
+    "connections": {
+      "Wait for Music Processing": {
+        "main": [
+          [
+            {
+              "node": "Poll Music Generation Status",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Poll Music Generation Status": {
+        "main": [
+          [
+            {
+              "node": "Check if Music Generation Complete",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check if Music Generation Complete": {
+        "main": [
+          [
+            {
+              "node": "Format and Display Music Results",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait for Music Processing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "lyrics clanker",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "lyrics clanker",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser1": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Video script timing clanker",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Theme clanker",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a database page": {
+        "main": [
+          [
+            {
+              "node": "NanoBanana: Create Image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Create a database page",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Structured Output Parser2": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Theme clanker",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model3": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Video script timing clanker",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "lyrics clanker": {
+        "main": [
+          []
+        ]
+      },
+      "Theme clanker": {
+        "main": [
+          [
+            {
+              "node": "Create hash of the theme",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Request create song": {
+        "main": [
+          [
+            {
+              "node": "Wait for Music Processing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Format and Display Music Results": {
+        "main": [
+          [
+            {
+              "node": "Download songs",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download file": {
+        "main": [
+          []
+        ]
+      },
+      "Download songs": {
+        "main": [
+          [
+            {
+              "node": "Upload file1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload file1": {
+        "main": [
+          []
+        ]
+      },
+      "Think": {
+        "ai_tool": [
+          [
+            {
+              "node": "Video script timing clanker",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Think1": {
+        "ai_tool": [
+          [
+            {
+              "node": "lyrics clanker",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model4": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Generate Video Script Clanker",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Think3": {
+        "ai_tool": [
+          [
+            {
+              "node": "Generate Video Script Clanker",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser4": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Generate Video Script Clanker",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "Video script timing clanker",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request2": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Format Prompt": {
+        "main": [
+          []
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "If3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request3": {
+        "main": [
+          []
+        ]
+      },
+      "HTTP Request4": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript2": {
+        "main": [
+          [
+            {
+              "node": "Upload image to kei",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Send a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload image to kei": {
+        "main": [
+          [
+            {
+              "node": "Post request to generate video",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Post request to generate video": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If3": {
+        "main": [
+          [
+            {
+              "node": "No Operation, do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Send a message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Video Script Clanker": {
+        "main": [
+          [
+            {
+              "node": "Format Prompt",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "No Operation, do nothing": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Video script timing clanker": {
+        "main": [
+          []
+        ]
+      },
+      "OpenAI Chat Model5": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Generate Video Script Clanker1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Think4": {
+        "ai_tool": [
+          [
+            {
+              "node": "Generate Video Script Clanker1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Structured Output Parser5": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Generate Video Script Clanker1",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Video Script Clanker1": {
+        "main": [
+          []
+        ]
+      },
+      "NanoBanana: Create Image": {
+        "main": [
+          [
+            {
+              "node": "Wait for Image Edit",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait for Image Edit": {
+        "main": [
+          [
+            {
+              "node": "Download Edited Image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download Edited Image": {
+        "main": [
+          [
+            {
+              "node": "is image generating",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload image to kei1": {
+        "main": [
+          [
+            {
+              "node": "VEO video request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload file": {
+        "main": [
+          [
+            {
+              "node": "Upload image to kei1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript3": {
+        "main": [
+          []
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "Check video status",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Dowload nano banana image from kei": {
+        "main": [
+          [
+            {
+              "node": "Parse image binary data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Request video info": {
+        "main": [
+          [
+            {
+              "node": "Upload video",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload video": {
+        "main": [
+          [
+            {
+              "node": "Call 'Automate Video Content Posting to Multiple Social Platforms with Postiz'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Convert to File": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload file2": {
+        "main": [
+          []
+        ]
+      },
+      "Code in JavaScript4": {
+        "main": [
+          [
+            {
+              "node": "Upload file2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Think2": {
+        "ai_tool": [
+          [
+            {
+              "node": "Theme clanker",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send message and wait for response": {
+        "main": [
+          [
+            {
+              "node": "Is concept approved",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check video status": {
+        "main": [
+          [
+            {
+              "node": "is video generating",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "is image generating": {
+        "main": [
+          [
+            {
+              "node": "Wait for Image Edit",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Send message and wait for response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Past themes": {
+        "main": [
+          [
+            {
+              "node": "Parse past themes",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse past themes": {
+        "main": [
+          [
+            {
+              "node": "Theme clanker",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Parse image binary data": {
+        "main": [
+          [
+            {
+              "node": "Upload file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Is request success": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Send a message2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "is video generating": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Is generation success",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Is generation success": {
+        "main": [
+          [
+            {
+              "node": "Request video info",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Is concept approved": {
+        "main": [
+          [
+            {
+              "node": "Dowload nano banana image from kei",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get Past themes",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create hash of the theme": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "is theme command",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "is theme command": {
+        "main": [
+          [
+            {
+              "node": "extract theme",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "extract theme": {
+        "main": [
+          [
+            {
+              "node": "If4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "VEO video request": {
+        "main": [
+          [
+            {
+              "node": "Is request success",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If4": {
+        "main": [
+          [
+            {
+              "node": "Get Past themes",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
   "tags": []
 }
