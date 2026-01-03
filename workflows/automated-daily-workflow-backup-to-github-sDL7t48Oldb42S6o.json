@@ -3,7 +3,7 @@
   "createdAt": "2025-09-16T11:19:25.590Z",
   "id": "sDL7t48Oldb42S6o",
   "name": "Automated daily workflow backup to GitHub",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -566,6 +566,7 @@
   },
   "pinData": {},
   "versionId": "2ac4f7d4-e5d6-4b3d-919b-d25c8e0ba57c",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
@@ -576,5 +577,6 @@
       "projectId": "kqMrkEZYsdGVbgzw"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
