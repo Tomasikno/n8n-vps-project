@@ -3,7 +3,7 @@
   "createdAt": "2025-09-16T11:54:03.297Z",
   "id": "0ojzXCM1qIQjMHta",
   "name": "Error handling when workflow fails",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -118,6 +118,7 @@
     ]
   },
   "versionId": "f7d6c0bd-5543-4102-ac00-c9c868d559c1",
+  "activeVersionId": "f7d6c0bd-5543-4102-ac00-c9c868d559c1",
   "triggerCount": 0,
   "shared": [
     {
@@ -128,5 +129,77 @@
       "projectId": "kqMrkEZYsdGVbgzw"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-11-27T15:25:38.462Z",
+    "createdAt": "2025-11-27T15:25:38.462Z",
+    "versionId": "f7d6c0bd-5543-4102-ac00-c9c868d559c1",
+    "workflowId": "0ojzXCM1qIQjMHta",
+    "nodes": [
+      {
+        "parameters": {
+          "resource": "message",
+          "guildId": {
+            "__rl": true,
+            "value": "846456961419444304",
+            "mode": "list",
+            "cachedResultName": "Tomasiknos diary",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304"
+          },
+          "channelId": {
+            "__rl": true,
+            "value": "1417480802672836709",
+            "mode": "list",
+            "cachedResultName": "n8n",
+            "cachedResultUrl": "https://discord.com/channels/846456961419444304/1417480802672836709"
+          },
+          "content": "=❌ **Workflow Failed**\n\n📛 Workflow: {{ $json.workflow.name }}\n🕒 Time: {{ Date($json.execution.error.timestamp) }}\n\n> ⚠️ Error: {{ $json.execution.error.node.parameters.errorMessage }}\n\n🔗 Details: {{ $json.execution.url }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.discord",
+        "typeVersion": 2,
+        "position": [
+          -16,
+          -192
+        ],
+        "id": "a9d2c135-9c24-4ffe-b8cc-d16dc45605b6",
+        "name": "Send a message",
+        "webhookId": "f349371c-33bb-4367-8216-c9b4313e3b6f",
+        "credentials": {
+          "discordBotApi": {
+            "id": "kODEUwvmo26ApL4g",
+            "name": "Discord Bot account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.errorTrigger",
+        "typeVersion": 1,
+        "position": [
+          -304,
+          -192
+        ],
+        "id": "db9a1fcc-b1ec-47e2-a8cc-941ab9fcf666",
+        "name": "Error Trigger"
+      }
+    ],
+    "connections": {
+      "Error Trigger": {
+        "main": [
+          [
+            {
+              "node": "Send a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null,
+    "autosaved": false
+  },
   "tags": []
 }
